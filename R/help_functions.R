@@ -153,6 +153,7 @@ render_chapter_json_for_datacamp = function(file_name, payload, force) {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
                                  assignment    = clean_up_html(slide$content), 
                                  number        = slide$num,
+                                 aspect_ratio  = slide$aspect_ratio,
                                  video_link    = gsub("[\r\n]", "", extract_code(slide$video_link$content)) )
       exerciseList[[i]][["type"]] = slide$type
     } else {
