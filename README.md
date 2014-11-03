@@ -160,7 +160,12 @@ To make these changes visible on the DataCamp platform, you need to re-upload th
 <i>Note that removing the first chapter from the Yaml file does not remove the R Markdown file `chapter1.Rmd` in your course map. So chapter content will not get lost, and you can always re-add the chapter in a later phase.  
 
 ##### How can I add exercises to a chapter?  
-Adding exercises to a chapter is easy. In every R Markdown file of a chapter, the start of a new exercise is indicated by `---`, followed by the different components of an exercise: `## Exercise Title`, `*** =instructions`, `*** =hint`, `*** =pre_exercise_code`, `*** =solution`, `*** =sample_code`, and `*** =sct`. 
+Adding exercises to a chapter is easy. In every R Markdown file of a chapter, the start of a new exercise is indicated by `---[identifier]`, followed by the different components of an exercise: `## Exercise Title`, `*** =instructions`, `*** =hint`, `*** =pre_exercise_code`, `*** =solution`, `*** =sample_code`, and `*** =sct`. 
+
+By now, there are three types of exercises:
+- Interactive exercises, where the user is expect to produce code that will be checked for correctness when submitted. The start of this type of exercises is indicated simply by `---`. An example of the result can be found [here](https://www.datacamp.com/courses/introduction-to-r/chapter-1-intro-to-basics?ex=4). The code of the [_Introduction to R_ course](https://github.com/data-camp/introduction_to_R) provides tons of examples.
+- Multiple choice exercises, where the user is given a list of options where he/she has to choose from. More information will be soon available.
+- VideoExercises, where you can set the link to a Vimeo video. More information will be soon available.
 
 You have an R Markdown with the following exercise (for clarity, only the components `## Exercise Title` and `*** =sct` are displayed):
 ```
