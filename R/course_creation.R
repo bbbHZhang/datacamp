@@ -74,7 +74,11 @@ author_chapter = function(chapter_name=NULL) {
 #' @export
 datacamp_login = function() {
   email = readline("Email: ")
-  pw = readline("Password: ")
+  if (exists(".rs.askForPassword")) {
+    pw <- .rs.askForPassword("Password: ")
+  } else {
+    pw = readline("Password: ")
+  }
   subdomain = readline("Subdomain (leave empty for default): ")
   
   if (subdomain == "" || subdomain == " ") {
