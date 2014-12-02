@@ -130,6 +130,7 @@ render_chapter_json_for_datacamp = function(file_name, payload, force) {
                       title_meta=payload$title_meta,
                       title=payload$title,
                       description=payload$description,
+                      free_preview=payload$free_preview,
                       attachments=list(
                         slides_link=payload$attachments$slides_link
                       )
