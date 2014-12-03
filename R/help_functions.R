@@ -18,7 +18,7 @@ upload_chapter_json = function(theJSON, file_name, open = TRUE) {
   auth_token = .DATACAMP_ENV$auth_token
   url = paste0(base_url,"?auth_token=", auth_token)
   x = try(POST(url = url, body = theJSON, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
-  
+
   if ( class(x) != "response" ) {
     stop("Something went wrong. We didn't get a valid response from the datacamp server. Try again or contact info@datacamp.com in case you keep experiencing this problem.")
   } else { 
@@ -40,6 +40,9 @@ upload_chapter_json = function(theJSON, file_name, open = TRUE) {
       } 
       if ("message" %in% names(content(x))) {
         message(content(x)$message)
+      }
+      if ("testresults" %in% names(content(x))) {
+        invisible(lapply(content(x)$testresults, function(x) message(x[[2]])))
       }
       if ( "error" %in% names(content(x)) ) {
         message(paste0("Something went wrong:\n", content(x)$error ))
