@@ -18,7 +18,7 @@ After uploading chapters to datacamp.com, you can use the [webinterface](https:/
 ## Getting started
 
 ###Install the datacamp R package
-   ```ruby
+```ruby
 install.packages("devtools")
 library("devtools")
 install_github("datacampSCT", "data-camp")

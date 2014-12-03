@@ -99,17 +99,17 @@ Hint here.
 
 ```{r,eval=FALSE}
 # Sample code here
-if (DM.result == 1) {
-  DM.result = list(TRUE,"Well done!")
-} else {
-  DM.result = list(FALSE,"Wrong!")
-}
 ```
 
 *** =sct
 
 ```{r,eval=FALSE}
 # Submission Correctness Test here
+if (DM.result == 1) {
+  DM.result = list(TRUE,"Well done!")
+} else {
+  DM.result = list(FALSE,"Wrong!")
+}
 ```
 
 --- type:MultipleChoiceExercise contains_graph:TRUE
