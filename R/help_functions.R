@@ -120,13 +120,14 @@ add_chapter_to_course_yml = function(chapter_file_name, chapter_id) {
   }
 }
 
-render_chapter_json_for_datacamp = function(file_name, payload, force) {
+render_chapter_json_for_datacamp = function(file_name, payload, force, skip_validation) {
   # Extract basic course info:
   course = load_course_yaml()
   if (is.null(course$id)) {
     stop("Error: course.yml does not contain a course id. Please upload your course before uploading chapters.")
   }
   output_list = list(force = force,
+                     skip_validation = skip_validation,
                     course = course$id,
                     email  = .DATACAMP_ENV$email,
                     chapter=list(
