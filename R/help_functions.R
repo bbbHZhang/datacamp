@@ -41,8 +41,10 @@ upload_chapter_json = function(theJSON, file_name, open = TRUE) {
       if ("message" %in% names(content(x))) {
         message(content(x)$message)
       }
-      if ("testresults" %in% names(content(x))) {
-        invisible(lapply(content(x)$testresults, function(x) message(x[[2]])))
+      if ("result" %in% names(content(x))) {
+        if ("testresults" %in% names(content(x)$result)) {
+          invisible(lapply(content(x)$result$testresults, function(x) message(x[[2]])))
+        }
       }
       if ( "error" %in% names(content(x)) ) {
         message(paste0("Something went wrong:\n", content(x)$error ))
