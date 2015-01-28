@@ -10,12 +10,10 @@ mode        : standalone
 1. Complete YAML front matter above
 2. Write using R Markdown (http://en.wikipedia.org/wiki/Markdown)
 3. Start an exercise using an empty line followed by three dashes!
-   For now, there are 2 types of exercises. The 'normal' type, which is the default, 
-   and the multiple choice exercise. To create a multiple choice exercise, 
-   add 'type:MultipleChoiceExercise' to the '---' that starts a new exercise. 
-   This file contains some examples. Additionally, a multiple choice exercise can have a graph 
-   in its pre exercise code, which is then loaded along with the exercise. The last exercise of this file
-   contains an example of this.
+   For now, there are 3 types of exercises. The 'normal' type, which is the default, 
+   the multiple choice exercise and the video exercise. To create a multiple choice exercise, 
+   add 'type:MultipleChoiceExercise' to the '---' that starts a new exercise. For video exercises, add 
+   'type:VideoExercise'.
 4. Consult the documentation at: https://github.com/Data-Camp/datacamp if you're stuck
   
 In the assignement, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
@@ -24,12 +22,12 @@ You can emphasize important words by putting them in **bold** or *italics*, or i
 - item one
 - item two
 
-Or you could link to interesting content: [this is a link](http://en.wikipedia.org/wiki/Markdown), or [another useful link](http://www.rstudio.com/ide/docs/authoring/using_markdown...).
+Or you could link to interesting content: [this is a link](http://en.wikipedia.org/wiki/Markdown).
 
 *** =instructions
-  - Provide one instruction to your students/employees/... on what specific problem they should solve in this exercise
-  - Provide a second instruction here.
-  - ect.
+- Provide one instruction to your students/employees/... on what specific problem they should solve in this exercise
+- Provide a second instruction here.
+- ect.
 
 *** =hint
 
@@ -45,16 +43,16 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 # ...
 ```
 
-*** =solution
-
-```{r,eval=FALSE}
-# The solution code solves the assignement. Make sure the solution passes the submission correctness test (we will check this;-)!
-```
-
 *** =sample_code
 
 ```{r,eval=FALSE}
 # The sample code is what is shown in the students editor by default
+```
+
+*** =solution
+
+```{r,eval=FALSE}
+# The solution code solves the assignment. Make sure the solution passes the submission correctness test (we will check this;-)!
 ```
 
 *** =sct
@@ -64,23 +62,21 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 # It takes as input the students workspace, his code and what was printed to the console during the exercise.
 # Based on these inputs the SCT returns:
 # (i) whether the students code was correct
-# (ii) a message to the student to either help him find what was wrong or congragulate him on finding the solution.
+# (ii) a message to the student to either help him find what was wrong or congratulate him on finding the solution.
 DM.result = list(TRUE,"Well done!")
 ```
 
 --- type:MultipleChoiceExercise
 ## This is a multiple choice exercise!
 
-Assigment here.
+The multiple choice exercise does not need sample code, nor a solution. This is dealt with in the sct.
 
 *** =instructions
-
 - Option 1
 - Option 2
 - ...
   
 *** =hint
-
 Hint here. 
 
 *** =pre_exercise_code
@@ -89,68 +85,13 @@ Hint here.
 # Pre-exercise code here
 ```
 
-*** =solution
-
-```{r,eval=FALSE}
-# Solution code here 
-```
-
-*** =sample_code
-
-```{r,eval=FALSE}
-# Sample code here
-```
-
 *** =sct
 
 ```{r,eval=FALSE}
 # Submission Correctness Test here
-if (DM.result == 1) {
-  DM.result = list(TRUE,"Well done!")
-} else {
-  DM.result = list(FALSE,"Wrong!")
-}
-```
-
---- type:MultipleChoiceExercise contains_graph:TRUE
-## This multiple choice exercise contains a graph!
-
-Assigment here.
-
-*** =instructions
-
-- Option 1
-- Option 2
-- ...
-  
-*** =hint
-
-Hint here. 
-
-*** =pre_exercise_code
-
-```{r,eval=FALSE}
-# Draw graph here
-hist(rnorm(1000))
-```
-
-*** =solution
-
-```{r,eval=FALSE}
-# Solution code here 
-```
-
-*** =sample_code
-
-```{r,eval=FALSE}
-# Sample code here
-```
-
-*** =sct
-
-```{r,eval=FALSE}
-# Submission Correctness Test here
-if (DM.result == 1) {
+if (!exists("DM.result")) {
+  DM.result = list(FALSE,"Please select one of the options!")
+} else if (DM.result == 1) {
   DM.result = list(TRUE,"Well done!")
 } else {
   DM.result = list(FALSE,"Wrong!")
