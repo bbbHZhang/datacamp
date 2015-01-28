@@ -72,14 +72,18 @@ author_chapter = function(chapter_name=NULL) {
 #' @usage datacamp_login()
 #' @return No return values.
 #' @export
-datacamp_login = function() {
-  email = readline("Email: ")
-  if (exists(".rs.askForPassword")) {
-    pw <- .rs.askForPassword("Password: ")
-  } else {
-    pw = readline("Password: ")
+datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
+  if(is.null(email))
+    email = readline("Email: ")
+  if(is.null(pw)) {
+    if (exists(".rs.askForPassword")) {
+      pw <- .rs.askForPassword("Password: ")
+    } else {
+      pw = readline("Password: ")
+    }  
   }
-  subdomain = readline("Subdomain (leave empty for default): ")
+  if(is.null(subdomain))
+    subdomain = readline("Subdomain (leave empty for default): ")
   
   if (subdomain == "" || subdomain == " ") {
     base_url = paste0("https://api.datacamp.com")
