@@ -128,20 +128,20 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
   if (is.null(course$id)) {
     stop("Error: course.yml does not contain a course id. Please upload your course before uploading chapters.")
   }
-  output_list = list(force = force,
-                     skip_validation = skip_validation,
-                    course = course$id,
-                    email  = .DATACAMP_ENV$email,
-                    chapter=list(
-                      title_meta=payload$title_meta,
-                      title=payload$title,
-                      description=payload$description,
-                      free_preview=payload$free_preview,
-                      attachments=list(
-                        slides_link=payload$attachments$slides_link
+  output_list = list( force = force,
+                      skip_validation = skip_validation,
+                      course = course$id,
+                      email  = .DATACAMP_ENV$email,
+                      chapter=list(
+                        title_meta=payload$title_meta,
+                        title=payload$title,
+                        description=payload$description,
+                        free_preview=payload$free_preview,
+                        attachments=list(
+                          slides_link=payload$attachments$slides_link
+                        )
                       )
                     )
-  )
   
   # Extract chapter id and index from course.yml. If found, add to outputList
   course = load_course_yaml()
@@ -156,14 +156,39 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
   exerciseList = list() 
   for(i in 1:length(slides)) {
     slide = slides[[i]]
-    if ( !is.null(slide$type) && slide$type == "VideoExercise" ) {
+    if( !is.null(slide$type) && slide$type == "VideoExercise") {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
                                  assignment    = clean_up_html(slide$content), 
                                  number        = slide$num,
                                  aspect_ratio  = slide$aspect_ratio,
-                                 video_link    = gsub("[\r\n]", "", extract_code(slide$video_link$content)) )
-      exerciseList[[i]][["type"]] = slide$type
-    } else {
+                                 video_link    = gsub("[\r\n]", "", extract_code(slide$video_link$content)) ,
+                                 type          = "VideoExercise")
+    } else if( !is.null(slide$type) && slide$type == "MultipleChoiceExercise" ) {
+        exerciseList[[i]] = list(  title         = html2txt(slide$title),
+                                   assignment    = clean_up_html(slide$content), 
+                                   number        = slide$num,
+                                   instructions  = make_multiple_choice_vector(clean_up_html(slide$instructions$content)), 
+                                   hint          = clean_up_html(slide$hint$content),
+                                   sample_code   = extract_code( slide$sample_code$content ),
+                                   solution      = extract_code( slide$solution$content ),
+                                   sct           = extract_code( slide$sct$content ),
+                                   pre_exercise_code = extract_code( slide$pre_exercise_code$content),
+                                   type          = "MultipleChoiceExercise")
+        if(!is.null(slide$contains_graph)) {
+          exerciseList[[i]]$contains_graph = slide$contains_graph
+        }        
+    } else if( !is.null(slide$type) && slide$type == "MarkdownExercise") {
+      exerciseList[[i]] = list(  title         = html2txt(slide$title),
+                                 assignment    = clean_up_html(slide$content), 
+                                 number        = slide$num,
+                                 instructions  = clean_up_html(slide$instructions$content), 
+                                 hint          = clean_up_html(slide$hint$content),
+                                 sample_code   = fix_specials(extract_code( slide$sample_code$content )),
+                                 solution      = fix_specials(extract_code( slide$solution$content )),
+                                 sct           = extract_code( slide$sct$content ),
+                                 pre_exercise_code = extract_code( slide$pre_exercise_code$content),
+                                 type          = "MarkdownExercise")
+    } else if( is.null(slide$type) || slide$type == "NormalExercise") {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
                                  assignment    = clean_up_html(slide$content), 
                                  number        = slide$num,
@@ -172,16 +197,10 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
                                  sample_code   = extract_code( slide$sample_code$content ),
                                  solution      = extract_code( slide$solution$content ),
                                  sct           = extract_code( slide$sct$content ),
-                                 pre_exercise_code = extract_code( slide$pre_exercise_code$content) )
-      if (!is.null(slide$type)) {  
-        exerciseList[[i]][["type"]] = slide$type
-        if (slide$type == "MultipleChoiceExercise") {
-          exerciseList[[i]][["instructions"]] = make_multiple_choice_vector(exerciseList[[i]][["instructions"]])
-          if (!is.null(slide$contains_graph)) {
-            exerciseList[[i]][["contains_graph"]] = slide$contains_graph
-          }
-        }
-      }      
+                                 pre_exercise_code = extract_code( slide$pre_exercise_code$content),
+                                 type          = "NormalExercise")
+    } else {
+      stop(sprintf("Exercise %i is of an unknown exercise type", i))
     }
   }
   
@@ -206,6 +225,12 @@ extract_code = function(html) {
       return(code)
     }}
 } 
+
+fix_specials <- function(code) {
+  code = gsub("_tbt_","```",code)
+  code = gsub("_tast_","***",code)
+  return(code)
+}
 
 # Convenience function to convert html codes:
 html2txt <- function(str) {
