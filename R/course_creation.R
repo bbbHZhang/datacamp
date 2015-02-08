@@ -165,7 +165,7 @@ upload_course = function(open = TRUE, force = FALSE) {
 #' upload_chapter("chapter1.Rmd", force = TRUE)
 #' }
 #' @export
-upload_chapter = function(input_file, force = FALSE, open = TRUE, skip_validation = FALSE, ...) {
+upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
   require("slidify")
   if (!hasArg(input_file)) { return(message("Error: You need to specify a chapter Rmd file.")) }
   if (!datacamp_logged_in()) { datacamp_login() }
@@ -174,16 +174,16 @@ upload_chapter = function(input_file, force = FALSE, open = TRUE, skip_validatio
     sure = readline("Using 'force' deletes exercises. Are you sure you want to continue? (Y/N) ")
     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   }
-  if (skip_validation == TRUE) {
-    sure = readline("Using 'skip_validation' implies that the exercises will not be checked for correctness. Are you sure you want to continue? (Y/N) ")
-    if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
-  }
+#   if (skip_validation == TRUE) {
+#     sure = readline("Using 'skip_validation' implies that the exercises will not be checked for correctness. Are you sure you want to continue? (Y/N) ")
+#     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
+#   }
   if (length(get_chapter_id(input_file)) == 0) {
     sure = readline("Chapter not found in course.yml. This will create a new chapter, are you sure you want to continue? (Y/N) ")
     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   }
   payload = suppressWarnings(slidify(input_file, return_page = TRUE,...)) # Get the payload  
-  theJSON = render_chapter_json_for_datacamp(input_file, payload, force, skip_validation) # Get the JSON
+  theJSON = render_chapter_json_for_datacamp(input_file, payload, force, skip_validation = TRUE) # Get the JSON
   upload_chapter_json(theJSON, input_file, open = open) # Upload everything
   clean_leftovers(input_file)
 }
