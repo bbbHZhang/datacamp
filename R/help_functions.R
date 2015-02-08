@@ -158,44 +158,41 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
     slide = slides[[i]]
     if( !is.null(slide$type) && slide$type == "VideoExercise") {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = clean_up_html(slide$content), 
+                                 assignment    = slide$content, 
                                  number        = slide$num,
                                  aspect_ratio  = slide$aspect_ratio,
                                  video_link    = gsub("[\r\n]", "", extract_code(slide$video_link$content)) ,
                                  type          = "VideoExercise")
     } else if( !is.null(slide$type) && slide$type == "MultipleChoiceExercise" ) {
         exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                   assignment    = clean_up_html(slide$content), 
+                                   assignment    = slide$content, 
                                    number        = slide$num,
-                                   instructions  = make_multiple_choice_vector(clean_up_html(slide$instructions$content)), 
-                                   hint          = clean_up_html(slide$hint$content),
+                                   instructions  = make_multiple_choice_vector(slide$instructions$content), 
+                                   hint          = slide$hint$content,
                                    sample_code   = extract_code( slide$sample_code$content ),
                                    solution      = extract_code( slide$solution$content ),
                                    sct           = extract_code( slide$sct$content ),
                                    pre_exercise_code = extract_code( slide$pre_exercise_code$content),
                                    type          = "MultipleChoiceExercise")
-        if(!is.null(slide$contains_graph)) {
-          exerciseList[[i]]$contains_graph = slide$contains_graph
-        }        
     } else if( !is.null(slide$type) && slide$type == "MarkdownExercise") {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = clean_up_html(slide$content), 
+                                 assignment    = slide$content, 
                                  number        = slide$num,
-                                 instructions  = clean_up_html(slide$instructions$content), 
-                                 hint          = clean_up_html(slide$hint$content),
-                                 sample_code   = fix_specials(extract_code( slide$sample_code$content )),
-                                 solution      = fix_specials(extract_code( slide$solution$content )),
+                                 instructions  = slide$instructions$content, 
+                                 hint          = slide$hint$content,
+                                 sample_code   = extract_markdown( slide$sample_code$content, "my_document.Rmd"),
+                                 solution      = extract_markdown( slide$solution$content, "my_solution.Rmd"),
                                  sct           = extract_code( slide$sct$content ),
                                  pre_exercise_code = extract_code( slide$pre_exercise_code$content),
                                  type          = "MarkdownExercise")
     } else if( is.null(slide$type) || slide$type == "NormalExercise") {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = clean_up_html(slide$content), 
+                                 assignment    = slide$content, 
                                  number        = slide$num,
-                                 instructions  = clean_up_html(slide$instructions$content), 
-                                 hint          = clean_up_html(slide$hint$content),
-                                 sample_code   = extract_code( slide$sample_code$content ),
-                                 solution      = extract_code( slide$solution$content ),
+                                 instructions  = slide$instructions$content, 
+                                 hint          = slide$hint$content,
+                                 sample_code   = extract_code( slide$sample_code$content),
+                                 solution      = extract_code( slide$solution$content),
                                  sct           = extract_code( slide$sct$content ),
                                  pre_exercise_code = extract_code( slide$pre_exercise_code$content),
                                  type          = "NormalExercise")
@@ -223,8 +220,40 @@ extract_code = function(html) {
       code = gsub("[\\]\"","'",as.character(code))
       
       return(code)
-    }}
+    }
+  }
 } 
+
+
+extract_markdown = function(html, default_name) {
+  if (!is.null(html) && nchar(html)!=0) {
+    r = gregexpr("<code class=\"r\">(.*?)</code>",html)
+    code = unlist(regmatches(html,r))
+    code = gsub("<code class=\"r\">|</code>","",code)
+    code = sapply(code, html2txt)
+    
+    titles_pos = gregexpr("\\{\\{\\{(.*?)\\}\\}\\}", code)
+    titles = Map(regmatches, code, titles_pos)
+    titles = lapply(titles, function(title) {
+      if(length(title) == 0)
+        return(default_name)
+      else
+        title = gsub("\\{\\{\\{|\\}\\}\\}","",title)
+        return(title)
+    })
+    code = gsub("\\{\\{\\{(.*?)\\}\\}\\}\n*","",code)
+    names(code) = unlist(titles)
+
+    # fix triple backticks and asterisks
+    code = sapply(code, fix_specials)
+    
+    return(toJSON(code))
+  } else {
+    code = ""
+    names(code) = default_name
+    return(toJSON(code))
+  }
+}
 
 fix_specials <- function(code) {
   code = gsub("_tbt_","```",code)
@@ -238,21 +267,14 @@ html2txt <- function(str) {
   xpathApply(htmlParse(str, asText=TRUE),"//body//text()", xmlValue)[[1]]
 }
 
-# Remove paragraphs:
-clean_up_html = function(html) {
-  #   html = gsub("<p>|</p>","",html)
-  return(html)
-}
-
 # Function to create an array with the multiple choice options: 
-make_multiple_choice_vector = function(instructions) { 
+make_multiple_choice_vector = function(instructions) {
   pattern = "<li>(.*?)</li>"
   instruction_lines =  strsplit(instructions,"\n")[[1]]
   r = regexec(pattern, instruction_lines)
   matches = regmatches(instruction_lines, r)
   extracted_matches = sapply(matches, function(x) x[2])
   multiple_choice_vector = extracted_matches[!is.na(extracted_matches)]
-  
   return(multiple_choice_vector)
 }
 
