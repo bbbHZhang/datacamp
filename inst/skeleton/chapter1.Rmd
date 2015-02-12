@@ -2,7 +2,8 @@
 title_meta  : Chapter 1
 title       : Insert the chapter title here
 description : What is this chapter about? Add here your description
-mode        : standalone
+framework   : datacamp
+mode        : selfcontained
 
 ---
 ## The title of the first exercise
