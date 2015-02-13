@@ -3,9 +3,14 @@
 <img src="https://s3.amazonaws.com/assets.datacamp.com/img/logo/logo_blue_full.svg" width="250">
 </p>
 
+## datacamp
+
 The datacamp R package by DataCamp allows course creators to upload their courses to the DataCamp plaftorm.
 
-To install the datacamp package, run the following code in your R console:
+A detailed guide on course creation for the DataCamp platform can be found at <b>https://teach.datacamp.com/course-creation</b>.
+
+
+## Install the package
 
 ```ruby
 install.packages("devtools")
@@ -16,7 +21,5 @@ install_github("slidify", "ramnathv", ref = "dev")
 install_github("slidifyLibraries", "ramnathv")
 library("datacamp")
 ```
-
-A detailed guide on course creation for the DataCamp platform can be found at <b>https://teach.datacamp.com/course-creation</b>.
 
 For more details, questions and suggestions, you can contact <b>teach@datacamp.com</b>.
