@@ -17,6 +17,6 @@ install_github("slidifyLibraries", "ramnathv")
 library("datacamp")
 ```
 
-A detailed guide on course creation for the DataCamp platform can be found at [<b>https://teach.datacamp.com/course-creation</b>](https://teach.datacamp.com).
+A detailed guide on course creation for the DataCamp platform can be found at <b>https://teach.datacamp.com/course-creation</b>.
 
 For more details, questions and suggestions, you can contact <b>teach@datacamp.com</b>.
