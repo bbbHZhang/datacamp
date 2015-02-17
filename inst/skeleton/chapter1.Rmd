@@ -2,7 +2,8 @@
 title_meta  : Chapter 1
 title       : Insert the chapter title here
 description : What is this chapter about? Add here your description
-mode        : standalone
+framework   : datacamp
+mode        : selfcontained
 
 ---
 ## The title of the first exercise
@@ -10,26 +11,24 @@ mode        : standalone
 1. Complete YAML front matter above
 2. Write using R Markdown (http://en.wikipedia.org/wiki/Markdown)
 3. Start an exercise using an empty line followed by three dashes!
-   For now, there are 2 types of exercises. The 'normal' type, which is the default, 
-   and the multiple choice exercise. To create a multiple choice exercise, 
-   add 'type:MultipleChoiceExercise' to the '---' that starts a new exercise. 
-   This file contains some examples. Additionally, a multiple choice exercise can have a graph 
-   in its pre exercise code, which is then loaded along with the exercise. The last exercise of this file
-   contains an example of this.
+   For now, there are 3 types of exercises. The 'normal' type, which is the default, 
+   the multiple choice exercise and the video exercise. To create a multiple choice exercise, 
+   add 'type:MultipleChoiceExercise' to the '---' that starts a new exercise. For video exercises, add 
+   'type:VideoExercise'.
 4. Consult the documentation at: https://github.com/Data-Camp/datacamp if you're stuck
   
 In the assignement, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
 
-You can emphasize important words by putting them in **bold** or *italics*, or indicate that some parts are `r_code` with backticks, but what's really cool is that you can incorporate LATEX style formula's, e.g. $\frac{E(R_i) - R_f}{\beta_i} = E(R_m) - R_f$ You can even add lists, to structure your explanation: 
+You can emphasize important words by putting them in **bold** or *italics*, or indicate that some parts are `r_code` with backticks, but what's really cool is that you can incorporate LATEX style formula's, e.g. $\frac{E(R_i) - R_f}{\beta_i} = E(R_m) - R_f$ You can even add lists, to structure your explanation: a
 - item one
 - item two
 
-Or you could link to interesting content: [this is a link](http://en.wikipedia.org/wiki/Markdown), or [another useful link](http://www.rstudio.com/ide/docs/authoring/using_markdown...).
+Or you could link to interesting content: [this is a link](http://en.wikipedia.org/wiki/Markdown).
 
 *** =instructions
-  - Provide one instruction to your students/employees/... on what specific problem they should solve in this exercise
-  - Provide a second instruction here.
-  - ect.
+- Provide one instruction to your students/employees/... on what specific problem they should solve in this exercise
+- Provide a second instruction here.
+- ect.
 
 *** =hint
 
@@ -45,16 +44,16 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 # ...
 ```
 
-*** =solution
-
-```{r,eval=FALSE}
-# The solution code solves the assignement. Make sure the solution passes the submission correctness test (we will check this;-)!
-```
-
 *** =sample_code
 
 ```{r,eval=FALSE}
 # The sample code is what is shown in the students editor by default
+```
+
+*** =solution
+
+```{r,eval=FALSE}
+# The solution code solves the assignment. Make sure the solution passes the submission correctness test (we will check this;-)!
 ```
 
 *** =sct
@@ -64,23 +63,21 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 # It takes as input the students workspace, his code and what was printed to the console during the exercise.
 # Based on these inputs the SCT returns:
 # (i) whether the students code was correct
-# (ii) a message to the student to either help him find what was wrong or congragulate him on finding the solution.
-DM.result = list(TRUE,"Well done!")
+# (ii) a message to the student to either help him find what was wrong or congratulate him on finding the solution.
+success_msg("Well done!")
 ```
 
 --- type:MultipleChoiceExercise
 ## This is a multiple choice exercise!
 
-Assigment here.
+The multiple choice exercise does not need sample code, nor a solution. This is dealt with in the sct.
 
 *** =instructions
-
-- Option 1
-- Option 2
-- ...
+- Wrong option
+- Correct option 
+- Wrong option
   
 *** =hint
-
 Hint here. 
 
 *** =pre_exercise_code
@@ -89,72 +86,11 @@ Hint here.
 # Pre-exercise code here
 ```
 
-*** =solution
-
-```{r,eval=FALSE}
-# Solution code here 
-```
-
-*** =sample_code
-
-```{r,eval=FALSE}
-# Sample code here
-```
-
 *** =sct
 
 ```{r,eval=FALSE}
 # Submission Correctness Test here
-if (DM.result == 1) {
-  DM.result = list(TRUE,"Well done!")
-} else {
-  DM.result = list(FALSE,"Wrong!")
-}
-```
-
---- type:MultipleChoiceExercise contains_graph:TRUE
-## This multiple choice exercise contains a graph!
-
-Assigment here.
-
-*** =instructions
-
-- Option 1
-- Option 2
-- ...
-  
-*** =hint
-
-Hint here. 
-
-*** =pre_exercise_code
-
-```{r,eval=FALSE}
-# Draw graph here
-hist(rnorm(1000))
-```
-
-*** =solution
-
-```{r,eval=FALSE}
-# Solution code here 
-```
-
-*** =sample_code
-
-```{r,eval=FALSE}
-# Sample code here
-```
-
-*** =sct
-
-```{r,eval=FALSE}
-# Submission Correctness Test here
-if (DM.result == 1) {
-  DM.result = list(TRUE,"Well done!")
-} else {
-  DM.result = list(FALSE,"Wrong!")
-}
+test_mc(correct = 2, feedback_msgs = c("Wrong, try again.","Good job!","Try again please"))
 ```
 
 --- type:VideoExercise
@@ -165,5 +101,111 @@ If necessary, you can add a description here.
 *** =video_link
 
 ```{r,eval=FALSE}
-//player.vimeo.com/video/97249290
+//player.vimeo.com/video/108225030
 ```
+
+--- type:MarkdownExercise
+## Markdown Exercise Title
+ 
+The assignment comes here.
+Custom CSS is an easy way to add branding to your reports. 
+
+*** =instructions
+- The `styles.css` file to the right contains some example CSS that will change the appearance of your report. Modify the header of the .Rmd report to use the CSS, and then render the report.
+- In the code chunk, assign `5` to the variable `x`.
+
+*** =hint 
+This exercise only expect you to edit the YAML header, not the actual .css file.
+
+*** =pre_exercise_code
+```{r eval=FALSE}
+```
+
+*** =sample_code
+```{r eval=FALSE}
+{{{my_document.Rmd}}}
+---
+title: "Tryout"
+output: html_document
+---
+
+This sample R Markdown document contains a list:
+  
+* A
+* B
+
+It also contains some code:
+  
+_tbt_{r}
+x <-
+_tbt_
+```
+
+```{r, eval = FALSE}
+{{{styles.css}}}
+h1{
+  color: white;
+  padding: 10px;
+  background-color: #3399ff
+}
+
+ul {
+  list-style-type: square;  
+}
+```
+
+*** =solution
+
+```{r eval=FALSE}
+{{{my_solution.Rmd}}}
+---
+title: "Tryout"
+output: 
+  html_document:
+    css: styles.css
+---
+
+This sample R Markdown document contains a list:
+  
+* A
+* B
+
+It also contains some code:
+  
+_tbt_{r}
+x <- 5
+_tbt_
+```
+
+```{r, eval = FALSE}
+{{{styles.css}}}
+h1{
+  color: white;
+  padding: 10px;
+  background-color: #3399ff
+}
+
+ul {
+  list-style-type: square;  
+}
+```
+
+*** =sct
+
+```{r eval=FALSE}
+test_error()
+test_rmd_file({
+  test_yaml_header(options = "title")
+  test_yaml_header(options = "output.html_document.css", 
+                   not_called_msg = "Have you specified the <code>css</code> option under <code>html_document</code>, which in turn is under option <code>output</code>?", 
+                   incorrect_msg = "Make sure to set the <code>css</code> option correctly.")
+  test_rmd_group(2, {
+    test_object("x", 
+                undefined_msg = "Have you defined the variable <code>x</code> inside the code chunk?", 
+                incorrect_msg = "Make sure to define the variable <code>x</code> correctly inside the code chunk.")
+  })
+})
+success_msg("Nice work! It's easy to add styling to your report!")  
+```
+
+

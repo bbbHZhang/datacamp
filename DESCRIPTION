@@ -10,11 +10,14 @@ Description: This package makes it easy and fun to create interactive courses
     created and structured via R Markdown documents. The package has build-in
     functionality to effortlessly write Submission Correctness Tests for
     interactivity.
-License: MIT
+License: MIT + file LICENSE
 URL: www.datacamp.com
 Imports:
     httr,
     RJSONIO,
     yaml,
     XML,
-    RCurl
+    RCurl,
+    slidify
+Suggests: 
+    testthat
