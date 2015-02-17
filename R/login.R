@@ -4,9 +4,15 @@
 #' DataCamp username and password, and will then log you into the DataCamp server. Optionally, a subdomain can be specified (the default is 
 #' www.DataCamp.com). Note, in addition to the log in via R, it is also necessary to log into DataCamp.com via your browser.
 #' 
+#' @usage datacamp_login(email = NULL, pw = NULL, subdomain = NULL)
+#' @param email Email of your DataCamp account
+#' @param pw Password of your DataCamp account
+#' @param subdomain The subdomain to login to.
 #' 
-#' @usage datacamp_login()
 #' @return No return values.
+#' 
+#' @importFrom RCurl curlEscape getURL getURLContent url.exists
+#' @importFrom RJSONIO fromJSON
 #' @export
 datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
   if(is.null(email))
@@ -49,6 +55,7 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
   } 
 }
 
+#' Is the user logged in?
 datacamp_logged_in = function() {
   if (exists(".DATACAMP_ENV")) {
     return(TRUE)

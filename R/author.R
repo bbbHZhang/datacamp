@@ -11,8 +11,8 @@
 #' course ID, and a list of the chapters within the course. The `chapter1.Rmd` file provides the structure and building blocks of the 
 #' first chapter.    
 #' 
-#' @usage author_course(course_name, ...)
 #' @param course_name String indicating the course name (and thus the name of the folder that will be created in your current working directory).
+#' @param open Whether or not to open the file in a text editor after creating it.
 #' @param ... Extra arguments you'd like to pass to the function. Under the hood, the \code{author} function from the \code{slidify} package is called.
 #' @return No return values.
 #' @examples
@@ -20,15 +20,17 @@
 #' # This will create the new directory ../myNewTutorialName in your current working directory 
 #' author_course("myNewTutorialName")
 #' }
+#' 
+#' @importFrom slidify author
 #' @export
-author_course = function(course_name, ...) {
-  require("slidify")
+author_course = function(course_name, open = TRUE, ...) {
   message(paste0("Creating course directory ",course_name))
   message("Done.")
   message("Switching to course directory...")
   suppressMessages(author(deckdir = course_name,  use_git = FALSE, scaffold = system.file('skeleton', package = 'datacamp'), open_rmd = FALSE, ...))  
   message("Created course.yml and first chapter file.")
-  file.edit("chapter1.Rmd")
+  if(open) 
+    file.edit("chapter1.Rmd")
   message("Now open these files and start editing your course.")
 }
 
@@ -38,13 +40,14 @@ author_course = function(course_name, ...) {
 #' The R markdown file already contains a template which is opened for editing.
 #' 
 #' @param chapter_name Character with the name of the chapter you'd like to create. 
+#' @param open Whether or not to open the file in a text editor after creating it.
 #' 
 #' @examples
 #' \dontrun{
 #' author_chapter("chapter2")
 #' }
 #'@export
-author_chapter = function(chapter_name=NULL) {
+author_chapter = function(chapter_name=NULL, open = TRUE) {
   if (is.null(chapter_name)) { 
     stop("Please provide a chapter name.") 
   } 
@@ -53,8 +56,9 @@ author_chapter = function(chapter_name=NULL) {
   } else { to_file_path = chapter_name }
   
   from_file_path = paste0(system.file('skeleton', package = 'datacamp'), "/chapter1.Rmd")
-  file.copy(from_file_path, to_file_path)
+  file.copy(from_file_path, to_file_path, overwrite = FALSE)
   message(paste("Creating chapter: ", to_file_path, "..."))
-  file.edit(to_file_path)
+  if(open)
+    file.edit(to_file_path)
   message(paste0("Done. You can start editing ", to_file_path))
 }

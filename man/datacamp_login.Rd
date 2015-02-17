@@ -4,7 +4,14 @@
 \alias{datacamp_login}
 \title{Log in to DataCamp.com via R}
 \usage{
-datacamp_login()
+datacamp_login(email = NULL, pw = NULL, subdomain = NULL)
+}
+\arguments{
+\item{email}{Email of your DataCamp account}
+
+\item{pw}{Password of your DataCamp account}
+
+\item{subdomain}{The subdomain to login to.}
 }
 \value{
 No return values.

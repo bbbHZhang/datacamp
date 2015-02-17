@@ -14,9 +14,10 @@
 #' # Completely sync online chapter with your local markdown file
 #' upload_chapter("chapter1.Rmd", force = TRUE)
 #' }
+#' 
+#' @importFrom slidify slidify
 #' @export
 upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
-  require("slidify")
   if (!hasArg(input_file)) { return(message("Error: You need to specify a chapter Rmd file.")) }
   if (!datacamp_logged_in()) { datacamp_login() }
   if (!file.exists("course.yml")) { return(message("Error: Seems like there is no course.yml file in the current directory.")) }
@@ -38,6 +39,13 @@ upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
   clean_leftovers(input_file)
 }
 
+
+#' Upload the chapter json
+#' @param theJSON the JSON string to be posted
+#' @param file_name chapter file name that is being uploaded
+#' @param open whether or not to open the teach website after upload.
+#' 
+#' @importFrom httr POST content add_headers
 upload_chapter_json = function(theJSON, file_name, open = TRUE) {
   base_url = paste0(.DATACAMP_ENV$base_url, "/chapters/create_from_r.json")
   auth_token = .DATACAMP_ENV$auth_token

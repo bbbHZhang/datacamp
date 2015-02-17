@@ -4,17 +4,17 @@
 #' 
 #' If you're not yet logged in when calling this function, you'll be prompted to log in.
 #' 
-#' @usage upload_course(open = TRUE)
+#' @usage upload_course(open = TRUE, force = FALSE)
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
+#' @param force boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml
 #' @examples 
 #' \dontrun{
 #' upload_course()
 #' }
 #' @export
 upload_course = function(open = TRUE, force = FALSE) { 
-  require("slidify")
   if (!datacamp_logged_in()) { datacamp_login() }
-  course = load_course_yaml()
+  course = load_course_yml()
   
   # TODO?
   if (is.null(course$id)) {
@@ -29,10 +29,16 @@ upload_course = function(open = TRUE, force = FALSE) {
   }
   
   course$chapters = lapply(course$chapters, function(x) { as.integer(x) }) # put ids in array
-  the_course_json = toJSON(course)
-  upload_course_json(the_course_json, open)
+  the_course_json = RJSONIO::toJSON(course)
+  upload_course_json(the_course_json)
 }
 
+
+#' Upload the course json
+#' @param theJSON the JSON string to be posted
+#' @param open whether or not to open the teach website after upload.
+#' 
+#' @importFrom httr POST content add_headers
 upload_course_json = function(theJSON, open = TRUE) { 
   base_url = paste0(.DATACAMP_ENV$base_url, "/courses/create_from_r.json")
   auth_token = .DATACAMP_ENV$auth_token

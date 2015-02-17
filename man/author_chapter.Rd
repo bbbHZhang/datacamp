@@ -4,10 +4,12 @@
 \alias{author_chapter}
 \title{Create a new chapter}
 \usage{
-author_chapter(chapter_name = NULL)
+author_chapter(chapter_name = NULL, open = TRUE)
 }
 \arguments{
 \item{chapter_name}{Character with the name of the chapter you'd like to create.}
+
+\item{open}{Whether or not to open the file in a text editor after creating it.}
 }
 \description{
 Creates an R Markdown file for a new course chapter in the current working directory.

@@ -1,6 +1,13 @@
+#' Create a JSON from the slidified chapter
+#' @param file_name name of the chapter file
+#' @param payload structure built by slidify package, containing all data in the chapter r markdown file.
+#' @param force whether or not to impose the local structure onto the remote datacamp course.
+#' @param skip_validation whether or not to skip validity of uploaded exercises on DataCamp's servers.
+#' 
+#' @importFrom RJSONIO toJSON
 render_chapter_json_for_datacamp = function(file_name, payload, force, skip_validation) {
   # Extract basic course info:
-  course = load_course_yaml()
+  course = load_course_yml()
   if (is.null(course$id)) {
     stop("Error: course.yml does not contain a course id. Please upload your course before uploading chapters.")
   }
@@ -20,7 +27,7 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
   )
   
   # Extract chapter id and index from course.yml. If found, add to outputList
-  course = load_course_yaml()
+  course = load_course_yml()
   chapter_index = get_chapter_id(file_name)
   if (length(chapter_index) != 0) { # existing chapter, add info to output_list
     output_list$chapter$id = as.integer(course$chapters[[chapter_index]])
@@ -81,5 +88,5 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
   output_list$chapter$exercises = exerciseList 
   
   # Make JSON: 
-  toJSON(output_list)
+  RJSONIO::toJSON(output_list)
 }

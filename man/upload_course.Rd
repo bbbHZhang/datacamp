@@ -4,10 +4,12 @@
 \alias{upload_course}
 \title{Create or update a course}
 \usage{
-upload_course(open = TRUE)
+upload_course(open = TRUE, force = FALSE)
 }
 \arguments{
 \item{open}{boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface}
+
+\item{force}{boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml}
 }
 \description{
 Uploads the \code{course.yml} file to datacamp.com. Use this function to change the course title, description, etc. and to update the chapters' ordering.

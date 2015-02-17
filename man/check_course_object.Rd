@@ -6,6 +6,9 @@
 \usage{
 check_course_object(course)
 }
+\arguments{
+\item{course}{The course object to be checked}
+}
 \description{
 Check the course yaml object
 }

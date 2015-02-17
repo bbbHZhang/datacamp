@@ -19,7 +19,7 @@ mode        : selfcontained
   
 In the assignement, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
 
-You can emphasize important words by putting them in **bold** or *italics*, or indicate that some parts are `r_code` with backticks, but what's really cool is that you can incorporate LATEX style formula's, e.g. $\frac{E(R_i) - R_f}{\beta_i} = E(R_m) - R_f$ You can even add lists, to structure your explanation: 
+You can emphasize important words by putting them in **bold** or *italics*, or indicate that some parts are `r_code` with backticks, but what's really cool is that you can incorporate LATEX style formula's, e.g. $\frac{E(R_i) - R_f}{\beta_i} = E(R_m) - R_f$ You can even add lists, to structure your explanation: a
 - item one
 - item two
 
@@ -64,7 +64,7 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 # Based on these inputs the SCT returns:
 # (i) whether the students code was correct
 # (ii) a message to the student to either help him find what was wrong or congratulate him on finding the solution.
-DM.result = list(TRUE,"Well done!")
+success_msg("Well done!")
 ```
 
 --- type:MultipleChoiceExercise
@@ -73,9 +73,9 @@ DM.result = list(TRUE,"Well done!")
 The multiple choice exercise does not need sample code, nor a solution. This is dealt with in the sct.
 
 *** =instructions
-- Option 1
-- Option 2
-- ...
+- Wrong option
+- Correct option 
+- Wrong option
   
 *** =hint
 Hint here. 
@@ -90,13 +90,7 @@ Hint here.
 
 ```{r,eval=FALSE}
 # Submission Correctness Test here
-if (!exists("DM.result")) {
-  DM.result = list(FALSE,"Please select one of the options!")
-} else if (DM.result == 1) {
-  DM.result = list(TRUE,"Well done!")
-} else {
-  DM.result = list(FALSE,"Wrong!")
-}
+test_mc(correct = 2, feedback_msgs = c("Wrong, try again.","Good job!","Try again please"))
 ```
 
 --- type:VideoExercise
@@ -109,3 +103,109 @@ If necessary, you can add a description here.
 ```{r,eval=FALSE}
 //player.vimeo.com/video/108225030
 ```
+
+--- type:MarkdownExercise
+## Markdown Exercise Title
+ 
+The assignment comes here.
+Custom CSS is an easy way to add branding to your reports. 
+
+*** =instructions
+- The `styles.css` file to the right contains some example CSS that will change the appearance of your report. Modify the header of the .Rmd report to use the CSS, and then render the report.
+- In the code chunk, assign `5` to the variable `x`.
+
+*** =hint 
+This exercise only expect you to edit the YAML header, not the actual .css file.
+
+*** =pre_exercise_code
+```{r eval=FALSE}
+```
+
+*** =sample_code
+```{r eval=FALSE}
+{{{my_document.Rmd}}}
+---
+title: "Tryout"
+output: html_document
+---
+
+This sample R Markdown document contains a list:
+  
+* A
+* B
+
+It also contains some code:
+  
+_tbt_{r}
+x <-
+_tbt_
+```
+
+```{r, eval = FALSE}
+{{{styles.css}}}
+h1{
+  color: white;
+  padding: 10px;
+  background-color: #3399ff
+}
+
+ul {
+  list-style-type: square;  
+}
+```
+
+*** =solution
+
+```{r eval=FALSE}
+{{{my_solution.Rmd}}}
+---
+title: "Tryout"
+output: 
+  html_document:
+    css: styles.css
+---
+
+This sample R Markdown document contains a list:
+  
+* A
+* B
+
+It also contains some code:
+  
+_tbt_{r}
+x <- 5
+_tbt_
+```
+
+```{r, eval = FALSE}
+{{{styles.css}}}
+h1{
+  color: white;
+  padding: 10px;
+  background-color: #3399ff
+}
+
+ul {
+  list-style-type: square;  
+}
+```
+
+*** =sct
+
+```{r eval=FALSE}
+test_error()
+test_rmd_file({
+  test_yaml_header(options = "title")
+  test_yaml_header(options = "output.html_document.css", 
+                   not_called_msg = "Have you specified the <code>css</code> option under <code>html_document</code>, which in turn is under option <code>output</code>?", 
+                   incorrect_msg = "Make sure to set the <code>css</code> option correctly.")
+  test_rmd_group(2, {
+    test_object("x", 
+                undefined_msg = "Have you defined the variable <code>x</code> inside the code chunk?", 
+                incorrect_msg = "Make sure to define the variable <code>x</code> correctly inside the code chunk.")
+  })
+})
+success_msg("Nice work! It's easy to add styling to your report!")  
+```
+
+

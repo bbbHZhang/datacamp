@@ -1,4 +1,6 @@
 #' Check the course yaml object
+#' 
+#' @param course The course object to be checked
 check_course_object = function(course) {
   ## STEP 1: Check the course info
   # All basic info present in yaml?
@@ -27,6 +29,8 @@ check_course_object = function(course) {
 }
 
 #' Check the filenames of the different chapters
+#' 
+#' @param course the course object, containing chapter info, to be checked
 check_chapters = function(course) {
   chapters = course[["chapters"]]
   if (!is.null(chapters)) {
