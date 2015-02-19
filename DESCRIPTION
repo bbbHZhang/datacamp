@@ -4,7 +4,7 @@ Title: Easily create interactive courses for www.DataCamp.com with R Markdown
 Version: 2.0.0
 Date: 2013-09-07
 Author: DataCamp
-Maintainer: Jonathan Cornelissen <Jonathan@datacamp.com>
+Maintainer: Filip Schouwenaars <filip@datacamp.com>
 Description: This package makes it easy and fun to create interactive courses
     for www.DataCamp.com. All interactive exercises and course chapters are
     created and structured via R Markdown documents. The package has build-in
