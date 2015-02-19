@@ -28,13 +28,13 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
     subdomain = readline("Subdomain (leave empty for default): ")
   
   if (subdomain == "" || subdomain == " ") {
-    base_url = paste0("https://api.datacamp.com")
+    base_url = paste0("https://www.datacamp.com/api")
     redirect_base_url = paste0("https://teach.datacamp.com/courses")
   } else if (subdomain == "localhost") {
     base_url = "127.0.0.1:3000"
     redirect_base_url = "http://localhost:9000/courses"
   } else {
-    base_url = paste0("http://api-", subdomain, ".datacamp.com")
+    base_url = paste0("http://", subdomain, ".datacamp.com/api")
     redirect_base_url = paste0("http://teach-", subdomain, ".datacamp.com/courses")
   }
   
