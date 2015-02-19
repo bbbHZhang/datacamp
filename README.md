@@ -9,6 +9,9 @@ The datacamp R package by DataCamp allows course creators to upload their course
 
 A detailed guide on course creation for the DataCamp platform can be found at <b>https://teach.datacamp.com/course-creation</b>.
 
+## Important
+
+As of February 19, 2015, DataCamp has an updated infrastructure. It is of key importance to have datacamp version of 2.0.0 or higher installed.
 
 ## Install the package
 
