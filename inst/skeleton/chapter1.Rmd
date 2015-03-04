@@ -6,71 +6,125 @@ framework   : datacamp
 mode        : selfcontained
 
 ---
-## The title of the first exercise
+## Create Courses for DataCamp
 
-1. Complete YAML front matter above
-2. Write using R Markdown (http://en.wikipedia.org/wiki/Markdown)
-3. Start an exercise using an empty line followed by three dashes!
-   For now, there are 3 types of exercises. The 'normal' type, which is the default, 
-   the multiple choice exercise and the video exercise. To create a multiple choice exercise, 
-   add 'type:MultipleChoiceExercise' to the '---' that starts a new exercise. For video exercises, add 
-   'type:VideoExercise'.
-4. Consult the documentation at: https://github.com/Data-Camp/datacamp if you're stuck
-  
-In the assignement, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
+This is the assignment. Here, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
 
-You can emphasize important words by putting them in **bold** or *italics*, or indicate that some parts are `r_code` with backticks, but what's really cool is that you can incorporate LATEX style formula's, e.g. $\frac{E(R_i) - R_f}{\beta_i} = E(R_m) - R_f$ You can even add lists, to structure your explanation: a
-- item one
-- item two
+Use [Markdown](http://en.wikipedia.org/wiki/Markdown) for formatting your content.
 
-Or you could link to interesting content: [this is a link](http://en.wikipedia.org/wiki/Markdown).
+You can do the following things with Markdown syntax:
+
+- Make a list (as you are doing now)
+- Emphasize important words: **bold** and *italics*.
+- Add inline r-code with backticks: `x <- 4`. This code will not be evaluated.
+- Incorporate inline LaTeX style formulas: $1 + 1 = 2$
+- Link to interesting content: [this is a link](http://en.wikipedia.org/wiki/Markdown).
+
+If you have several lines of R code you want to include in the assignment, use a code block:
+
+```
+x <- 5
+x <- 7
+```
+
+If you want to include a block LaTeX style formula, use double dollar signs:
+
+$$\frac{E(R_i) - R_f}{\beta_i} = E(R_m) - R_f$$
+
+This exercise is included to explain the different elements of an interactive DataCamp exercise. The next exercise will give an actual example of an interactive DataCamp exercise.
 
 *** =instructions
 - Provide one instruction to your students/employees/... on what specific problem they should solve in this exercise
 - Provide a second instruction here.
-- ect.
+- etc.
 
 *** =hint
-
 Hints help the students to find a correct solution for the exercise. Hints are optional, but their usage is highly recommended.
 
 *** =pre_exercise_code
-
 ```{r,eval=FALSE}
 # Pre-exercise code is executed before the exercise starts (what's in a name...)
 # It can be used to:
 # Pre-load a dataset
 # Render graphs that are shown at the start of the exercise
+# Initialize other variables
 # ...
 ```
 
 *** =sample_code
-
 ```{r,eval=FALSE}
 # The sample code is what is shown in the students editor by default
 ```
 
 *** =solution
-
 ```{r,eval=FALSE}
-# The solution code solves the assignment. Make sure the solution passes the submission correctness test (we will check this;-)!
+# The solution code solves the assignment. Make sure the solution passes the submission correctness test!
 ```
 
 *** =sct
-
 ```{r,eval=FALSE}
 # The Submission Correctness Test code
 # It takes as input the students workspace, his code and what was printed to the console during the exercise.
 # Based on these inputs the SCT returns:
 # (i) whether the students code was correct
 # (ii) a message to the student to either help him find what was wrong or congratulate him on finding the solution.
-success_msg("Well done!")
+success_msg("Well done! Continue to see some more examples!")
+```
+
+---
+## Variable assignment
+
+This simple exercise introduces you to variable assignment.
+For variable assignment, use `<-`. For example:
+
+```
+a <- 3
+b <- a + 2
+```
+
+*** =instructions
+- Assign the value 5 to the variable `x`.
+- We have already loaded a variable `y`, which is a data frame, in the workspace for you. Now, assign this variable `y` to a new variable `z`
+
+*** =hint
+Just assign 5 to the variable `x`; use the `<-` operator.
+
+*** =pre_exercise_code
+```{r,eval=FALSE}
+y <- data.frame(a = c(1,2,3), b = c("this","is","me"))
+```
+
+*** =sample_code
+```{r,eval=FALSE}
+# Assign the value 5 to 'x'
+
+
+# Assign 'y' to 'z'
+
+```
+
+*** =solution
+```{r,eval=FALSE}
+# Assign the value 5 to 'x'
+x <- 5
+
+# Assign 'y' to 'z'
+z <- y
+```
+
+*** =sct
+```{r,eval=FALSE}
+test_object("x", undefined_msg = "Are you sure you have defined the variable <code>x</code>?",
+            incorrect_msg = "Make sure to correctly specify the variable <code>x</code>")
+test_object("z", undefined_msg = "Are you sure you have defined the variable <code>y</code>?",
+            incorrect_msg = "Make sure to correctly specify the variable <code>y</code>")
+success_msg("Awesome job! Continue to the next exercise")
 ```
 
 --- type:MultipleChoiceExercise
 ## This is a multiple choice exercise!
 
-The multiple choice exercise does not need sample code, nor a solution. This is dealt with in the sct.
+The multiple choice exercise (remark the `type:` specification after the triple dashes above the title) does not need sample code, nor a solution.
 
 *** =instructions
 - Wrong option
@@ -81,25 +135,20 @@ The multiple choice exercise does not need sample code, nor a solution. This is 
 Hint here. 
 
 *** =pre_exercise_code
-
 ```{r,eval=FALSE}
-# Pre-exercise code here
 ```
 
 *** =sct
-
 ```{r,eval=FALSE}
-# Submission Correctness Test here
 test_mc(correct = 2, feedback_msgs = c("Wrong, try again.","Good job!","Try again please"))
 ```
 
 --- type:VideoExercise
 ## This exercise contains a video!
 
-If necessary, you can add a description here.
+You can add a description here, but this is optional.
 
 *** =video_link
-
 ```{r,eval=FALSE}
 //player.vimeo.com/video/108225030
 ```
@@ -107,7 +156,7 @@ If necessary, you can add a description here.
 --- type:MarkdownExercise
 ## Markdown Exercise Title
  
-The assignment comes here.
+The assignment of this markdown exercise (remark the `type:` specification after the triple dashes above the title) comes here.
 Custom CSS is an easy way to add branding to your reports. 
 
 *** =instructions
@@ -191,7 +240,6 @@ ul {
 ```
 
 *** =sct
-
 ```{r eval=FALSE}
 test_error()
 test_rmd_file({
@@ -207,5 +255,3 @@ test_rmd_file({
 })
 success_msg("Nice work! It's easy to add styling to your report!")  
 ```
-
-
