@@ -68,6 +68,13 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
                                  sct           = extract_code( slide$sct$content ),
                                  pre_exercise_code = extract_code( slide$pre_exercise_code$content),
                                  type          = "MarkdownExercise")
+    } else if( !is.null(slide$type) && slide$type == "SwirlExercise") {
+      exerciseList[[i]] = list(  title         = html2txt(slide$title),
+                                 assignment    = slide$content,
+                                 number        = slide$num,
+                                 swirl_course  = gsub("[\r\n]", "", extract_code(slide$swirl_course$content)),
+                                 swirl_lesson  = gsub("[\r\n]", "", extract_code(slide$swirl_lesson$content)),
+                                 type          = "SwirlExercise")
     } else if( is.null(slide$type) || slide$type == "NormalExercise") {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
                                  assignment    = slide$content, 
