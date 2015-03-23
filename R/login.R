@@ -34,7 +34,7 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
     base_url = "127.0.0.1:3000"
     redirect_base_url = "http://localhost:9000/courses"
   } else {
-    base_url = paste0("http://", subdomain, ".datacamp.com/api")
+    base_url = paste0("https://", subdomain, ".datacamp.com/api")
     redirect_base_url = paste0("http://teach-", subdomain, ".datacamp.com/courses")
   }
   
