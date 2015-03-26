@@ -93,7 +93,7 @@ make_multiple_choice_vector = function(instructions) {
 #' @importFrom XML xpathSApply xmlValue htmlParse
 convert_to_named_list = function(instructions) {
   html = htmlParse(instructions, asText=TRUE)
-  titles <- xpathSApply(html, "//h2", xmlValue)
-  instructions <- xpathSApply(html, "//p", xmlValue)
+  titles <- xpathSApply(html, "//h2", xmlValue) # do not keep formatting
+  instructions <- xpathSApply(html, "//p", toString.XMLNode) # keep formatting
   mapply(function(x,y) { list(title = x, content = y) }, titles, instructions, USE.NAMES = FALSE, SIMPLIFY = FALSE)
 }
