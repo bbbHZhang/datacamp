@@ -86,3 +86,15 @@ make_multiple_choice_vector = function(instructions) {
   multiple_choice_vector = extracted_matches[!is.na(extracted_matches)]
   return(multiple_choice_vector)
 }
+
+#' Convenience function for challenges
+#' 
+#' @param instructions unordered list of instructions
+#' @importFrom XML xpathSApply xmlValue htmlParse
+convert_to_named_list = function(instructions) {
+  html = htmlParse(instructions, asText=TRUE)
+  titles <- xpathSApply(html, "//h2", xmlValue)
+  instructions <- xpathSApply(html, "//p", xmlValue)
+  names(instructions) = titles
+  return(toJSON(instructions))
+}

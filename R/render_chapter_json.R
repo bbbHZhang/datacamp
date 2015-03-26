@@ -75,6 +75,16 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
                                  swirl_course  = gsub("[\r\n]", "", extract_code(slide$swirl_course$content)),
                                  swirl_lesson  = gsub("[\r\n]", "", extract_code(slide$swirl_lesson$content)),
                                  type          = "SwirlExercise")
+    } else if( !is.null(slide$type) && slide$type == "ChallengeExercise") {
+      exerciseList[[i]] = list( title         = html2txt(slide$title),
+                                assignment    = slide$content,
+                                number        = slide$num,
+                                challenge_steps  = convert_to_named_list(slide$challenge_steps$html),
+                                challenge_goal = convert_to_named_list(slide$challenge_goal$html),
+                                solution      = extract_code( slide$solution$content),
+                                sct           = extract_code( slide$sct$content ),
+                                pre_exercise_code = extract_code( slide$pre_exercise_code$content),
+                                type          = "ChallengeExercise")
     } else if( is.null(slide$type) || slide$type == "NormalExercise") {
       exerciseList[[i]] = list(  title         = html2txt(slide$title),
                                  assignment    = slide$content, 
