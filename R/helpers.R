@@ -95,6 +95,5 @@ convert_to_named_list = function(instructions) {
   html = htmlParse(instructions, asText=TRUE)
   titles <- xpathSApply(html, "//h2", xmlValue)
   instructions <- xpathSApply(html, "//p", xmlValue)
-  names(instructions) = titles
-  return(toJSON(instructions))
+  mapply(function(x,y) { list(title = x, content = y) }, titles, instructions, USE.NAMES = FALSE, SIMPLIFY = FALSE)
 }
