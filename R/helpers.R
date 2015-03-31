@@ -90,7 +90,7 @@ make_multiple_choice_vector = function(instructions) {
 #' Convenience function for challenges
 #' 
 #' @param instructions unordered list of instructions
-#' @importFrom XML xpathSApply xmlValue htmlParse
+#' @importFrom XML xpathSApply xmlValue htmlParse toString.XMLNode
 convert_to_named_list = function(instructions) {
   html = htmlParse(instructions, asText=TRUE)
   titles <- xpathSApply(html, "//h2", xmlValue) # do not keep formatting
