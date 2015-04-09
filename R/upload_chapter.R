@@ -38,6 +38,17 @@ upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
   upload_chapter_json(theJSON, input_file, open = open) # Upload everything
 }
 
+#' Upload all chapters in the current directory
+#' 
+#' Chapter files should be names chapterX.Rmd. Buggy convenience function.
+#' 
+#' @param force whether or not to force (look at documentation upload_chapter)
+#' @export
+upload_all_chapters <- function(force = FALSE, open = TRUE) {
+  chapter_files <- dir(pattern = "hapter.*md")
+  lapply(chapter_files, upload_chapter, force = force, open = open)
+}
+
 #' Upload the chapter json
 #' @param theJSON the JSON string to be posted
 #' @param file_name chapter file name that is being uploaded
