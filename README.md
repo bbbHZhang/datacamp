@@ -18,9 +18,6 @@ As of February 19, 2015, DataCamp has an updated infrastructure. It is of key im
 ```ruby
 install.packages("devtools")
 library("devtools")
-install_github("slidify", "ramnathv", ref = "dev")
-install_github("slidifyLibraries", "ramnathv")
-install_github("datacampSCT", "data-camp")
 install_github("datacamp", "data-camp")
 library("datacamp")
 ```

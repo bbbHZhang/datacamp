@@ -8,7 +8,7 @@ check_course_object = function(course) {
   present_names = min_names %in% names(course)
   if (!all(present_names)) {
     stop(sprintf("Looks like your course.yml file is missing the information:\n%s\nHave a look at the documentation on %s.", 
-               paste0(min_names[!present_names], collapse="\n"), doc_url()))
+               paste0(min_names[!present_names], collapse="\n"), doc_url))
   }
   
   # Any empty elements
@@ -19,7 +19,7 @@ check_course_object = function(course) {
   if (any(empty)) {
     stop(paste0("Looks like your course.yml file is missing information for the field(s):\n", 
                paste0(names(min_course[empty]), collapse="\n"), 
-               ".\nThese cannot be empty. Please add that in your course.yml file.\nHave a look at the documentation on ", doc_url(),"."))
+               ".\nThese cannot be empty. Please add that in your course.yml file.\nHave a look at the documentation on ", doc_url,"."))
   }
   
   ## STEP 2: Check the chapters
@@ -37,7 +37,7 @@ check_chapters = function(course) {
     chapters = unlist(chapters)
     
     pre = "Something is wrong with the chapters section in your course.yml file."
-    check = sprintf("Please check the documentation at %s.", doc_url())
+    check = sprintf("Please check the documentation at %s.", doc_url)
     
     if (!is.vector(chapters)) {
       stop(sprintf("%s\n%s", pre, check))

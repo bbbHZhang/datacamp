@@ -1,5 +1,5 @@
 #' Documentation path
-doc_url = function() { return("http://teach.datacamp.com") }
+doc_url <- "http://teach.datacamp.com"
 
 #' Is the file name a rmd file?
 #' 
@@ -10,12 +10,22 @@ is_rmd = function(filename) {
   return(is_rmd)
 }
 
-#' delete the .md and .html files
+#' split string into separate lines (copied from knitr)
+#' @param x string or file to split in lines
+split_lines <- function(x) {
+  if (length(grep("\n", x)) == 0L) 
+    return(x)
+  con = textConnection(x)
+  on.exit(close(con))
+  readLines(con)
+}
+
+#' Utility function to convert the code words _tbt_ and _tast_ to triple backticks and triple asterisks respectively
+#' This is to escape from the backtick inception in R markdown files (R markdown containing R markdown...)
 #' 
-#' @param input_file The chapter fie for which the cleaning is needed
-clean_leftovers = function(input_file) {
-  file_name = substr(input_file,1, nchar(input_file)-3)
-  unlink(paste0(file_name,"md"))
-  unlink(paste0(file_name,"html"))
-  unlink("libraries",recursive = TRUE) # delete the libraries folder if it exists
+#' @param code The code to convert
+fix_specials <- function(code) {
+  code <- gsub("_tbt_","```",code)
+  code <- gsub("_tast_","***",code)
+  return(code)
 }

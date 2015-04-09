@@ -15,7 +15,6 @@
 #' upload_chapter("chapter1.Rmd", force = TRUE)
 #' }
 #' 
-#' @importFrom slidify slidify
 #' @export
 upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
   if (!hasArg(input_file)) { return(message("Error: You need to specify a chapter Rmd file.")) }
@@ -33,12 +32,11 @@ upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
     sure = readline("Chapter not found in course.yml. This will create a new chapter, are you sure you want to continue? (Y/N) ")
     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   }
-  payload = suppressWarnings(slidify(input_file, return_page = TRUE,...)) # Get the payload  
+  message("Parsing R Markdown file...")
+  payload = parse_chapter(input_file)
   theJSON = render_chapter_json_for_datacamp(input_file, payload, force, skip_validation = TRUE) # Get the JSON
   upload_chapter_json(theJSON, input_file, open = open) # Upload everything
-  clean_leftovers(input_file)
 }
-
 
 #' Upload the chapter json
 #' @param theJSON the JSON string to be posted

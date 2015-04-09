@@ -11,20 +11,11 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
   if (is.null(course$id)) {
     stop("Error: course.yml does not contain a course id. Please upload your course before uploading chapters.")
   }
-  output_list = list( force = force,
-                      skip_validation = skip_validation,
-                      course = course$id,
-                      email  = .DATACAMP_ENV$email,
-                      chapter=list(
-                        title_meta=payload$title_meta,
-                        title=payload$title,
-                        description=payload$description,
-                        free_preview=payload$free_preview,
-                        attachments=list(
-                          slides_link=payload$attachments$slides_link
-                        )
-                      )
-  )
+  output_list = list(force = force,
+                     skip_validation = skip_validation,
+                     course = course$id,
+                     email = .DATACAMP_ENV$email,
+                     chapter = payload$meta)
   
   # Extract chapter id and index from course.yml. If found, add to outputList
   course = load_course_yml()
@@ -35,75 +26,20 @@ render_chapter_json_for_datacamp = function(file_name, payload, force, skip_vali
   }
   
   # Extract for each exercise the relevant information:
-  slides = payload$slides 
-  exerciseList = list() 
-  for(i in 1:length(slides)) {
-    slide = slides[[i]]
-    if( !is.null(slide$type) && slide$type == "VideoExercise") {
-      exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = slide$content, 
-                                 number        = slide$num,
-                                 aspect_ratio  = slide$aspect_ratio,
-                                 video_link    = gsub("[\r\n]", "", extract_code(slide$video_link$content)) ,
-                                 type          = "VideoExercise")
-    } else if( !is.null(slide$type) && slide$type == "MultipleChoiceExercise" ) {
-      exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = slide$content, 
-                                 number        = slide$num,
-                                 instructions  = make_multiple_choice_vector(slide$instructions$content), 
-                                 hint          = slide$hint$content,
-                                 sample_code   = extract_code( slide$sample_code$content ),
-                                 solution      = extract_code( slide$solution$content ),
-                                 sct           = extract_code( slide$sct$content ),
-                                 pre_exercise_code = extract_code( slide$pre_exercise_code$content),
-                                 type          = "MultipleChoiceExercise")
-    } else if( !is.null(slide$type) && slide$type == "MarkdownExercise") {
-      exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = slide$content, 
-                                 number        = slide$num,
-                                 instructions  = slide$instructions$content, 
-                                 hint          = slide$hint$content,
-                                 sample_code   = extract_markdown( slide$sample_code$content, "my_document.Rmd"),
-                                 solution      = extract_markdown( slide$solution$content, "my_solution.Rmd"),
-                                 sct           = extract_code( slide$sct$content ),
-                                 pre_exercise_code = extract_code( slide$pre_exercise_code$content),
-                                 type          = "MarkdownExercise")
-    } else if( !is.null(slide$type) && slide$type == "SwirlExercise") {
-      exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = slide$content,
-                                 number        = slide$num,
-                                 swirl_course  = gsub("[\r\n]", "", extract_code(slide$swirl_course$content)),
-                                 swirl_lesson  = gsub("[\r\n]", "", extract_code(slide$swirl_lesson$content)),
-                                 type          = "SwirlExercise")
-    } else if( !is.null(slide$type) && slide$type == "ChallengeExercise") {
-      exerciseList[[i]] = list( title         = html2txt(slide$title),
-                                assignment    = slide$content,
-                                number        = slide$num,
-                                challenge_steps  = convert_to_named_list(slide$challenge_steps$html),
-                                challenge_goal = convert_to_named_list(slide$challenge_goal$html),
-                                solution      = extract_code( slide$solution$content),
-                                sct           = extract_code( slide$sct$content ),
-                                pre_exercise_code = extract_code( slide$pre_exercise_code$content),
-                                type          = "ChallengeExercise")
-    } else if( is.null(slide$type) || slide$type == "NormalExercise") {
-      exerciseList[[i]] = list(  title         = html2txt(slide$title),
-                                 assignment    = slide$content, 
-                                 number        = slide$num,
-                                 instructions  = slide$instructions$content, 
-                                 hint          = slide$hint$content,
-                                 sample_code   = extract_code( slide$sample_code$content),
-                                 solution      = extract_code( slide$solution$content),
-                                 sct           = extract_code( slide$sct$content ),
-                                 pre_exercise_code = extract_code( slide$pre_exercise_code$content),
-                                 type          = "NormalExercise")
-    } else {
-      stop(sprintf("Exercise %i is of an unknown exercise type", i))
-    }
+  exercises = payload$exercises
+  exerciseList = list()
+  for(i in 1:length(exercises)) {
+    message(paste0("Rendering exercise ", i, "..."))
+    ex = exercises[[i]]
+    class(ex) <- ex$type
+    rendered_exercise <- render_exercise(ex)
+    rendered_exercise$number <- i
+    exerciseList[[i]] <- rendered_exercise
   }
   
-  # Join everything: 
+  # Add list of rendered exercises to the output_list
   output_list$chapter$exercises = exerciseList 
   
-  # Make JSON: 
+  # Convert entire list to JSON
   RJSONIO::toJSON(output_list)
 }

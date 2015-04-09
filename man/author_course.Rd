@@ -4,14 +4,12 @@
 \alias{author_course}
 \title{Generate course and chapter scaffold}
 \usage{
-author_course(course_name, open = TRUE, ...)
+author_course(course_name, open = TRUE)
 }
 \arguments{
 \item{course_name}{String indicating the course name (and thus the name of the folder that will be created in your current working directory).}
 
 \item{open}{Whether or not to open the file in a text editor after creating it.}
-
-\item{...}{Extra arguments you'd like to pass to the function. Under the hood, the \code{author} function from the \code{slidify} package is called.}
 }
 \value{
 No return values.

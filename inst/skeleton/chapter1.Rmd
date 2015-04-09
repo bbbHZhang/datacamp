@@ -2,8 +2,6 @@
 title_meta  : Chapter 1
 title       : Insert the chapter title here
 description : What is this chapter about? Add here your description
-framework   : datacamp
-mode        : selfcontained
 
 ---
 ## Create Courses for DataCamp

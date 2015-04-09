@@ -13,7 +13,6 @@
 #' 
 #' @param course_name String indicating the course name (and thus the name of the folder that will be created in your current working directory).
 #' @param open Whether or not to open the file in a text editor after creating it.
-#' @param ... Extra arguments you'd like to pass to the function. Under the hood, the \code{author} function from the \code{slidify} package is called.
 #' @return No return values.
 #' @examples
 #' \dontrun{ 
@@ -21,17 +20,21 @@
 #' author_course("myNewTutorialName")
 #' }
 #' 
-#' @importFrom slidify author
 #' @export
-author_course = function(course_name, open = TRUE, ...) {
-  message(paste0("Creating course directory ",course_name))
-  message("Done.")
+author_course = function(course_name, open = TRUE) {
+  if(!file.exists(course_name)) {
+    message(paste0("Creating course directory ",course_name, "..."))
+    dir.create(course_name)
+  }
+  message("Creating scaffold (chapter and course file)...")
+  scaffold_dir <- system.file('skeleton', package = 'datacamp')
+  file.copy(list.files(scaffold_dir, full.names = TRUE), course_name, recursive = TRUE)
   message("Switching to course directory...")
-  suppressMessages(author(deckdir = course_name,  use_git = FALSE, scaffold = system.file('skeleton', package = 'datacamp'), open_rmd = FALSE, ...))  
-  message("Created course.yml and first chapter file.")
+  setwd(course_name)
   if(open) 
+    message("Opening the scaffolded chapter file...")
     file.edit("chapter1.Rmd")
-  message("Now open these files and start editing your course.")
+  message("You can start editing your course!")
 }
 
 #' Create a new chapter 

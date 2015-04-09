@@ -8,7 +8,7 @@ load_course_yml = function() {
   }
   course = try(suppressWarnings(yaml.load_file("course.yml")))
   if (inherits(course,"try-error")) {
-    stop(sprintf("There's a problem loading your course.yml file. Please check the documentation at %s.",doc_url()))
+    stop(sprintf("There's a problem loading your course.yml file. Please check the documentation at %s.",doc_url))
   }
   
   # Step 2: Check the course yaml object on inconsistencies. 
