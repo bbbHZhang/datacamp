@@ -18,7 +18,7 @@ As of February 19, 2015, DataCamp has an updated infrastructure. It is of key im
 ```ruby
 install.packages("devtools")
 library("devtools")
-install_github("datacamp", "data-camp")
+install_github("Data-Camp/datacamp")
 library("datacamp")
 ```
 
