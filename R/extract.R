@@ -26,6 +26,9 @@ extract_title <- function(x) {
 #' @param x Raw text to be converted to html
 #' @importFrom markdown markdownToHTML
 extract_html <- function(x) {
+  if(is.null(x) || nchar(x) == 0) {
+    return(NULL)
+  }
   html <- markdownToHTML(text = x, fragment.only = TRUE)
   # remove title, if any
   content <- gsub("<h2>.*</h2>\n*","",html)
