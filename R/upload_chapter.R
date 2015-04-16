@@ -74,7 +74,7 @@ upload_chapter_json = function(theJSON, file_name, open = TRUE) {
         if (new == TRUE) {
           message(sprintf("Created chapter \"%s\" (id: %i)", chapter$title, chapter$id)) 
         } else {
-          message(sprintf("Updated chapter \"%s\" (id: %i)", chapter$title, chapter$id)) 
+          message(sprintf("Updated chapter \"%s\" (id: %i)", chapter$title, chapter$id))
         }
         add_chapter_to_course_yml(file_name, as.integer(chapter$id))
         if (open) {
