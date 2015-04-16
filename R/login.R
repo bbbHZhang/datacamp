@@ -49,7 +49,8 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
     .DATACAMP_ENV$email = email
     .DATACAMP_ENV$base_url = base_url
     .DATACAMP_ENV$redirect_base_url = redirect_base_url
-    message(paste0("Logged in successfully to datacamp.com with R! Make sure to log in with your browser to datacamp.com as well using the same account."))
+    message("Logged in successfully to datacamp.com through R!")
+    message("Make sure to log in with your browser to datacamp.com as well using the same account.")
   } else {
     stop("Wrong user name  or password for datacamp.com.")
   } 

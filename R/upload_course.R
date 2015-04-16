@@ -30,7 +30,7 @@ upload_course = function(open = TRUE, force = FALSE) {
   
   course$chapters = lapply(course$chapters, function(x) { as.integer(x) }) # put ids in array
   the_course_json = RJSONIO::toJSON(course)
-  upload_course_json(the_course_json)
+  upload_course_json(the_course_json, open = open)
 }
 
 
@@ -39,10 +39,11 @@ upload_course = function(open = TRUE, force = FALSE) {
 #' @param open whether or not to open the teach website after upload.
 #' 
 #' @importFrom httr POST content add_headers
-upload_course_json = function(theJSON, open = TRUE) { 
+upload_course_json = function(theJSON, open) { 
   base_url = paste0(.DATACAMP_ENV$base_url, "/courses/create_from_r.json")
   auth_token = .DATACAMP_ENV$auth_token
   url = paste0(base_url,"?auth_token=", auth_token)
+  message("Uploading course information to datacamp.com ...")
   x = try(POST(url = url, body = theJSON, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   if ( class(x) != "response" ) {
     stop("Something went wrong. We didn't get a valid response from the datacamp server. Try again or contact info@datacamp.com in case you keep experiencing this problem.")
@@ -52,9 +53,9 @@ upload_course_json = function(theJSON, open = TRUE) {
         course = content(x)$course
         new = content(x)$created
         if (new == TRUE) {
-          message(paste0("A new course was created with id ", course$id," and title \"", course$title,"\".")) 
+          message(sprintf("Created course \"%s\" with id %i.", course$title, course$id))
         } else {
-          message(paste0("Existing course (id:", course$id,"): \"", course$title,"\" was updated."))
+          message(sprintf("Updated course \"%s\" (id: %i)", course$title, course$id))
         }
         add_id_to_course_yml(course$id) # write id to course.yml file if it's not already there
         if (open) { 

@@ -63,13 +63,16 @@ extract_code <- function(x) {
 #' @param x raw text that should contain an unordered list.
 #' @importFrom stringr str_extract
 extract_mc = function(x) {
+  if(is.null(x) || nchar(x) == 0) {
+    return(c())
+  }
   html <- markdownToHTML(text = x, fragment.only = TRUE)
   lines <- split_lines(html)
   pattern <- "<li>(.*?)</li>"
   list_elements <- lines[grepl(pattern, lines)]
   mc <- gsub("<li>|</li>","",str_extract(list_elements, "<li>.*</li>"))
-  if(length(mc) == 0) {
-    stop("No choices could be extracted for the MCE.")
+  if(length(mc) == 0 || length(mc) == 1) {
+    stop("No or only one choice could be extracted for the MCE.")
   }
   return(mc)
 }
@@ -116,6 +119,9 @@ extract_markdown = function(x, default_name) {
 #' @param x input
 #' @importFrom XML xpathSApply xmlValue htmlParse toString.XMLNode
 extract_named_list = function(x) {
+  if(is.null(x) || nchar(x) == 0) {
+    return(NULL)
+  }
   html <- markdownToHTML(text = x, fragment.only = TRUE)
   lines <- split_lines(html)
   pattern <- "<h2>(.*?)</h2>"

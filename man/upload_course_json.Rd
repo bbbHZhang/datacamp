@@ -4,7 +4,7 @@
 \alias{upload_course_json}
 \title{Upload the course json}
 \usage{
-upload_course_json(theJSON, open = TRUE)
+upload_course_json(theJSON, open)
 }
 \arguments{
 \item{theJSON}{the JSON string to be posted}

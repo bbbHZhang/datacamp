@@ -59,6 +59,7 @@ upload_chapter_json = function(theJSON, file_name, open = TRUE) {
   base_url = paste0(.DATACAMP_ENV$base_url, "/chapters/create_from_r.json")
   auth_token = .DATACAMP_ENV$auth_token
   url = paste0(base_url,"?auth_token=", auth_token)
+  message("Uploading chapter to datacamp.com ...")
   x = try(POST(url = url, body = theJSON, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   
   if ( class(x) != "response" ) {
@@ -69,11 +70,11 @@ upload_chapter_json = function(theJSON, file_name, open = TRUE) {
         course = content(x)$course
         chapter = content(x)$chapter
         new = content(x)$created
-        message(paste0("Changes made to course (id:",course$id,"): \"", course$title,"\":"))
+        message(sprintf("Updated course \"%s\" (id: %i)", course$title, course$id))
         if (new == TRUE) {
-          message(paste0("\tCreated new chapter (id:", chapter$id,"): \"", chapter$title,"\".")) 
+          message(sprintf("Created chapter \"%s\" (id: %i)", chapter$title, chapter$id)) 
         } else {
-          message(paste0("\tExisting chapter (id:",chapter$id,"): \"", chapter$title,"\" was updated."))
+          message(sprintf("Updated chapter \"%s\" (id: %i)", chapter$title, chapter$id)) 
         }
         add_chapter_to_course_yml(file_name, as.integer(chapter$id))
         if (open) {
