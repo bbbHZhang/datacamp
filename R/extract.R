@@ -16,6 +16,9 @@ extract_title <- function(x) {
   }
   title_line <- lines[hits]
   title <- str_trim(gsub("##","",title_line))
+  if(nchar(title) == 0) {
+    stop("Make sure to specify a title.")
+  }
   return(title)
 }
 
