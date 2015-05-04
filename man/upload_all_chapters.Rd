@@ -8,6 +8,8 @@ upload_all_chapters(force = FALSE, open = TRUE)
 }
 \arguments{
 \item{force}{whether or not to force (look at documentation upload_chapter)}
+
+\item{open}{whether or not to open browser pages for each chapter that is uploaded.}
 }
 \description{
 Chapter files should be names chapterX.Rmd. Buggy convenience function.

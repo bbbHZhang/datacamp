@@ -73,3 +73,18 @@ test_that("extract_named_list works as expected", {
   s3out = list(list(title = "Title 1", content = "\n<p>Text 1</p>\n\n<p>Text 1b</p>\n"), list(title = "Title 2", content = "\n<p>Text 2</p>\n"))
   expect_that(extract_named_list(s3in), equals(s3out))
 })
+
+test_that("extract_skills works as expected", {
+  s1in = "1,2,3"
+  s1out = list("1","2","3")
+  s2in = "1, 2, 3"
+  s2out = s1out
+  s3in = "1, 2"
+  s3out = list("1","2")
+  s4in = "1"
+  s4out = list("1")
+  expect_that(extract_skills(s1in), equals(s1out))
+  expect_that(extract_skills(s2in), equals(s2out))
+  expect_that(extract_skills(s3in), equals(s3out))
+  expect_that(extract_skills(s4in), equals(s4out))
+})

@@ -146,7 +146,6 @@ extract_skills = function(x) {
   if(is.null(x)) {
     return(NULL)
   }
-  gsub(" ", "", x)
-  ids <- strsplit(x, split = ",")[[1]]
+  ids <- strsplit(gsub(" ", "", x), split = ",")[[1]]
   return(as.list(ids))
 }

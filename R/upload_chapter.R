@@ -43,6 +43,7 @@ upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
 #' Chapter files should be names chapterX.Rmd. Buggy convenience function.
 #' 
 #' @param force whether or not to force (look at documentation upload_chapter)
+#' @param open whether or not to open browser pages for each chapter that is uploaded.
 #' @export
 upload_all_chapters <- function(force = FALSE, open = TRUE) {
   chapter_files <- dir(pattern = "hapter.*md")
