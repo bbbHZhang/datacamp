@@ -137,3 +137,16 @@ extract_named_list = function(x) {
   }
   return(lst)
 }
+
+
+#' Extract skills from an exercise
+#' 
+#' @param x content of the skills part (should be comma separated skill ids)
+extract_skills = function(x) {
+  if(is.null(x)) {
+    return(NULL)
+  }
+  gsub(" ", "", x)
+  ids <- strsplit(x, split = ",")[[1]]
+  return(as.list(ids))
+}
