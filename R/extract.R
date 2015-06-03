@@ -35,6 +35,9 @@ extract_html <- function(x) {
   html <- markdownToHTML(text = x, fragment.only = TRUE)
   # remove title, if any
   content <- gsub("<h2>.*</h2>\n*","",html)
+  # Convert curly quotes to normal quotes
+  content <- gsub("&ldquo;", "&quot;",content)
+  content <- gsub("&rdquo;", "&quot;",content)
   return(content)
 }
 
