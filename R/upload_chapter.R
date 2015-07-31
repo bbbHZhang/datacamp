@@ -16,11 +16,11 @@
 #' }
 #' 
 #' @export
-upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
+upload_chapter = function(input_file, force = FALSE, open = TRUE, ask = TRUE, ...) {
   if (!hasArg(input_file)) { return(message("Error: You need to specify a chapter Rmd file.")) }
   if (!datacamp_logged_in()) { datacamp_login() }
   if (!file.exists("course.yml")) { return(message("Error: Seems like there is no course.yml file in the current directory.")) }
-  if (force == TRUE) {
+  if (force == TRUE && ask == TRUE) {
     sure = readline("Using 'force' deletes exercises. Are you sure you want to continue? (Y/N) ")
     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   }
@@ -28,7 +28,7 @@ upload_chapter = function(input_file, force = FALSE, open = TRUE, ...) {
   #     sure = readline("Using 'skip_validation' implies that the exercises will not be checked for correctness. Are you sure you want to continue? (Y/N) ")
   #     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   #   }
-  if (length(get_chapter_id(input_file)) == 0) {
+  if (length(get_chapter_id(input_file)) == 0 && ask == TRUE) {
     sure = readline("Chapter not found in course.yml. This will create a new chapter, are you sure you want to continue? (Y/N) ")
     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   }
