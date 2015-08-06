@@ -13,6 +13,8 @@ upload_chapter(input_file, force = FALSE, open = TRUE, ...)
 
 \item{open}{boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface}
 
+\item{ask}{boolean, TRUE by default, determines whether you are asked for confirmation if you set force to TRUE.}
+
 \item{...}{Extra arguments to be passed to the \code{slidify} function under the hood}
 }
 \value{

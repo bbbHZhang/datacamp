@@ -5,7 +5,7 @@ parse_chapter <- function(chapter_file) {
   chapter_meta <- yaml.load(gsub("^---\n+", '', splitup[1]))
   raw_exercises <- str_split(splitup[2], pattern = '\n\n---')[[1]]
   exercises <- lapply(raw_exercises, parse_exercise)
-  payload = list(meta = chapter_meta, exercises = exercises)
+  payload <- list(meta = chapter_meta, exercises = exercises)
 }
 
 parse_exercise <- function(raw_ex) {
