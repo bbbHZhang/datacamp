@@ -1,7 +1,7 @@
 #' Create or update a chapter
 #' 
-#' @usage upload_chapter(input_file, force = FALSE, open = TRUE, ...)
-#' @param input_file Path to the ".Rmd" file to be uploaded
+#' @usage upload_chapter(chapter_file, force = FALSE, open = TRUE, ...)
+#' @param chapter_file path to the ".Rmd" file to be uploaded
 #' @param force boolean, FALSE by default, specifies whether exercises should be removed. If set, will prompt for confirmation.
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
 #' @param ask boolean, TRUE by default, determines whether you are asked for confirmation if you set force to TRUE.
@@ -17,29 +17,29 @@
 #' }
 #' 
 #' @export
-upload_chapter = function(input_file, force = FALSE, open = TRUE, ask = TRUE, ...) {
-  
-  if(!hasArg(input_file)) {
+upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE, ...) {
+
+  if(!hasArg(chapter_file)) {
     return(message("Error: You need to specify a chapter Rmd file.")) 
   }
+  
+  old_wd <- getwd()
+  setwd(dirname(chapter_file))
+  chapter_file <- basename(chapter_file)
+  
   if(!datacamp_logged_in()) { 
     datacamp_login() 
   }
   
-  old_wd <- getwd()
-  setwd(dirname(input_file))
-  input_file <- basename(input_file)
+  if (isTRUE(force) && isTRUE(ask)) {
+    sure <- readline("Using 'force' deletes exercises. Are you sure you want to continue? (Y/N) ")
+    if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
+  }
   
-  if(!file.exists("course.yml")) { 
-    return(message("Error: Seems like there is no course.yml file in the current directory.")) 
-  }
-  if (force == TRUE && ask == TRUE) {
-    sure <- readline("Using 'force' deletes exercises. Are you sure you want to continue? (Y/N)" )
-    if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
-  }
-  if (length(get_chapter_id(input_file)) == 0) {
-    sure = readline("Chapter not found in course.yml. This will create a new chapter, are you sure you want to continue? (Y/N) ")
-    if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
+  chapter_index <- get_chapter_index(chapter_file)
+  if (length(chapter_index) == 0 && isTRUE(ask)) {
+    sure <- readline("Chapter not found in course file. This will create a new chapter, are you sure you want to continue? (Y/N) ")
+    if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
   }
   
   #   if (skip_validation == TRUE) {
@@ -47,15 +47,35 @@ upload_chapter = function(input_file, force = FALSE, open = TRUE, ask = TRUE, ..
   #     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   #   }
   
-  message("Parsing R Markdown file...")
-  payload <- parse_chapter(input_file)
-  message("Parsing Finished!")
+  message("Parsing course file...")
+  course <- load_course_file()
+  if (is.null(course$id)) {
+    stop("Error: course file does not contain a course id. Please upload your course before uploading chapters.")
+  }
   
-  message("Converting payload to JSON...")
-  chapter_id
-  chapter_json <- 
-  theJSON <- render_chapter_json_for_datacamp(input_file, payload, force, skip_validation = TRUE) # Get the JSON
-  upload_chapter_json(theJSON, input_file, open = open) # Upload everything
+  message("Parsing R Markdown file...")
+  chapter <- parse_chapter(chapter_file)
+  
+  message("Converting chapter content to json...")
+  output_list <-  list(force = force,
+                       skip_validation = TRUE,
+                       course = course$id,
+                       chapter = chapter)
+  
+  # Extract chapter id and index from course.yml. If found, add to output_list
+  if (length(chapter_index) != 0) { # existing chapter, add info to output_list
+    output_list$chapter$id <- as.integer(course$chapters[[chapter_index]])
+    output_list$chapter$number <- chapter_index
+  }
+  
+  # Convert entire list to JSON
+  chapter_json <- RJSONIO::toJSON(output_list)
+  
+  message("Uploading chapter to datacamp.com ...")
+  upload_chapter_json(chapter_json, chapter_file, open = open) # Upload everything
+  
+  # reset working directory
+  setwd(old_wd)
 }
 
 #' Upload all chapters in the current directory
@@ -71,17 +91,16 @@ upload_all_chapters <- function(force = FALSE, open = TRUE) {
 }
 
 #' Upload the chapter json
-#' @param theJSON the JSON string to be posted
-#' @param file_name chapter file name that is being uploaded
+#' @param chapter_json the JSON string to be posted
+#' @param chapter_file chapter file name that is being uploaded
 #' @param open whether or not to open the teach website after upload.
 #' 
 #' @importFrom httr POST content add_headers
-upload_chapter_json = function(theJSON, file_name, open = TRUE) {
+upload_chapter_json = function(chapter_json, chapter_file, open = TRUE) {
   base_url = paste0(.DATACAMP_ENV$base_url, "/chapters/create_from_r.json")
   auth_token = .DATACAMP_ENV$auth_token
   url = paste0(base_url,"?auth_token=", auth_token)
-  message("Uploading chapter to datacamp.com ...")
-  x = try(POST(url = url, body = theJSON, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
+  x = try(POST(url = url, body = chapter_json, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   
   if ( class(x) != "response" ) {
     stop("Something went wrong. We didn't get a valid response from the datacamp server. Try again or contact info@datacamp.com in case you keep experiencing this problem.")
@@ -97,7 +116,7 @@ upload_chapter_json = function(theJSON, file_name, open = TRUE) {
         } else {
           message(sprintf("Updated chapter \"%s\" (id: %i)", chapter$title, chapter$id))
         }
-        add_chapter_to_course_yml(file_name, as.integer(chapter$id))
+        add_chapter_to_course_file(chapter_file, as.integer(chapter$id))
         if (open) {
           browseURL(paste0(.DATACAMP_ENV$redirect_base_url, "/", course$id))
         } 

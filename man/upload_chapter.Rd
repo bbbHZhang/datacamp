@@ -4,10 +4,10 @@
 \alias{upload_chapter}
 \title{Create or update a chapter}
 \usage{
-upload_chapter(input_file, force = FALSE, open = TRUE, ...)
+upload_chapter(chapter_file, force = FALSE, open = TRUE, ...)
 }
 \arguments{
-\item{input_file}{Path to the ".Rmd" file to be uploaded}
+\item{chapter_file}{path to the ".Rmd" file to be uploaded}
 
 \item{force}{boolean, FALSE by default, specifies whether exercises should be removed. If set, will prompt for confirmation.}
 

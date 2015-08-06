@@ -4,7 +4,8 @@
 #' 
 #' If you're not yet logged in when calling this function, you'll be prompted to log in.
 #' 
-#' @usage upload_course(open = TRUE, force = FALSE)
+#' @usage upload_course(course_filder = ".", open = TRUE, force = FALSE)
+#' @param course_folder character, denoting where the course.yml file is located
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
 #' @param force boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml
 #' @examples 
@@ -12,39 +13,50 @@
 #' upload_course()
 #' }
 #' @export
-upload_course = function(open = TRUE, force = FALSE) { 
-  if (!datacamp_logged_in()) { datacamp_login() }
-  course = load_course_yml()
+upload_course = function(course_folder = ".", open = TRUE, force = FALSE) { 
   
-  # TODO?
+  if (!datacamp_logged_in()) { datacamp_login() }
+  
+  # Move to folder containing course and chapter files
+  old_wd <- getwd()
+  setwd(course_folder)
+  
+  # Build course object from yml
+  message("Parsing course file...")
+  course <- load_course_file()
+  
   if (is.null(course$id)) {
-    sure = readline("No id found in course.yml. This will create a new course, are you sure you want to continue? (Y/N) ")
-    if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
+    sure <- readline("No id found in course.yml. This will create a new course, are you sure you want to continue? (Y/N) ")
+    if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
   }
   
-  if (force == TRUE) {
-    sure = readline("Using 'force' will delete chapters online that are not specified in your course.yml. Are you sure you want to continue? (Y/N) ")
-    if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
+  if(isTRUE(force)) {
+    sure <- readline("Using 'force' will delete chapters online that are not specified in your course.yml. Are you sure you want to continue? (Y/N) ")
+    if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
     course$force = TRUE
   }
   
-  course$chapters = lapply(course$chapters, function(x) { as.integer(x) }) # put ids in array
-  the_course_json = RJSONIO::toJSON(course)
-  upload_course_json(the_course_json, open = open)
+  message("Converting course info to json...")
+  course_json <- RJSONIO::toJSON(course)
+  
+  message("Uploading chapter to datacamp.com ...")
+  upload_course_json(course_json, open)
+  
+  # reset working directory
+  setwd(old_wd)
 }
 
 
 #' Upload the course json
-#' @param theJSON the JSON string to be posted
+#' @param course_json the JSON string to be posted
 #' @param open whether or not to open the teach website after upload.
 #' 
 #' @importFrom httr POST content add_headers
-upload_course_json = function(theJSON, open) { 
+upload_course_json = function(course_json, open) { 
   base_url = paste0(.DATACAMP_ENV$base_url, "/courses/create_from_r.json")
   auth_token = .DATACAMP_ENV$auth_token
   url = paste0(base_url,"?auth_token=", auth_token)
-  message("Uploading course information to datacamp.com ...")
-  x = try(POST(url = url, body = theJSON, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
+  x = try(POST(url = url, body = course_json, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   if ( class(x) != "response" ) {
     stop("Something went wrong. We didn't get a valid response from the datacamp server. Try again or contact info@datacamp.com in case you keep experiencing this problem.")
   } else {
@@ -57,7 +69,7 @@ upload_course_json = function(theJSON, open) {
         } else {
           message(sprintf("Updated course \"%s\" (id: %i)", course$title, course$id))
         }
-        add_id_to_course_yml(course$id) # write id to course.yml file if it's not already there
+        uadd_id_to_course_file(course$id) # write id to course.yml file if it's not already there
         if (open) { 
           browseURL(paste0(.DATACAMP_ENV$redirect_base_url, "/", course$id))
         }

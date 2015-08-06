@@ -4,9 +4,11 @@
 \alias{upload_course}
 \title{Create or update a course}
 \usage{
-upload_course(open = TRUE, force = FALSE)
+upload_course(course_filder = ".", open = TRUE, force = FALSE)
 }
 \arguments{
+\item{course_folder}{character, denoting where the course.yml file is located}
+
 \item{open}{boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface}
 
 \item{force}{boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml}

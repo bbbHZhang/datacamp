@@ -4,10 +4,10 @@
 \alias{upload_course_json}
 \title{Upload the course json}
 \usage{
-upload_course_json(theJSON, open)
+upload_course_json(course_json, open)
 }
 \arguments{
-\item{theJSON}{the JSON string to be posted}
+\item{course_json}{the JSON string to be posted}
 
 \item{open}{whether or not to open the teach website after upload.}
 }
