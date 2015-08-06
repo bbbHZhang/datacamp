@@ -4,6 +4,7 @@
 #' @param input_file Path to the ".Rmd" file to be uploaded
 #' @param force boolean, FALSE by default, specifies whether exercises should be removed. If set, will prompt for confirmation.
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
+#' @param ask boolean, TRUE by default, determines whether you are asked for confirmation if you set force to TRUE.
 #' @param ... Extra arguments to be passed to the \code{slidify} function under the hood
 #' @return No return values.
 #' @examples
@@ -17,24 +18,43 @@
 #' 
 #' @export
 upload_chapter = function(input_file, force = FALSE, open = TRUE, ask = TRUE, ...) {
-  if (!hasArg(input_file)) { return(message("Error: You need to specify a chapter Rmd file.")) }
-  if (!datacamp_logged_in()) { datacamp_login() }
-  if (!file.exists("course.yml")) { return(message("Error: Seems like there is no course.yml file in the current directory.")) }
+  
+  if(!hasArg(input_file)) {
+    return(message("Error: You need to specify a chapter Rmd file.")) 
+  }
+  if(!datacamp_logged_in()) { 
+    datacamp_login() 
+  }
+  
+  old_wd <- getwd()
+  setwd(dirname(input_file))
+  input_file <- basename(input_file)
+  
+  if(!file.exists("course.yml")) { 
+    return(message("Error: Seems like there is no course.yml file in the current directory.")) 
+  }
   if (force == TRUE && ask == TRUE) {
-    sure = readline("Using 'force' deletes exercises. Are you sure you want to continue? (Y/N) ")
+    sure <- readline("Using 'force' deletes exercises. Are you sure you want to continue? (Y/N)" )
     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   }
+  if (length(get_chapter_id(input_file)) == 0) {
+    sure = readline("Chapter not found in course.yml. This will create a new chapter, are you sure you want to continue? (Y/N) ")
+    if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
+  }
+  
   #   if (skip_validation == TRUE) {
   #     sure = readline("Using 'skip_validation' implies that the exercises will not be checked for correctness. Are you sure you want to continue? (Y/N) ")
   #     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
   #   }
-  if (length(get_chapter_id(input_file)) == 0 && ask == TRUE) {
-    sure = readline("Chapter not found in course.yml. This will create a new chapter, are you sure you want to continue? (Y/N) ")
-    if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
-  }
+  
   message("Parsing R Markdown file...")
-  payload = parse_chapter(input_file)
-  theJSON = render_chapter_json_for_datacamp(input_file, payload, force, skip_validation = TRUE) # Get the JSON
+  payload <- parse_chapter(input_file)
+  message("Parsing Finished!")
+  
+  message("Converting payload to JSON...")
+  chapter_id
+  chapter_json <- 
+  theJSON <- render_chapter_json_for_datacamp(input_file, payload, force, skip_validation = TRUE) # Get the JSON
   upload_chapter_json(theJSON, input_file, open = open) # Upload everything
 }
 

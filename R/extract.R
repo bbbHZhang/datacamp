@@ -61,6 +61,7 @@ extract_code <- function(x) {
     stop("Something wrong with the code chunks.")
   }
   code <- mapply(function(b,e) if(e-b == 1) "" else paste(lines[(b+1):(e-1)], collapse = "\n"), begin_lines, end_lines)
+  print(diagnose_code(code))
   return(code)
 }
 
