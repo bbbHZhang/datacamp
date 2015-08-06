@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check_course_object}
 \alias{check_course_object}
-\title{Check the course yaml object}
+\title{Check the course object}
 \usage{
 check_course_object(course)
 }
@@ -10,6 +10,6 @@ check_course_object(course)
 \item{course}{The course object to be checked}
 }
 \description{
-Check the course yaml object
+Check the course object
 }
 

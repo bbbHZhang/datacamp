@@ -4,12 +4,12 @@
 \alias{upload_chapter_json}
 \title{Upload the chapter json}
 \usage{
-upload_chapter_json(theJSON, file_name, open = TRUE)
+upload_chapter_json(chapter_json, chapter_file, open = TRUE)
 }
 \arguments{
-\item{theJSON}{the JSON string to be posted}
+\item{chapter_json}{the JSON string to be posted}
 
-\item{file_name}{chapter file name that is being uploaded}
+\item{chapter_file}{chapter file name that is being uploaded}
 
 \item{open}{whether or not to open the teach website after upload.}
 }

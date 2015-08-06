@@ -4,21 +4,32 @@ parse_chapter <- function(chapter_file) {
   splitup <- str_split_fixed(paste(readLines(chapter_file, warn = FALSE), collapse = '\n'), "\n---", 2)
   chapter_meta <- yaml.load(gsub("^---\n+", '', splitup[1]))
   raw_exercises <- str_split(splitup[2], pattern = '\n\n---')[[1]]
-  exercises <- lapply(raw_exercises, parse_exercise)
+  
+  exercises = list()
+  for(i in 1:length(raw_exercises)) {
+    message(paste0("Rendering exercise ", i, "..."))
+    exercises[[i]] <- parse_and_render_exercise(raw_exercises[[i]], i)
+  }
+  
   payload <- list(meta = chapter_meta, exercises = exercises)
 }
 
-parse_exercise <- function(raw_ex) {
+parse_and_render_exercise <- function(raw_ex, index) {
   raw_parts <- str_split(raw_ex, "\n\\*{3}")[[1]]
   parts <- lapply(raw_parts, parse_elements)
   if (length(parts) > 1){
-    main  = parts[[1]]
-    named = Filter(function(z) !is.null(z$name), parts[-1])
-    names(named) = lapply(named, '[[', "name")
-    exercise  = c(main, named)
+    main  <- parts[[1]]
+    named <- Filter(function(z) !is.null(z$name), parts[-1])
+    names(named) <- lapply(named, '[[', "name")
+    exercise <- c(main, named)
   } else {
-    exercise = slide[[1]]
+    exercise <- slide[[1]]
   }
+  
+  class(exercise) <- exercise$type
+  rendered_exercise <- render_exercise(exercise)
+  rendered_exercise$number <- index
+  rendered_exercise
 }
 
 parse_elements <- function(raw_part) {
