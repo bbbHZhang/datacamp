@@ -3,6 +3,7 @@
 export(author_chapter)
 export(author_course)
 export(datacamp_login)
+export(display_lints)
 export(upload_all_chapters)
 export(upload_chapter)
 export(upload_course)
