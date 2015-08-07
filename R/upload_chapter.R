@@ -54,6 +54,7 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE, 
   }
   
   message("Parsing R Markdown file...")
+  dc_lints$clear()
   chapter <- parse_chapter(chapter_file)
   
   message("Converting chapter content to json...")
@@ -74,6 +75,10 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE, 
   message("Uploading chapter to datacamp.com ...")
   upload_chapter_json(chapter_json, chapter_file, open = open) # Upload everything
   
+  if(length(dc_lints$get()) > 0) {
+    message("There were one or more lints in the R code chunks you uploaded. Type display_lints() if you want to see them.")
+  }
+
   # reset working directory
   setwd(old_wd)
 }

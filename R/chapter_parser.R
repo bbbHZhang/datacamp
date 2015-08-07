@@ -27,8 +27,7 @@ parse_and_render_exercise <- function(raw_ex, index) {
   }
   
   class(exercise) <- exercise$type
-  rendered_exercise <- render_exercise(exercise)
-  rendered_exercise$number <- index
+  rendered_exercise <- render_exercise(exercise, index)
   rendered_exercise
 }
 

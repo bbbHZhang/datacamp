@@ -1,6 +1,6 @@
-render_exercise <- function(ex) UseMethod("render_exercise")
+render_exercise <- function(ex, num) UseMethod("render_exercise")
 
-render_exercise.default <- function(ex) {
+render_exercise.default <- function(ex, num) {
   if(!is.null(ex$type) && !ex$type == "NormalExercise") {
     stop("Unknown Exercise Type!")
   }
@@ -9,15 +9,16 @@ render_exercise.default <- function(ex) {
        assignment = extract_html(ex$content), 
        instructions = extract_html(ex$instructions$content),
        hint = extract_html(ex$hint$content),
-       sample_code   = extract_code(ex$sample_code$content),
-       solution      = extract_code(ex$solution$content),
+       sample_code   = extract_code(ex$sample_code$content, lint_info = list(type = "sample code", num = num)),
+       solution      = extract_code(ex$solution$content, lint_info = list(type = "solution code", num = num)),
        sct           = extract_code(ex$sct$content),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content),
        skills = extract_skills(ex$skills$content),
-       type          = "NormalExercise")
+       type          = "NormalExercise",
+       number = num)
 }
 
-render_exercise.MultipleChoiceExercise <- function(ex) {
+render_exercise.MultipleChoiceExercise <- function(ex, num) {
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
@@ -26,10 +27,11 @@ render_exercise.MultipleChoiceExercise <- function(ex) {
        sct           = extract_code(ex$sct$content),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content),
        skills = extract_skills(ex$skills$content),
-       type          = "MultipleChoiceExercise") 
+       type          = "MultipleChoiceExercise",
+       number = num) 
 }
 
-render_exercise.VideoExercise <- function(ex) {
+render_exercise.VideoExercise <- function(ex, num) {
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
@@ -38,10 +40,11 @@ render_exercise.VideoExercise <- function(ex) {
        video_stream  = extract_code(ex$video_stream$content),
        video_hls     = extract_code(ex$video_hls$content),
        skills = extract_skills(ex$skills$content),
-       type          = "VideoExercise")
+       type          = "VideoExercise",
+       number = num)
 }
 
-render_exercise.MarkdownExercise <- function(ex) {
+render_exercise.MarkdownExercise <- function(ex, num) {
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
@@ -52,20 +55,22 @@ render_exercise.MarkdownExercise <- function(ex) {
        sct           = extract_code(ex$sct$content),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content),
        skills = extract_skills(ex$skills$content),
-       type          = "MarkdownExercise")
+       type          = "MarkdownExercise",
+       number = num)
 }
 
-render_exercise.SwirlExercise <- function(ex) {
+render_exercise.SwirlExercise <- function(ex, num) {
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
        swirl_course  = extract_code(ex$swirl_course$content),
        swirl_lesson  = extract_code(ex$swirl_lesson$content),
        skills = extract_skills(ex$skills$content),
-       type          = "SwirlExercise")
+       type          = "SwirlExercise",
+       number = num)
   
 }
-render_exercise.ChallengeExercise <- function(ex) {
+render_exercise.ChallengeExercise <- function(ex, num) {
   list(title          = extract_title(ex$content),
        xp = ex$xp,
        assignment = extract_html(ex$content), 
@@ -75,5 +80,6 @@ render_exercise.ChallengeExercise <- function(ex) {
        sct = extract_code(ex$sct$content),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content),
        skills = extract_skills(ex$skills$content),
-       type = "ChallengeExercise")
+       type = "ChallengeExercise",
+       number = num)
 } 
