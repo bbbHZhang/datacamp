@@ -35,6 +35,8 @@ render_exercise.VideoExercise <- function(ex) {
        assignment    = extract_html(ex$content),
        aspect_ratio  = ex$aspect_ratio,
        video_link    = extract_code(ex$video_link$content),
+       video_stream  = extract_code(ex$video_stream$content),
+       video_hls     = extract_code(ex$video_hls$content),
        skills = extract_skills(ex$skills$content),
        type          = "VideoExercise")
 }
