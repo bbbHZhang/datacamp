@@ -3,7 +3,7 @@ title_meta  : Chapter 1
 title       : Insert the chapter title here
 description : What is this chapter about? Add here your description
 
----
+--- type:NormalExercises xp:100
 ## Create Courses for DataCamp
 
 This is the assignment. Here, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
@@ -41,17 +41,18 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 
 *** =pre_exercise_code
 ```{r,eval=FALSE}
-# Pre-exercise code is executed before the exercise starts (what's in a name...)
+# Pre-exercise code is executed before the exercise starts
+
 # It can be used to:
 # Pre-load a dataset
 # Render graphs that are shown at the start of the exercise
 # Initialize other variables
-# ...
+
 ```
 
 *** =sample_code
 ```{r,eval=FALSE}
-# The sample code is what is shown in the students editor by default
+# The sample code is what is shown in the student's editor when he or she starts an exercise
 ```
 
 *** =solution
@@ -62,14 +63,17 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 *** =sct
 ```{r,eval=FALSE}
 # The Submission Correctness Test code
-# It takes as input the students workspace, his code and what was printed to the console during the exercise.
-# Based on these inputs the SCT returns:
-# (i) whether the students code was correct
-# (ii) a message to the student to either help him find what was wrong or congratulate him on finding the solution.
+# The SCT provides feedback:
+# - In case of an incorrect submission: feedback to improve the code or to point to the error
+# - In case of a correct submission: congratulatory message
+
 success_msg("Well done! Continue to see some more examples!")
 ```
 
----
+*** =skills
+1
+
+--- type:NormalExercises xp:100
 ## Variable assignment
 
 This simple exercise introduces you to variable assignment.
@@ -94,19 +98,19 @@ y <- data.frame(a = c(1,2,3), b = c("this","is","me"))
 
 *** =sample_code
 ```{r,eval=FALSE}
-# Assign the value 5 to 'x'
+# Assign the value 5 to x
 
 
-# Assign 'y' to 'z'
+# Assign y to z
 
 ```
 
 *** =solution
 ```{r,eval=FALSE}
-# Assign the value 5 to 'x'
+# Assign the value 5 to x
 x <- 5
 
-# Assign 'y' to 'z'
+# Assign y to z
 z <- y
 ```
 
@@ -119,10 +123,13 @@ test_object("z", undefined_msg = "Are you sure you have defined the variable <co
 success_msg("Awesome job! Continue to the next exercise")
 ```
 
---- type:MultipleChoiceExercise
+*** =skills
+1
+
+--- type:MultipleChoiceExercise xp:50
 ## This is a multiple choice exercise!
 
-The multiple choice exercise (remark the `type:` specification after the triple dashes above the title) does not need sample code, nor a solution.
+The multiple choice exercise does not need sample code, nor a solution. You can provide pre-exercise code to pre-load a dataset or to generate a figure.
 
 *** =instructions
 - Wrong option
@@ -141,8 +148,11 @@ Hint here.
 test_mc(correct = 2, feedback_msgs = c("Wrong, try again.","Good job!","Try again please"))
 ```
 
---- type:VideoExercise
-## This exercise contains a video!
+*** =skills
+1
+
+--- type:VideoExercise xp:50
+## My First DataCamp Video
 
 You can add a description here, but this is optional.
 
@@ -151,10 +161,13 @@ You can add a description here, but this is optional.
 //player.vimeo.com/video/108225030
 ```
 
---- type:MarkdownExercise
+*** =skills
+1
+
+--- type:MarkdownExercise xp:100
 ## Markdown Exercise Title
  
-The assignment of this markdown exercise (remark the `type:` specification after the triple dashes above the title) comes here.
+The assignment of this markdown exercise comes here.
 Custom CSS is an easy way to add branding to your reports. 
 
 *** =instructions
@@ -253,3 +266,6 @@ test_rmd_file({
 })
 success_msg("Nice work! It's easy to add styling to your report!")  
 ```
+
+*** =skills
+1,5
