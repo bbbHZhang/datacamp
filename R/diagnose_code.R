@@ -2,12 +2,15 @@
 diagnose_code <- function(code, lint_info) {
   file <- "code.R"
   write(code, file = file)
+  # linters left out: trailing_blank_lines_linter, trailing_whitespace_linter
   lints <- lintr::lint(file)
+
   pimped_lints <- lapply(lints, function(x) { 
     x$num <- lint_info$num
     x$code_type <- lint_info$type
     x })
   dc_lints$add(pimped_lints)
+  unlink(file)
 }
 
 
@@ -39,6 +42,12 @@ display_lints <- function() {
   invisible(NULL)
 }
 
+lints_to_ignore <- c("trailing_blank_lines_linter", "trailing_whitespace_linter")
+
 display_single_lint <- function(lint) {
-  cat(sprintf("Exercise %s - %s\nCode: %s\nLine: %s\nColumn: %s\nMessage: %s\n\n", lint$num, lint$code_type, lint$line, lint$line_number, lint$column, lint$message))
+  if(lint$linter %in% lints_to_ignore) {
+    cat("")
+  } else {
+    cat(sprintf("Exercise %s - %s\nCode: %s\nLine: %s\nColumn: %s\nMessage: %s\n\n", lint$num, lint$code_type, lint$line, lint$line_number, lint$column, lint$message))  
+  }
 }
