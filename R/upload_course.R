@@ -38,7 +38,6 @@ upload_course = function(course_folder = ".", open = TRUE, force = FALSE) {
   
   message("Converting course info to json...")
   course_json <- RJSONIO::toJSON(course)
-  return(course_json)
   
   message("Uploading chapter to datacamp.com ...")
   upload_course_json(course_json, open)

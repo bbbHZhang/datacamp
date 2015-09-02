@@ -61,6 +61,7 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE, 
   output_list <-  list(force = force,
                        skip_validation = TRUE,
                        course = course$id,
+                       email = .DATACAMP_ENV$email,
                        chapter = chapter)
   
   # Extract chapter id and index from course.yml. If found, add to output_list
@@ -71,8 +72,6 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE, 
   
   # Convert entire list to JSON
   chapter_json <- RJSONIO::toJSON(output_list)
-  
-  return(chapter_json)
   
   message("Uploading chapter to datacamp.com ...")
   upload_chapter_json(chapter_json, chapter_file, open = open) # Upload everything
