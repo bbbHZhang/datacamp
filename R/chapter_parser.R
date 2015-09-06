@@ -6,11 +6,20 @@ parse_chapter <- function(chapter_file) {
   raw_exercises <- str_split(splitup[2], pattern = '\n\n---')[[1]]
   
   exercises = list()
+  message("Rendering all exercises...")
   for(i in 1:length(raw_exercises)) {
-    message(paste0("Rendering exercise ", i, "..."))
-    exercises[[i]] <- parse_and_render_exercise(raw_exercises[[i]], i)
+    
+    rendered_exercise <- parse_and_render_exercise(raw_exercises[[i]], i)
+    message(sprintf("  - %s", rendered_exercise$title))
+    
+    # check exercise for consistency
+    check_exercise(rendered_exercise)
+    
+    exercises[[i]] <- rendered_exercise
   }
   
+  check_chapter(exercises)
+  message("Rendering all exercises done.")
   payload <- list(meta = chapter_meta, exercises = exercises)
 }
 
@@ -27,8 +36,7 @@ parse_and_render_exercise <- function(raw_ex, index) {
   }
   
   class(exercise) <- exercise$type
-  rendered_exercise <- render_exercise(exercise, index)
-  rendered_exercise
+  return(render_exercise(exercise, index))
 }
 
 parse_elements <- function(raw_part) {

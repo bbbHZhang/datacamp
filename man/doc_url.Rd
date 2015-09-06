@@ -4,7 +4,7 @@
 \name{doc_url}
 \alias{doc_url}
 \title{Documentation path}
-\format{\preformatted{ chr "http://teach.datacamp.com"
+\format{\preformatted{ chr "http://docs.datacamp.com/teach"
 }}
 \usage{
 doc_url

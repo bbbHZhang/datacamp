@@ -4,7 +4,7 @@
 \name{have_a_look}
 \alias{have_a_look}
 \title{Information message}
-\format{\preformatted{ chr "Have a look at the documentation on http://teach.datacamp.com."
+\format{\preformatted{ chr "Have a look at the documentation on http://docs.datacamp.com/teach."
 }}
 \usage{
 have_a_look
