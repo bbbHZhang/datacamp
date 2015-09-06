@@ -1,5 +1,5 @@
 #' Documentation path
-doc_url <- "http://teach.datacamp.com"
+doc_url <- "http://docs.datacamp.com/teach"
 
 #' Is the file name a rmd file?
 #' 
