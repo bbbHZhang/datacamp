@@ -7,6 +7,12 @@ have_a_look <- sprintf("Have a look at the documentation on %s.", doc_url)
 #' name of course file
 course_file <- "course.yml"
 
+#' Information message
+have_a_look <- sprintf("Have a look at the documentation on %s.", doc_url)
+
+#' name of course file
+course_file <- "course.yml"
+
 #' Is the file name a rmd file?
 #' 
 #' @param filename The queried filename

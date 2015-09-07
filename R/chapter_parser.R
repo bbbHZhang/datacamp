@@ -20,6 +20,7 @@ parse_chapter <- function(chapter_file) {
   
   check_chapter(exercises)
   message("Rendering all exercises done.")
+
   payload <- list(meta = chapter_meta, exercises = exercises)
 }
 

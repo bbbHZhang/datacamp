@@ -8,8 +8,12 @@
 }}
 \usage{
 have_a_look
+
+have_a_look
 }
 \description{
+Information message
+
 Information message
 }
 \keyword{datasets}
