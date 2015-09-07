@@ -44,7 +44,7 @@ extract_html <- function(x) {
 #' Extract R code chunks from raw text
 #' 
 #' @param x Raw text containing R code chunk
-extract_code <- function(x, lint_info = NULL) {
+extract_code <- function(x) {
   if(is.null(x))
     return(x)
   lines <- split_lines(x)
@@ -61,9 +61,6 @@ extract_code <- function(x, lint_info = NULL) {
     stop("Something wrong with the code chunks.")
   }
   code <- mapply(function(b,e) if(e-b == 1) "" else paste(lines[(b+1):(e-1)], collapse = "\n"), begin_lines, end_lines)
-  if(!is.null(lint_info)) {
-      diagnose_code(code, lint_info)
-  }
   return(code)
 }
 

@@ -4,7 +4,7 @@
 \alias{extract_code}
 \title{Extract R code chunks from raw text}
 \usage{
-extract_code(x, lint_info = NULL)
+extract_code(x)
 }
 \arguments{
 \item{x}{Raw text containing R code chunk}
