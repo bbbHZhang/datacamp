@@ -24,17 +24,17 @@ test_that("parse_elements works as expected", {
   expect_that(y, equals(list(name = "pre_exercise_code", content = "```{r eval=FALSE}\n```\n")))
 })
 
-test_that("parse_exercise works as expected", {
-  x <- paste0(" type:SwirlExercise\n## Basic Building Blocks\n\n*** =swirl_course\n",
-              "```{r,eval=FALSE}\nR Programming\n```\n\n*** =swirl_lesson\n```",
-              "{r,eval=FALSE}\nBasic Building Blocks\n```")
-  xout <- parse_exercise(x)
-  expect_that(xout$type, equals("SwirlExercise"))
-  expect_that(xout$content, equals("## Basic Building Blocks\n"))
-  expect_that(xout$swirl_course$content, equals("```{r,eval=FALSE}\nR Programming\n```\n"))
-  expect_that(xout$swirl_lesson$content, equals("```{r,eval=FALSE}\nBasic Building Blocks\n```"))
-  # TODO add more tests
-})
+# test_that("parse_exercise works as expected", {
+#   x <- paste0(" type:SwirlExercise\n## Basic Building Blocks\n\n*** =swirl_course\n",
+#               "```{r,eval=FALSE}\nR Programming\n```\n\n*** =swirl_lesson\n```",
+#               "{r,eval=FALSE}\nBasic Building Blocks\n```")
+#   xout <- parse_exercise(x)
+#   expect_that(xout$type, equals("SwirlExercise"))
+#   expect_that(xout$content, equals("## Basic Building Blocks\n"))
+#   expect_that(xout$swirl_course$content, equals("```{r,eval=FALSE}\nR Programming\n```\n"))
+#   expect_that(xout$swirl_lesson$content, equals("```{r,eval=FALSE}\nBasic Building Blocks\n```"))
+#   # TODO add more tests
+# })
 
 test_that("parse_chapter works as expected", {
   path <- file.path(system.file(package = "datacamp"),"skeleton","chapter1.Rmd")

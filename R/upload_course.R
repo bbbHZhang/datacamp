@@ -4,7 +4,7 @@
 #' 
 #' If you're not yet logged in when calling this function, you'll be prompted to log in.
 #' 
-#' @usage upload_course(course_filder = ".", open = TRUE, force = FALSE)
+#' @usage upload_course(course_folder = ".", open = TRUE, force = FALSE)
 #' @param course_folder character, denoting where the course.yml file is located
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
 #' @param force boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml
@@ -53,8 +53,8 @@ upload_course = function(course_folder = ".", open = TRUE, force = FALSE) {
 #' 
 #' @importFrom httr POST content add_headers
 upload_course_json = function(course_json, open) { 
-  base_url = paste0(.DATACAMP_ENV$base_url, "/courses/create_from_r.json")
-  auth_token = .DATACAMP_ENV$auth_token
+  base_url = paste0(datacamp$get("base_url"), "/courses/create_from_r.json")
+  auth_token = datacamp$get("auth_token")
   url = paste0(base_url,"?auth_token=", auth_token)
   x = try(POST(url = url, body = course_json, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   if ( class(x) != "response" ) {
@@ -69,9 +69,9 @@ upload_course_json = function(course_json, open) {
         } else {
           message(sprintf("Updated course \"%s\" (id: %i)", course$title, course$id))
         }
-        uadd_id_to_course_file(course$id) # write id to course.yml file if it's not already there
+        add_id_to_course_file(course$id) # write id to course.yml file if it's not already there
         if (open) { 
-          browseURL(paste0(.DATACAMP_ENV$redirect_base_url, "/", course$id))
+          browseURL(paste0(datacamp$get("redirect_base_url"), "/", course$id))
         }
         if ("message" %in% names(content(x))) {
           message(content(x)$message)

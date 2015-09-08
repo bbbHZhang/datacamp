@@ -33,7 +33,7 @@ parse_and_render_exercise <- function(raw_ex, index) {
     names(named) <- lapply(named, '[[', "name")
     exercise <- c(main, named)
   } else {
-    exercise <- slide[[1]]
+    exercise <- parts[[1]]
   }
   
   class(exercise) <- exercise$type

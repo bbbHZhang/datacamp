@@ -1,9 +1,5 @@
 context("utils")
 
-test_that("doc_url works as expected", {
-  expect_that(doc_url, equals("http://teach.datacamp.com"))
-})
-
 test_that("is_rmd works as expected", {
   expect_that(is_rmd("test.rmd"), is_true())
   expect_that(is_rmd("test.Rmd"), is_true())

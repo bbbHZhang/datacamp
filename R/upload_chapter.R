@@ -1,11 +1,10 @@
 #' Create or update a chapter
 #' 
-#' @usage upload_chapter(chapter_file, force = FALSE, open = TRUE, ...)
+#' @usage upload_chapter(chapter_file = "chapter1.Rmd")
 #' @param chapter_file path to the ".Rmd" file to be uploaded
 #' @param force boolean, FALSE by default, specifies whether exercises should be removed. If set, will prompt for confirmation.
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
 #' @param ask boolean, TRUE by default, determines whether you are asked for confirmation if you set force to TRUE.
-#' @param ... Extra arguments to be passed to the \code{slidify} function under the hood
 #' @return No return values.
 #' @examples
 #' \dontrun{
@@ -17,7 +16,7 @@
 #' }
 #' 
 #' @export
-upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE, ...) {
+upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE) {
 
   if(!hasArg(chapter_file)) {
     return(message("Error: You need to specify a chapter Rmd file.")) 
@@ -54,14 +53,13 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE, 
   }
   
   message("Parsing R Markdown file...")
-  dc_lints$clear()
   chapter <- parse_chapter(chapter_file)
   
   message("Converting chapter content to json...")
   output_list <-  list(force = force,
                        skip_validation = TRUE,
                        course = course$id,
-                       email = .DATACAMP_ENV$email,
+                       email = datacamp$get("email"),
                        chapter = chapter)
   
   # Extract chapter id and index from course.yml. If found, add to output_list
@@ -99,8 +97,8 @@ upload_all_chapters <- function(force = FALSE, open = TRUE) {
 #' 
 #' @importFrom httr POST content add_headers
 upload_chapter_json = function(chapter_json, chapter_file, open = TRUE) {
-  base_url = paste0(.DATACAMP_ENV$base_url, "/chapters/create_from_r.json")
-  auth_token = .DATACAMP_ENV$auth_token
+  base_url = paste0(datacamp$get("base_url"), "/chapters/create_from_r.json")
+  auth_token = datacamp$get("auth_token")
   url = paste0(base_url,"?auth_token=", auth_token)
   x = try(POST(url = url, body = chapter_json, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   
@@ -120,7 +118,7 @@ upload_chapter_json = function(chapter_json, chapter_file, open = TRUE) {
         }
         add_chapter_to_course_file(chapter_file, as.integer(chapter$id))
         if (open) {
-          browseURL(paste0(.DATACAMP_ENV$redirect_base_url, "/", course$id))
+          browseURL(paste0(datacamp$get("redirect_base_url"), "/", course$id))
         } 
       } 
       if ("message" %in% names(content(x))) {

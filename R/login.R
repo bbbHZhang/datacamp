@@ -19,7 +19,7 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
     email = readline("Email: ")
   if(is.null(pw)) {
     if (exists(".rs.askForPassword")) {
-      pw <- .rs.askForPassword("Password: ")
+      pw <- do.call(".rs.askForPassword", list(prompt = "Password: "))
     } else {
       pw = readline("Password: ")
     }  
@@ -44,23 +44,19 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
     getURL(url, ssl.verifypeer=FALSE)
     content = getURLContent(url, ssl.verifypeer=FALSE)
     auth_token = fromJSON(content)$authentication_token
-    .DATACAMP_ENV <<- new.env()
-    .DATACAMP_ENV$auth_token = auth_token
-    .DATACAMP_ENV$email = email
-    .DATACAMP_ENV$base_url = base_url
-    .DATACAMP_ENV$redirect_base_url = redirect_base_url
+    datacamp$set(auth_token = auth_token)
+    datacamp$set(email = email)
+    datacamp$set(base_url = base_url)
+    datacamp$set(redirect_base_url = redirect_base_url)
     message("Logged in successfully to datacamp.com through R!")
     message("Make sure to log in with your browser to datacamp.com as well using the same account.")
   } else {
+    datacamp$clear()
     stop("Wrong user name  or password for datacamp.com.")
   } 
 }
 
 #' Is the user logged in?
 datacamp_logged_in = function() {
-  if (exists(".DATACAMP_ENV")) {
-    return(TRUE)
-  } else {
-    return(FALSE)
-  }
+  !is.null(datacamp$get("email"))
 }

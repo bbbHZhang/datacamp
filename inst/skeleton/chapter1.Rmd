@@ -3,7 +3,7 @@ title_meta  : Chapter 1
 title       : Insert the chapter title here
 description : What is this chapter about? Add here your description
 
---- type:NormalExercises xp:100
+--- type:NormalExercise xp:100
 ## Create Courses for DataCamp
 
 This is the assignment. Here, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
@@ -73,7 +73,7 @@ success_msg("Well done! Continue to see some more examples!")
 *** =skills
 1
 
---- type:NormalExercises xp:100
+--- type:NormalExercise xp:100
 ## Variable assignment
 
 This simple exercise introduces you to variable assignment.

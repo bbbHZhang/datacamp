@@ -4,7 +4,7 @@
 \alias{upload_chapter}
 \title{Create or update a chapter}
 \usage{
-upload_chapter(chapter_file, force = FALSE, open = TRUE, ...)
+upload_chapter(chapter_file, force = FALSE, open = TRUE, ask = TRUE)
 }
 \arguments{
 \item{chapter_file}{path to the ".Rmd" file to be uploaded}
@@ -14,8 +14,6 @@ upload_chapter(chapter_file, force = FALSE, open = TRUE, ...)
 \item{open}{boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface}
 
 \item{ask}{boolean, TRUE by default, determines whether you are asked for confirmation if you set force to TRUE.}
-
-\item{...}{Extra arguments to be passed to the \code{slidify} function under the hood}
 }
 \value{
 No return values.

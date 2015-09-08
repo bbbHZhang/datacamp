@@ -28,7 +28,6 @@ load_course_file = function() {
 #' Add a course_id to the course.yml file
 #' 
 #' @param course_id id to be added
-#' @param course parsed course information from course.yml
 #' 
 #' @importFrom yaml as.yaml
 add_id_to_course_file = function(course_id) {
@@ -42,7 +41,7 @@ add_id_to_course_file = function(course_id) {
   } else if (course$id != course_id) {
     stop(sprintf(paste("Something strange happened.",
                        "Your course.yml file has course id %s whereas the server just returned %s.",
-                       "Please compare your course.yml file with the web interface."), yaml_list$id, course_id))
+                       "Please compare your course.yml file with the web interface."), course$id, course_id))
   } else {
     return(NULL)
   }
@@ -51,7 +50,6 @@ add_id_to_course_file = function(course_id) {
 #' Get the chapter id from the course.yml for a particular chapter file.
 #' 
 #' @param chapter_file_name the chapter file name to get the id for
-#' @param course parsed course information from course.yml
 get_chapter_index <- function(chapter_file_name) {
   course <- load_course_file()
   return(which(names(course$chapter) == chapter_file_name))

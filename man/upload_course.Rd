@@ -4,7 +4,7 @@
 \alias{upload_course}
 \title{Create or update a course}
 \usage{
-upload_course(course_filder = ".", open = TRUE, force = FALSE)
+upload_course(course_folder = ".", open = TRUE, force = FALSE)
 }
 \arguments{
 \item{course_folder}{character, denoting where the course.yml file is located}

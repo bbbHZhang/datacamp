@@ -87,6 +87,7 @@ extract_mc = function(x) {
 #' 
 #' @param x The html content to 'rmarkdown codify'
 #' @param default_name the default file name of an r markdown code chunk, if no title is specified in three curly braces.
+#' @importFrom RJSONIO toJSON
 extract_markdown = function(x, default_name) {
   if (!is.null(x) && nchar(x)!=0) {
     code <- extract_code(x)
@@ -110,11 +111,11 @@ extract_markdown = function(x, default_name) {
     # fix triple backticks and asterisks
     code <- sapply(code, fix_specials)
     
-    return(toJSON(code))
+    return(RJSONIO::toJSON(code))
   } else {
     code <- ""
     names(code) <- default_name
-    return(toJSON(code))
+    return(RJSONIO::toJSON(code))
   }
 }
 

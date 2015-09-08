@@ -1,15 +1,14 @@
-#' asdfasdf
 check_exercise <- function(exercise) {
   check_code_blocks(exercise)
   check_assignment(exercise)
   check_instructions(exercise)
-  # check_hint(exercise)
+  check_hint(exercise)
 }
 
-max_number_instructions <- 4
-max_num_ass_char <- 1200
-
 check_code_blocks <- function(exercise) {
+  if(exercise$type == "MarkdownExercise") {
+    return(NULL)
+  }
   chunk_names <- c("sample_code", "solution")
   selection <- exercise[chunk_names]
   chunks_to_check <- selection[!sapply(selection, is.null)]
@@ -24,10 +23,8 @@ diagnose_code <- function(code, type) {
   write(code, file = file)
   lints <- lintr::lint(file)
   
-  lints_to_ignore <- c("trailing_blank_lines_linter", "trailing_whitespace_linter")
-  
   for(lint in lints) {
-    if(lint$linter %in% lints_to_ignore) {
+    if(lint$linter %in% linters_to_ignore) {
       cat("")
     } else {
       message(sprintf("\t> %s\n\t  Code: %s\n\t  Line: %s\n\t  Column: %s\n\t  Message: %s\n", 
@@ -76,7 +73,7 @@ check_instructions <- function(exercise) {
 }
 
 check_hint <- function(exercise) {
-  if(exercise$ypte %in% c("ChallengeExercise","VideoExercise")) {
+  if(exercise$type %in% c("ChallengeExercise","VideoExercise")) {
     return(NULL)
   }
   
