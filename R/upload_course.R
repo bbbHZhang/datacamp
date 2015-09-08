@@ -44,6 +44,8 @@ upload_course = function(course_folder = ".", open = TRUE, force = FALSE) {
   
   # reset working directory
   setwd(old_wd)
+  
+  invisible(NULL)
 }
 
 

@@ -75,18 +75,8 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE) 
   
   # reset working directory
   setwd(old_wd)
-}
-
-#' Upload all chapters in the current directory
-#' 
-#' Chapter files should be names chapterX.Rmd. Buggy convenience function.
-#' 
-#' @param force whether or not to force (look at documentation upload_chapter)
-#' @param open whether or not to open browser pages for each chapter that is uploaded.
-#' @export
-upload_all_chapters <- function(force = FALSE, open = TRUE) {
-  chapter_files <- dir(pattern = "hapter.*md")
-  lapply(chapter_files, upload_chapter, force = force, open = open)
+  
+  invisible(NULL)
 }
 
 #' Upload the chapter json
