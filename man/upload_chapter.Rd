@@ -4,7 +4,7 @@
 \alias{upload_chapter}
 \title{Create or update a chapter}
 \usage{
-upload_chapter(chapter_file, force = FALSE, open = TRUE, ask = TRUE)
+upload_chapter(chapter_file = "chapter1.Rmd")
 }
 \arguments{
 \item{chapter_file}{path to the ".Rmd" file to be uploaded}

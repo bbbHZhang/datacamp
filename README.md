@@ -22,4 +22,4 @@ install_github("Data-Camp/datacamp")
 library("datacamp")
 ```
 
-For more details, questions and suggestions, you can contact <b>teach@datacamp.com</b>.
+For more details, questions and suggestions, you can contact <b>support@datacamp.com</b>.
