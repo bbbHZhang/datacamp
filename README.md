@@ -7,15 +7,15 @@
 
 The datacamp R package by DataCamp allows course creators to upload their courses to the DataCamp plaftorm.
 
-A detailed guide on course creation for the DataCamp platform can be found at <b>https://teach.datacamp.com/course-creation</b>.
+A detailed guide on course creation for the DataCamp platform can be found at <b>http://docs.datacamp.com/teach/</b>.
 
 ## Important
 
-As of February 19, 2015, DataCamp has an updated infrastructure. It is of key importance to have datacamp version of 2.0.0 or higher installed.
+As of September, 2015, DataCamp has an updated infrastructure. It is important to have datacamp version of 3.0.0 or higher installed.
 
 ## Install the package
 
-```ruby
+```
 install.packages("devtools")
 library("devtools")
 install_github("Data-Camp/datacamp")
