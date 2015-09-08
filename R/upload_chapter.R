@@ -1,6 +1,5 @@
 #' Create or update a chapter
 #' 
-#' @usage upload_chapter(chapter_file = "chapter1.Rmd")
 #' @param chapter_file path to the ".Rmd" file to be uploaded
 #' @param force boolean, FALSE by default, specifies whether exercises should be removed. If set, will prompt for confirmation.
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
