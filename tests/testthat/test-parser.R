@@ -40,7 +40,6 @@ test_that("parse_chapter works as expected", {
   path <- file.path(system.file(package = "datacamp"),"skeleton","chapter1.Rmd")
   out <- parse_chapter(path)
   expect_true(is.list(out))
-  expect_true(is.list(out$meta))
   expect_true(is.list(out$exercises))
   # TODO add more tests
 })
