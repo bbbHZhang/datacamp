@@ -1,7 +1,7 @@
 Package: datacamp
 Type: Package
 Title: Easily create interactive courses for www.DataCamp.com with R Markdown
-Version: 3.0.0
+Version: 3.0.1
 Date: 2013-09-07
 Author: DataCamp
 Maintainer: Filip Schouwenaars <filip@datacamp.com>
