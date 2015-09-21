@@ -175,7 +175,7 @@ Custom CSS is an easy way to add branding to your reports.
 - In the code chunk, assign `5` to the variable `x`.
 
 *** =hint 
-This exercise only expect you to edit the YAML header, not the actual .css file.
+This exercise only expects you to edit the YAML header, not the actual .css file.
 
 *** =pre_exercise_code
 ```{r eval=FALSE}
@@ -215,7 +215,6 @@ ul {
 ```
 
 *** =solution
-
 ```{r eval=FALSE}
 {{{my_solution.Rmd}}}
 ---
