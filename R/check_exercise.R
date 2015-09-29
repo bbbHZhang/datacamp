@@ -19,7 +19,7 @@ check_code_blocks <- function(exercise) {
 
 #' @importFrom lintr lint
 diagnose_code <- function(code, type) {
-  file <- "code.R"
+  file <- tempfile(fileext = ".R")
   write(code, file = file)
   lints <- lintr::lint(file)
   
