@@ -3,7 +3,7 @@ title_meta  : Chapter 1
 title       : Insert the chapter title here
 description : What is this chapter about? Add here your description
 
---- type:NormalExercise xp:100
+--- type:NormalExercise xp:100 skills:1
 ## Create Courses for DataCamp
 
 This is the assignment. Here, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
@@ -70,10 +70,7 @@ Hints help the students to find a correct solution for the exercise. Hints are o
 success_msg("Well done! Continue to see some more examples!")
 ```
 
-*** =skills
-1
-
---- type:NormalExercise xp:100
+--- type:NormalExercise xp:100 skills:1,4
 ## Variable assignment
 
 This simple exercise introduces you to variable assignment.
@@ -123,10 +120,7 @@ test_object("z", undefined_msg = "Are you sure you have defined the variable <co
 success_msg("Awesome job! Continue to the next exercise")
 ```
 
-*** =skills
-1
-
---- type:MultipleChoiceExercise xp:50
+--- type:MultipleChoiceExercise xp:50 skills:1
 ## This is a multiple choice exercise!
 
 The multiple choice exercise does not need sample code, nor a solution. You can provide pre-exercise code to pre-load a dataset or to generate a figure.
@@ -148,10 +142,7 @@ Hint here.
 test_mc(correct = 2, feedback_msgs = c("Wrong, try again.","Good job!","Try again please"))
 ```
 
-*** =skills
-1
-
---- type:VideoExercise xp:50
+--- type:VideoExercise xp:50 skills:1
 ## My First DataCamp Video
 
 You can add a description here, but this is optional.
@@ -161,10 +152,7 @@ You can add a description here, but this is optional.
 //player.vimeo.com/video/108225030
 ```
 
-*** =skills
-1
-
---- type:MarkdownExercise xp:100
+--- type:MarkdownExercise xp:100 skills:1,5
 ## Markdown Exercise Title
  
 The assignment of this markdown exercise comes here.
@@ -265,6 +253,3 @@ test_rmd_file({
 })
 success_msg("Nice work! It's easy to add styling to your report!")  
 ```
-
-*** =skills
-1,5
