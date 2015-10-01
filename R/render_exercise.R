@@ -15,7 +15,7 @@ render_exercise.NormalExercise <- function(ex, num) {
        solution      = extract_code(ex$solution$content, lang),
        sct           = extract_code(ex$sct$content, lang),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content, lang),
-       skills = extract_skills(ex$skills$content),
+       skills = extract_skills(ex$skills),
        type          = "NormalExercise",
        number = num,
        language = lang)
@@ -30,7 +30,7 @@ render_exercise.MultipleChoiceExercise <- function(ex, num) {
        hint          = extract_html(ex$hint$content),
        sct           = extract_code(ex$sct$content, lang),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content, lang),
-       skills = extract_skills(ex$skills$content),
+       skills = extract_skills(ex$skills),
        type          = "MultipleChoiceExercise",
        number = num,
        language = lang) 
@@ -45,7 +45,7 @@ render_exercise.VideoExercise <- function(ex, num) {
        video_link    = extract_code(ex$video_link$content),
        video_stream  = extract_code(ex$video_stream$content),
        video_hls     = extract_code(ex$video_hls$content),
-       skills = extract_skills(ex$skills$content),
+       skills = extract_skills(ex$skills),
        type          = "VideoExercise",
        number = num,
        language = lang)
@@ -62,7 +62,7 @@ render_exercise.MarkdownExercise <- function(ex, num) {
        solution      = extract_markdown(ex$solution$content, "my_solution.Rmd"),
        sct           = extract_code(ex$sct$content),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content),
-       skills = extract_skills(ex$skills$content),
+       skills = extract_skills(ex$skills),
        type          = "MarkdownExercise",
        number = num,
        language = lang)
@@ -75,7 +75,7 @@ render_exercise.SwirlExercise <- function(ex, num) {
        assignment    = extract_html(ex$content),
        swirl_course  = extract_code(ex$swirl_course$content),
        swirl_lesson  = extract_code(ex$swirl_lesson$content),
-       skills = extract_skills(ex$skills$content),
+       skills = extract_skills(ex$skills),
        type          = "SwirlExercise",
        number = num,
        language = lang)
@@ -91,7 +91,7 @@ render_exercise.ChallengeExercise <- function(ex, num) {
        solution = extract_code(ex$solution$content, lang),
        sct = extract_code(ex$sct$content, lang),
        pre_exercise_code = extract_code(ex$pre_exercise_code$content, lang),
-       skills = extract_skills(ex$skills$content),
+       skills = extract_skills(ex$skills),
        type = "ChallengeExercise",
        number = num,
        language = lang)
