@@ -1,37 +1,43 @@
 render_exercise <- function(ex, num) UseMethod("render_exercise")
 
 render_exercise.default <- function(ex, num) {
-  if(!is.null(ex$type) && !ex$type == "NormalExercise") {
-    stop("Unknown Exercise Type!")
-  }
+  stop("Unknown Exercise type. Make sure to set the exercise type:\n","--- type:<your_type_here>")
+}
+  
+render_exercise.NormalExercise <- function(ex, num) {
+  lang <- extract_lang(ex$lang)
   list(title = extract_title(ex$content),
        xp         = ex$xp,
        assignment = extract_html(ex$content), 
        instructions = extract_html(ex$instructions$content),
        hint = extract_html(ex$hint$content),
-       sample_code   = extract_code(ex$sample_code$content),
-       solution      = extract_code(ex$solution$content),
-       sct           = extract_code(ex$sct$content),
-       pre_exercise_code = extract_code(ex$pre_exercise_code$content),
+       sample_code   = extract_code(ex$sample_code$content, lang),
+       solution      = extract_code(ex$solution$content, lang),
+       sct           = extract_code(ex$sct$content, lang),
+       pre_exercise_code = extract_code(ex$pre_exercise_code$content, lang),
        skills = extract_skills(ex$skills$content),
        type          = "NormalExercise",
-       number = num)
+       number = num,
+       language = lang)
 }
 
 render_exercise.MultipleChoiceExercise <- function(ex, num) {
+  lang <- extract_lang(ex$lang)
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
        instructions  = extract_mc(ex$instructions$content), 
        hint          = extract_html(ex$hint$content),
-       sct           = extract_code(ex$sct$content),
-       pre_exercise_code = extract_code(ex$pre_exercise_code$content),
+       sct           = extract_code(ex$sct$content, lang),
+       pre_exercise_code = extract_code(ex$pre_exercise_code$content, lang),
        skills = extract_skills(ex$skills$content),
        type          = "MultipleChoiceExercise",
-       number = num) 
+       number = num,
+       language = lang) 
 }
 
 render_exercise.VideoExercise <- function(ex, num) {
+  lang <- extract_lang(ex$lang)
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
@@ -41,10 +47,12 @@ render_exercise.VideoExercise <- function(ex, num) {
        video_hls     = extract_code(ex$video_hls$content),
        skills = extract_skills(ex$skills$content),
        type          = "VideoExercise",
-       number = num)
+       number = num,
+       language = lang)
 }
 
 render_exercise.MarkdownExercise <- function(ex, num) {
+  lang <- extract_lang(ex$lang)
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
@@ -56,10 +64,12 @@ render_exercise.MarkdownExercise <- function(ex, num) {
        pre_exercise_code = extract_code(ex$pre_exercise_code$content),
        skills = extract_skills(ex$skills$content),
        type          = "MarkdownExercise",
-       number = num)
+       number = num,
+       language = lang)
 }
 
 render_exercise.SwirlExercise <- function(ex, num) {
+  lang <- extract_lang(ex$lang)
   list(title         = extract_title(ex$content),
        xp            = ex$xp,
        assignment    = extract_html(ex$content),
@@ -67,19 +77,22 @@ render_exercise.SwirlExercise <- function(ex, num) {
        swirl_lesson  = extract_code(ex$swirl_lesson$content),
        skills = extract_skills(ex$skills$content),
        type          = "SwirlExercise",
-       number = num)
+       number = num,
+       language = lang)
   
 }
 render_exercise.ChallengeExercise <- function(ex, num) {
+  lang <- extract_lang(ex$lang)
   list(title          = extract_title(ex$content),
        xp = ex$xp,
        assignment = extract_html(ex$content), 
        challenge_steps = extract_named_list(ex$challenge_steps$content),
        challenge_goal = extract_named_list(ex$challenge_goal$content),
-       solution = extract_code(ex$solution$content),
-       sct = extract_code(ex$sct$content),
-       pre_exercise_code = extract_code(ex$pre_exercise_code$content),
+       solution = extract_code(ex$solution$content, lang),
+       sct = extract_code(ex$sct$content, lang),
+       pre_exercise_code = extract_code(ex$pre_exercise_code$content, lang),
        skills = extract_skills(ex$skills$content),
        type = "ChallengeExercise",
-       number = num)
+       number = num,
+       language = lang)
 } 

@@ -41,19 +41,20 @@ extract_html <- function(x) {
   return(content)
 }
 
-#' Extract R code chunks from raw text
-#' 
+#' Extract code chunks from raw text
+#'
 #' @param x Raw text containing R code chunk
-extract_code <- function(x) {
+#' @param lang The programming language
+extract_code <- function(x, lang = "r") {
   if(is.null(x))
     return(x)
   lines <- split_lines(x)
-  chunk_begin = "^\\s*```+\\s*\\{[.]?r(.*)\\}\\s*$"
+  chunk_begin = sprintf("^\\s*```+\\s*\\{[.]?%s(.*)\\}\\s*$", lang)
   chunk_end = "^\\s*```+\\s*$"
   begin <- grepl(chunk_begin, lines)
   end <- grepl(chunk_end, lines)
   if(!any(begin) || !any(end)) {
-    stop(sprintf("No code chunk found!"))
+    stop(sprintf("No code chunk found! Make sure you specify the correct language."))
   }
   begin_lines <- which(begin)
   end_lines <- which(end)
@@ -68,7 +69,7 @@ extract_code <- function(x) {
 #'
 #' @param x raw text that should contain an unordered list.
 #' @importFrom stringr str_extract
-extract_mc = function(x) {
+extract_mc <- function(x) {
   if(is.null(x) || nchar(x) == 0) {
     return(c())
   }
@@ -88,7 +89,7 @@ extract_mc = function(x) {
 #' @param x The html content to 'rmarkdown codify'
 #' @param default_name the default file name of an r markdown code chunk, if no title is specified in three curly braces.
 #' @importFrom RJSONIO toJSON
-extract_markdown = function(x, default_name) {
+extract_markdown <- function(x, default_name) {
   if (!is.null(x) && nchar(x)!=0) {
     code <- extract_code(x)
     
@@ -125,7 +126,7 @@ extract_markdown = function(x, default_name) {
 #' 
 #' @param x input
 #' @importFrom XML xpathSApply xmlValue htmlParse toString.XMLNode
-extract_named_list = function(x) {
+extract_named_list <- function(x) {
   if(is.null(x) || nchar(x) == 0) {
     return(NULL)
   }
@@ -146,10 +147,23 @@ extract_named_list = function(x) {
 #' Extract skills from an exercise
 #' 
 #' @param x content of the skills part (should be comma separated skill ids)
-extract_skills = function(x) {
+extract_skills <- function(x) {
   if(is.null(x)) {
     return(NULL)
   }
   ids <- strsplit(gsub(" ", "", x), split = ",")[[1]]
   return(as.list(ids))
+}
+
+#' Extract language
+#' 
+#' @param x lang part
+extract_lang <- function(x) {
+  if(isTRUE(grepl("py", tolower(x)))) {
+    lang <- "python"
+  } else {
+    # the default is R
+    lang <- "r"
+  }
+  lang
 }

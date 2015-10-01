@@ -2,14 +2,16 @@
 % Please edit documentation in R/extract.R
 \name{extract_code}
 \alias{extract_code}
-\title{Extract R code chunks from raw text}
+\title{Extract code chunks from raw text}
 \usage{
-extract_code(x)
+extract_code(x, lang = "r")
 }
 \arguments{
 \item{x}{Raw text containing R code chunk}
+
+\item{lang}{The programming language}
 }
 \description{
-Extract R code chunks from raw text
+Extract code chunks from raw text
 }
 

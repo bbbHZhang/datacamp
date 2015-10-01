@@ -6,7 +6,7 @@ check_exercise <- function(exercise) {
 }
 
 check_code_blocks <- function(exercise) {
-  if(exercise$type == "MarkdownExercise") {
+  if(exercise$type == "MarkdownExercise" || exercise$language == "python") {
     return(NULL)
   }
   chunk_names <- c("sample_code", "solution")

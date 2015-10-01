@@ -41,7 +41,7 @@ check_course_object <- function(course) {
   # Do the .Rmd files exist?
   chapter_files_existing <- file.exists(chapter_names)
   if (!all(chapter_files_existing)) {
-    stop(sprintf("%s\nThe following .Rmd files are listed in the course.yml but do not exist in your working directory:\n%s\n%s",
+    stop(sprintf("%s\nThe following files are listed in the course.yml but do not exist in your working directory:\n%s\n%s",
                  chapter_error, paste0("- ", names(chapters)[!chapter_files_existing], collapse = "\n"), have_a_look))
   }
   
