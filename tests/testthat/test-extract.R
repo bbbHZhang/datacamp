@@ -77,11 +77,11 @@ test_that("extract_named_list works as expected", {
 test_that("extract_skills works as expected", {
   s1in = "1,2,3"
   s1out = list("1","2","3")
-  s2in = "1, 2, 3"
+  s2in = "1,2,3"
   s2out = s1out
-  s3in = "1, 2"
+  s3in = list(content = "1,2")
   s3out = list("1","2")
-  s4in = "1"
+  s4in = list(content = "1")
   s4out = list("1")
   expect_that(extract_skills(s1in), equals(s1out))
   expect_that(extract_skills(s2in), equals(s2out))

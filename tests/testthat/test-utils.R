@@ -1,13 +1,5 @@
 context("utils")
 
-test_that("is_rmd works as expected", {
-  expect_that(is_rmd("test.rmd"), is_true())
-  expect_that(is_rmd("test.Rmd"), is_true())
-  expect_that(is_rmd("test.RMd"), is_true())
-  expect_that(is_rmd("test.RMD"), is_true())
-  expect_that(is_rmd("no.yaml"), is_false())
-})
-
 test_that("split_lines behaves as expected", {
   s1 <- "a\nb\nc\nd\n"
   expect_that(length(split_lines(s1)), equals(5))

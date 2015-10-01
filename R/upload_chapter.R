@@ -1,6 +1,6 @@
 #' Create or update a chapter
 #' 
-#' @param chapter_file path to the ".Rmd" file to be uploaded
+#' @param chapter_file path to the Markdown file to be uploaded
 #' @param force boolean, FALSE by default, specifies whether exercises should be removed. If set, will prompt for confirmation.
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
 #' @param ask boolean, TRUE by default, determines whether you are asked for confirmation if you set force to TRUE.
@@ -8,10 +8,10 @@
 #' @examples
 #' \dontrun{
 #' # Upload without possibly deleting existing exercises
-#' upload_chapter("chapter1.Rmd")
+#' upload_chapter("chapter1.md")
 #' 
 #' # Completely sync online chapter with your local markdown file
-#' upload_chapter("chapter1.Rmd", force = TRUE)
+#' upload_chapter("chapter1.md", force = TRUE)
 #' }
 #' 
 #' @export

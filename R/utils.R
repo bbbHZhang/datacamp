@@ -13,15 +13,6 @@ have_a_look <- sprintf("Have a look at the documentation on %s.", doc_url)
 #' name of course file
 course_file <- "course.yml"
 
-#' Is the file name a rmd file?
-#' 
-#' @param filename The queried filename
-is_rmd = function(filename) {
-  ex = substr(filename, nchar(filename)-3, nchar(filename))
-  is_rmd = (ex == ".Rmd") || (ex == ".RMD") || (ex == ".rmd") || (ex == ".RMd")  
-  return(is_rmd)
-}
-
 #' split string into separate lines (copied from knitr)
 #' @param x string or file to split in lines
 split_lines <- function(x) {

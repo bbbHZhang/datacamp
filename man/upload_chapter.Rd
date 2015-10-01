@@ -7,7 +7,7 @@
 upload_chapter(chapter_file, force = FALSE, open = TRUE, ask = TRUE)
 }
 \arguments{
-\item{chapter_file}{path to the ".Rmd" file to be uploaded}
+\item{chapter_file}{path to the Markdown file to be uploaded}
 
 \item{force}{boolean, FALSE by default, specifies whether exercises should be removed. If set, will prompt for confirmation.}
 
@@ -24,10 +24,10 @@ Create or update a chapter
 \examples{
 \dontrun{
 # Upload without possibly deleting existing exercises
-upload_chapter("chapter1.Rmd")
+upload_chapter("chapter1.md")
 
 # Completely sync online chapter with your local markdown file
-upload_chapter("chapter1.Rmd", force = TRUE)
+upload_chapter("chapter1.md", force = TRUE)
 }
 }
 
