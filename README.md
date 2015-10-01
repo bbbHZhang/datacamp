@@ -3,15 +3,9 @@
 <img src="https://s3.amazonaws.com/assets.datacamp.com/img/logo/logo_blue_full.svg" width="250">
 </p>
 
-## datacamp
+# datacamp
 
-The datacamp R package by DataCamp allows course creators to upload their courses to the DataCamp plaftorm.
-
-A detailed guide on course creation for the DataCamp platform can be found at <b>http://docs.datacamp.com/teach/</b>.
-
-## Important
-
-As of September, 2015, DataCamp has an updated infrastructure. It is important to have datacamp version of 3.0.0 or higher installed.
+Everybody can teach on DataCamp. The `datacamp` package makes this possible. The package helps you get started on creating DataCamp course files, which are simple Markdown files. Next, you can upload these course files to DataCamp's servers with easy-to-use functions so that everybody is able to take your course. A detailed guide on course creation for the DataCamp platform can be found at <b>http://docs.datacamp.com/teach/</b>.
 
 ## Install the package
 
