@@ -4,7 +4,7 @@
 load_course_file = function() { 
   # Step 1: Load the yaml file such that we have a list with all course information:
   if (!file.exists(course_file)) {
-    stop("Seems like the course_file is not available") 
+    stop(sprintf("%s is not found in your current working directory.", course_file))
   }
   
   # If there is old yaml syntax in there, replace it
