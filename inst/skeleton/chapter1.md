@@ -94,7 +94,7 @@ y <- data.frame(a = c(1,2,3), b = c("this","is","me"))
 ```
 
 *** =sample_code
-```{r,eval=FALSE}
+```{r}
 # Assign the value 5 to x
 
 
@@ -103,7 +103,7 @@ y <- data.frame(a = c(1,2,3), b = c("this","is","me"))
 ```
 
 *** =solution
-```{r,eval=FALSE}
+```{r}
 # Assign the value 5 to x
 x <- 5
 
@@ -112,11 +112,10 @@ z <- y
 ```
 
 *** =sct
-```{r,eval=FALSE}
+```{r}
 test_object("x", undefined_msg = "Are you sure you have defined the variable <code>x</code>?",
             incorrect_msg = "Make sure to correctly specify the variable <code>x</code>")
-test_object("z", undefined_msg = "Are you sure you have defined the variable <code>y</code>?",
-            incorrect_msg = "Make sure to correctly specify the variable <code>y</code>")
+test_object("z")
 success_msg("Awesome job! Continue to the next exercise")
 ```
 
@@ -134,11 +133,11 @@ The multiple choice exercise does not need sample code, nor a solution. You can 
 Hint here. 
 
 *** =pre_exercise_code
-```{r,eval=FALSE}
+```{r}
 ```
 
 *** =sct
-```{r,eval=FALSE}
+```{r}
 test_mc(correct = 2, feedback_msgs = c("Wrong, try again.","Good job!","Try again please"))
 ```
 
@@ -148,7 +147,7 @@ test_mc(correct = 2, feedback_msgs = c("Wrong, try again.","Good job!","Try agai
 You can add a description here, but this is optional.
 
 *** =video_link
-```{r,eval=FALSE}
+```{r}
 //player.vimeo.com/video/108225030
 ```
 
@@ -166,11 +165,11 @@ Custom CSS is an easy way to add branding to your reports.
 This exercise only expects you to edit the YAML header, not the actual .css file.
 
 *** =pre_exercise_code
-```{r eval=FALSE}
+```{r}
 ```
 
 *** =sample_code
-```{r eval=FALSE}
+```{r}
 {{{my_document.Rmd}}}
 ---
 title: "Tryout"
@@ -189,7 +188,7 @@ x <-
 _tbt_
 ```
 
-```{r, eval = FALSE}
+```{r}
 {{{styles.css}}}
 h1{
   color: white;
@@ -203,7 +202,7 @@ ul {
 ```
 
 *** =solution
-```{r eval=FALSE}
+```{r}
 {{{my_solution.Rmd}}}
 ---
 title: "Tryout"
@@ -224,7 +223,7 @@ x <- 5
 _tbt_
 ```
 
-```{r, eval = FALSE}
+```{r}
 {{{styles.css}}}
 h1{
   color: white;
@@ -238,7 +237,7 @@ ul {
 ```
 
 *** =sct
-```{r eval=FALSE}
+```{r}
 test_error()
 test_rmd_file({
   test_yaml_header(options = "title")
