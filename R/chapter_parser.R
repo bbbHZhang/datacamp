@@ -2,7 +2,12 @@
 #' @importFrom yaml yaml.load
 parse_chapter <- function(chapter_file) {
   splitup <- str_split_fixed(paste(readLines(chapter_file, warn = FALSE), collapse = '\n'), "\n---", 2)
-  chapter_meta <- yaml.load(gsub("^---\n+", '', splitup[1]))
+  chapter_meta <- try(yaml.load(gsub("^---\n+", '', splitup[1])))
+  if(inherits(chapter_meta, "try-error")) {
+    stop(paste0("Something went wrong when parsing the yaml header of ", chapter_file, 
+                ". Make sure to wrap your title and description in quotes if there are colons in there."))
+  }
+                      
   raw_exercises <- str_split(splitup[2], pattern = '\n\n---')[[1]]
   
   exercises = list()
