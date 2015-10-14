@@ -42,7 +42,7 @@ check_assignment <- function(exercise) {
   if(is.null(exercise$assignment)) {
     message("\t> assignment\n\t  You have not specified the assignment!")
   } else {
-    num_ass_char <- nchar(exercise$assignment)
+    num_ass_char <- nchar(gsub("(<(.*?)>|</(.*?)>|\\\n|\\\\)", "", exercise$assignment))
     if(num_ass_char > max_num_ass_char) {
       message(sprintf("\t> assignment\n\t  Counts %s characters. Try to limit yourself to %s.\n", 
                       num_ass_char, max_num_ass_char))

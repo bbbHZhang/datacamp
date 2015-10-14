@@ -6,7 +6,7 @@ description : What is this chapter about? Add here your description
 --- type:NormalExercise xp:100 skills:1
 ## Create Courses for DataCamp
 
-This is the assignment. Here, you can explain statistical concepts or R functionality. Assignments are written in (R) Markdown.
+This is the assignment. Here, you can explain statistical concepts or R functionality. Assignments are written in Markdown.
 
 Use [Markdown](http://en.wikipedia.org/wiki/Markdown) for formatting your content.
 
