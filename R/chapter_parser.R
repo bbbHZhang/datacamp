@@ -22,7 +22,14 @@ parse_chapter <- function(chapter_file) {
     
     exercises[[i]] <- rendered_exercise
   }
-  
+
+  # Check for duplicate titles
+  if (any(duplicated(sapply(exercises, function(x) x$title)))) {
+    stop(sprintf(paste("You have duplicate titles in %s.",
+                       "The titles are used as unique identifiers inside chapters;",
+                       "make sure they are unique."), chapter_file))
+  }
+    
   check_chapter(exercises)
   message("Rendering all exercises done.")
 
