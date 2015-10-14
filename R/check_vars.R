@@ -2,7 +2,7 @@
 max_number_instructions <- 5
 
 # Maximum number of characters in exercise assignment
-max_num_ass_char <- 1200
+max_num_ass_char <- 800
 
 # linters that should be ignored
 linters_to_ignore <- c("trailing_blank_lines_linter", "trailing_whitespace_linter", "line_length_linter", "camel_case_linter")
