@@ -14,3 +14,4 @@ timing_lut <- c(VideoExercise = 5,
                 ChallengeExercise = 4,
                 MarkdownExercise = 3)
 max_time <- 60
+

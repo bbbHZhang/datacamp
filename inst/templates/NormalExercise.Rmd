@@ -1,0 +1,17 @@
+--- type:NormalExercise
+## Exericse Title
+
+Assignment comes here
+
+*** =instructions
+- instruction 1
+- instruction 2
+
+*** =hint
+hint comes here
+
+*** =solution
+```{r}
+# Solution code
+```
+

@@ -13,6 +13,7 @@
 #' 
 #' @param course_name String indicating the course name (and thus the name of the folder that will be created in your current working directory).
 #' @param open Whether or not to open the file in a text editor after creating it.
+#' @param simplified Whether or not to build a simplified course scaffold.
 #' @return No return values.
 #' @examples
 #' \dontrun{ 
@@ -21,13 +22,14 @@
 #' }
 #' 
 #' @export
-author_course = function(course_name, open = TRUE) {
+author_course = function(course_name, open = TRUE, simplified = FALSE) {
   if(!file.exists(course_name)) {
     message(paste0("Creating course directory ",course_name, "..."))
     dir.create(course_name)
   }
   message("Creating scaffold (chapter and course file)...")
-  scaffold_dir <- system.file('skeleton', package = 'datacamp')
+  dirname <- ifelse(simplified, "skeleton_simple", "skeleton")
+  scaffold_dir <- system.file(dirname, package = 'datacamp')
   file.copy(list.files(scaffold_dir, full.names = TRUE), course_name, recursive = TRUE)
   message("Switching to course directory...")
   setwd(course_name)

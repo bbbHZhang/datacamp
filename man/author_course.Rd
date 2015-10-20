@@ -4,12 +4,14 @@
 \alias{author_course}
 \title{Generate course and chapter scaffold}
 \usage{
-author_course(course_name, open = TRUE)
+author_course(course_name, open = TRUE, simplified = FALSE)
 }
 \arguments{
 \item{course_name}{String indicating the course name (and thus the name of the folder that will be created in your current working directory).}
 
 \item{open}{Whether or not to open the file in a text editor after creating it.}
+
+\item{simplified}{Whether or not to build a simplified course scaffold.}
 }
 \value{
 No return values.
