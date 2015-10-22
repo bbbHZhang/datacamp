@@ -1,8 +1,0 @@
---- type:VideoExercise 
-## Video Title
-
-*** =video_link
-```{r}
-//player.vimeo.com/video/108225030
-```
-

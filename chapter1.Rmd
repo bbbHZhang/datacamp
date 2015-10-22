@@ -1,0 +1,49 @@
+---
+title_meta  : Chapter 1
+title       : Insert the chapter title here
+description : What is this chapter about? Add here your description
+
+--- type:NormalExercise lang:r
+## Normal Exericse Title
+
+Assignment comes here. Use Markdown for text formatting.
+
+*** =instructions
+- instruction 1
+- instruction 2
+
+*** =hint
+hint comes here
+
+*** =solution
+```{r}
+# Solution code
+```
+
+
+--- type:MultipleChoiceExercise lang:r
+## Multiple Choice Exercise Title
+
+Assignment comes here. Use Markdown for text formatting.
+
+*** =instructions
+- option 1
+- option 2
+- option 3
+
+*** =hint
+hint comes here
+
+*** =sct
+```{r}
+test_mc(2) # if 2 is the correct option.
+```
+
+--- type:VideoExercise lang:r
+## Video Title
+
+*** =video_link
+```{r}
+//player.vimeo.com/video/108225030
+```
+
