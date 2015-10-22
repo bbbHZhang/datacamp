@@ -4,9 +4,12 @@
 \alias{upload_course}
 \title{Create or update a course}
 \usage{
-upload_course(course_folder = ".", open = TRUE, force = FALSE)
+upload_course(course_folder = ".", open = TRUE, force = FALSE,
+  upload_chapters = FALSE)
 }
 \arguments{
+\item{course_folder}{path to folder containing the course yml file.}
+
 \item{open}{boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface}
 
 \item{force}{boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml}
@@ -23,6 +26,7 @@ If you're not yet logged in when calling this function, you'll be prompted to lo
 \examples{
 \dontrun{
 upload_course()
+upload_course(upload_chapters = TRUE) # also upload chapters listed in course.yml
 }
 }
 

@@ -1,6 +1,6 @@
 #' Parse chapter file into R list
 #'  
-#' @param path to the chapter file you want to parse
+#' @param chapter_file path to the chapter file you want to parse
 #' 
 #' @importFrom stringr str_split_fixed str_split
 #' @importFrom yaml yaml.load

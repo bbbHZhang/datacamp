@@ -5,13 +5,14 @@
 #' 
 #' If you're not yet logged in when calling this function, you'll be prompted to log in.
 #' 
-#' @usage upload_course(course_folder = ".", open = TRUE, force = FALSE)
+#' @param course_folder path to folder containing the course yml file.
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
 #' @param force boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml
 #' @param upload_chapters, boolean, FALSE by default, that specifies whether to also upload the chapters
 #' @examples 
 #' \dontrun{
 #' upload_course()
+#' upload_course(upload_chapters = TRUE) # also upload chapters listed in course.yml
 #' }
 #' @export
 upload_course = function(course_folder = ".", open = TRUE, force = FALSE, upload_chapters = FALSE) { 

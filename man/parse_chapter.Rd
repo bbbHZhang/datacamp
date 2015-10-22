@@ -7,7 +7,7 @@
 parse_chapter(chapter_file)
 }
 \arguments{
-\item{path}{to the chapter file you want to parse}
+\item{chapter_file}{path to the chapter file you want to parse}
 }
 \description{
 Parse chapter file into R list
