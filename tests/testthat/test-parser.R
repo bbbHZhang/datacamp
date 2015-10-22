@@ -25,9 +25,11 @@ test_that("parse_elements works as expected", {
 })
 
 test_that("parse_chapter works as expected", {
-  path <- file.path(system.file(package = "datacamp"),"skeleton","chapter1.md")
-  out <- parse_chapter(path)
+  chapter_file <- author_chapter()
+  out <- parse_chapter(chapter_file)
   expect_true(is.list(out))
   expect_true(is.list(out$exercises))
+  unlink(chapter_file)
+  
   # TODO add more tests
 })

@@ -1,5 +1,10 @@
+#' Parse chapter file into R list
+#'  
+#' @param path to the chapter file you want to parse
+#' 
 #' @importFrom stringr str_split_fixed str_split
 #' @importFrom yaml yaml.load
+#' @export
 parse_chapter <- function(chapter_file) {
   splitup <- str_split_fixed(paste(readLines(chapter_file, warn = FALSE), collapse = '\n'), "\n---", 2)
   chapter_meta <- try(yaml.load(gsub("^---\n+", '', splitup[1])))

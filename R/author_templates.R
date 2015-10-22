@@ -83,7 +83,7 @@ test_mc(2) # if 2 is the correct option.
   
   normal_python_simple <- sprintf(normal, "python", "", "", "", "python", "")
   normal_python_full <- sprintf(normal, "python", " xp:100 skills:2", 
-                                sprintf(pec, "python"), sprintf(sample, "python"), "pyhon", sprintf(sct, "python"))
+                                sprintf(pec, "python"), sprintf(sample, "python"), "python", sprintf(sct, "python"))
   mce_python_simple <- sprintf(multiple, "python", "", "", "python")
   mce_python_full <- sprintf(multiple, "python", " xp:50 skills:2", sprintf(pec, "python"), "python")
   video_python_simple <- sprintf(video, "python", "", "python")

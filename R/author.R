@@ -1,67 +1,103 @@
-#' Generate course and chapter scaffold
+#' Generate course and chapter template
 #'
 #' The \code{author_course} function will:
 #' \enumerate{
-#'  \item create and open a `course.yml` file, a scaffold to provide the necessary course information.
-#'  \item create and open a `chapter1.md` file, a scaffold for creating your first chapter.
+#'  \item create and open a `course.yml` file, with course information
+#'  \item create and open a `chapter1.md` file, containing some exercise templates
 #' }
 #' 
-#' In the `course.yml` file a course title, course author and course description should be provided. Next, it also contains the unique 
-#' course ID, and a list of the chapters within the course. The `chapter1.md` file provides the structure and building blocks of the 
-#' first chapter.
+#' @param lang The programming language of the exercises in the template exercises (default is "r")
+#' @param simplified Whether or not to build a simplified course scaffold (default is FALSE)
+#' @param open Whether or not to open the files in a text editor after creating it.
 #' 
-#' @param language The programming language of the course you want to build.
-#' @param simplified Whether or not to build a simplified course scaffold.
-#' @param open Whether or not to open the file in a text editor after creating it.
-#' @return No return values.
 #' @examples
 #' \dontrun{ 
-#' author_course()
+#' author_course(lang = "python", simplified = TRUE)
+#' author_course(lang = "python", simplified = FALSE)
+#' author_course(lang = "r", simplified = TRUE)
+#' author_course(lang = "r", simplified = FALSE)
 #' }
 #' 
 #' @export
-author_course = function(language = c("r", "python"), simplified = FALSE, open = TRUE) {
-  language <- match.arg(language)
-  
-  message("Creating course.yml template in current directory ...", appendLF = FALSE)
-  write(course_yml_template, file = course_file)
-  message("Done.")
-  message("Creating chapter template in current directory ...", appendLF = FALSE)
-  chapter_file <- ifelse(language == "r", "chapter1.Rmd", "chapter1.md")
-  write(chapter_yml_template, file = chapter_file)
-  add_exercise(chapter_file = chapter_file, language = language, type = "NormalExercise", simplified = simplified)
-  add_exercise(chapter_file = chapter_file, language = language, type = "MultipleChoiceExercise", simplified = simplified)
-  add_exercise(chapter_file = chapter_file, language = language, type = "VideoExercise", simplified = simplified)
-  message("Done.")
-  
-  if(open) {
-    message("Opening course and chapter file...", appendLF = FALSE)
-    file.edit(course_file)
-    file.edit(chapter_file)
-    message("Done.")
+author_course <- function(lang = c("r", "python"), simplified = FALSE, open = TRUE) {
+  if(file.exists(course_file)) {
+    stop(sprintf("A file named %s already exists in your current working directory.", course_file))
   }
-  message("You can start editing your course.")
-  message(sprintf("After changing the details in %s, run upload_course()", course_file))
-  message(sprintf("Next, you can start working in %s. To upload this chapter, run upload_chapter(%s)", chapter_file, chapter_file))
+  lang <- match.arg(lang)
+  
+  message(sprintf("Creating course template %s in current directory ...", course_file))
+  write(course_yml_template, file = course_file)
+  
+  if(open) file.edit(course_file)
+  message(sprintf("After changing the details in %s, run 'upload_course()'", course_file))
+  author_chapter(lang = lang, simplified = simplified, open = open)
 }
 
+#' Generate course and chapter template
+#'
+#' The \code{author_course} function will:
+#' \enumerate{
+#'  \item create and open a `course.yml` file, with course information
+#'  \item create and open a `chapter1.md` file, containing some exercise templates
+#' }
+#' 
+#' @inheritParams author_course
+#' 
+#' @examples
+#' \dontrun{ 
+#' author_chapter(lang = "python", simplified = TRUE)
+#' author_chapter(lang = "python", simplified = FALSE)
+#' author_chapter(lang = "r", simplified = TRUE)
+#' author_chapter(lang = "r", simplified = FALSE)
+#' }
+#' 
+#' @export
+#'@importFrom stringr str_extract
+author_chapter <- function(lang = c("r", "python"), simplified = FALSE, open = TRUE) {
+  lang <- match.arg(lang)
+  chapter_file <- ifelse(lang == "r", "chapter1.Rmd", "chapter1.md")
+  while(file.exists(chapter_file)) {
+    num <- as.numeric(str_extract(chapter_file, "\\d+")) + 1
+    chapter_file <- gsub("\\d+", as.character(num), chapter_file)
+  }
+  message(sprintf("Creating chapter template %s in current directory ...", chapter_file))
+  write(chapter_yml_template, file = chapter_file)
+  ex_to_add <- c("NormalExercise", "MultipleChoiceExercise", "VideoExercise")
+  lapply(ex_to_add, add_exercise, chapter_file = chapter_file, lang = lang, simplified = simplified)
+  
+  if(open) file.edit(chapter_file)
+  message(sprintf("To upload this chapter, run 'upload_chapter(%s)'", chapter_file, chapter_file))
+  return(chapter_file)
+}
 
 #' Add exercise to chapter file
 #' 
 #' @param chapter_file path to the chapter you want to append a template to
-#' @param type type of the exercise you want to add a template for
-#' @param simplified whether or not to add a simplified template (only TRUE is supported for the moment)
+#' @param type type of the exercise you want to add a template for (default is "NormalExercise")
+#' @inheritParams author_course
+#' 
+#' @examples
+#' \dontrun{ 
+#' add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise")
+#' add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
+#' add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise")
+#' add_exercise("chapter1.md", lang = "python", type = "NormalExercise")
+#' add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
+#' add_exercise("chapter1.md", lang = "python", type = "VideoExercise")
+#' }
+#' 
 #' @export
 add_exercise <- function(chapter_file,
-                         language = c("r", "python"),
+                         lang = c("r", "python"),
                          type = c("NormalExercise", 
                                   "MultipleChoiceExercise", 
                                   "VideoExercise"), 
                          simplified = FALSE) {
-  language <- match.arg(language)
+  lang <- match.arg(lang)
   type <- match.arg(type)
   stopifnot(file.exists(chapter_file))
-  
-  template <- subset(templates, subset = lang_col == language & type_col == type & simple_col == simplified)$template
+  message(sprintf("Adding template for %s ... ", type), appendLF = FALSE)
+  template <- subset(templates, subset = lang_col == lang & type_col == type & simple_col == simplified)$template
   write(template, file = chapter_file, append = TRUE)
+  message("Done.")
 }

@@ -2,8 +2,10 @@
 
 export(add_all_links)
 export(add_exercise)
+export(author_chapter)
 export(author_course)
 export(datacamp_login)
+export(parse_chapter)
 export(undo_all_links)
 export(upload_chapter)
 export(upload_course)

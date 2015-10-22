@@ -46,8 +46,7 @@ extract_html <- function(x) {
 #' @param x Raw text containing R code chunk
 #' @param lang The programming language
 extract_code <- function(x, lang = "r") {
-  if(is.null(x))
-    return(x)
+  if(is.null(x)) return(x)
   lines <- split_lines(x)
   chunk_begin = sprintf("^\\s*```+\\s*\\{[.]?%s(.*)\\}\\s*$", lang)
   chunk_end = "^\\s*```+\\s*$"

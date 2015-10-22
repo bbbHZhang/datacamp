@@ -4,18 +4,30 @@
 \alias{add_exercise}
 \title{Add exercise to chapter file}
 \usage{
-add_exercise(chapter_file, language = c("r", "python"),
+add_exercise(chapter_file, lang = c("r", "python"),
   type = c("NormalExercise", "MultipleChoiceExercise", "VideoExercise"),
   simplified = FALSE)
 }
 \arguments{
 \item{chapter_file}{path to the chapter you want to append a template to}
 
-\item{type}{type of the exercise you want to add a template for}
+\item{lang}{The programming language of the exercises in the template exercises (default is "r")}
 
-\item{simplified}{whether or not to add a simplified template (only TRUE is supported for the moment)}
+\item{type}{type of the exercise you want to add a template for (default is "NormalExercise")}
+
+\item{simplified}{Whether or not to build a simplified course scaffold (default is FALSE)}
 }
 \description{
 Add exercise to chapter file
+}
+\examples{
+\dontrun{
+add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise")
+add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
+add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise")
+add_exercise("chapter1.md", lang = "python", type = "NormalExercise")
+add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
+add_exercise("chapter1.md", lang = "python", type = "VideoExercise")
+}
 }
 
