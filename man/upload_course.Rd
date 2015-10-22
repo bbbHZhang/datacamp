@@ -7,14 +7,15 @@
 upload_course(course_folder = ".", open = TRUE, force = FALSE)
 }
 \arguments{
-\item{course_folder}{character, denoting where the course.yml file is located}
-
 \item{open}{boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface}
 
 \item{force}{boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml}
+
+\item{upload_chapters,}{boolean, FALSE by default, that specifies whether to also upload the chapters}
 }
 \description{
-Uploads the \code{course.yml} file to datacamp.com. Use this function to change the course title, description, etc. and to update the chapters' ordering.
+Uploads the \code{course.yml} file to datacamp.com.
+Use this function to change the course title, description, etc. and to update the chapters' ordering.
 }
 \details{
 If you're not yet logged in when calling this function, you'll be prompted to log in.

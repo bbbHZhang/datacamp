@@ -1,19 +1,20 @@
 #' Create or update a course
 #' 
-#' Uploads the \code{course.yml} file to datacamp.com. Use this function to change the course title, description, etc. and to update the chapters' ordering.
+#' Uploads the \code{course.yml} file to datacamp.com. 
+#' Use this function to change the course title, description, etc. and to update the chapters' ordering.
 #' 
 #' If you're not yet logged in when calling this function, you'll be prompted to log in.
 #' 
 #' @usage upload_course(course_folder = ".", open = TRUE, force = FALSE)
-#' @param course_folder character, denoting where the course.yml file is located
 #' @param open boolean, TRUE by default, determines whether a browser window should open, showing the course creation web interface
 #' @param force boolean, FALSE by default, that allows to remove chapters from the live course that are not in the course.yml
+#' @param upload_chapters, boolean, FALSE by default, that specifies whether to also upload the chapters
 #' @examples 
 #' \dontrun{
 #' upload_course()
 #' }
 #' @export
-upload_course = function(course_folder = ".", open = TRUE, force = FALSE) { 
+upload_course = function(course_folder = ".", open = TRUE, force = FALSE, upload_chapters = FALSE) { 
   
   if (!datacamp_logged_in()) { datacamp_login() }
   
@@ -42,9 +43,12 @@ upload_course = function(course_folder = ".", open = TRUE, force = FALSE) {
   message("Uploading chapter to datacamp.com ...")
   upload_course_json(course_json, open)
   
+  if(upload_chapters && !is.null(course$chapters)) {
+    lapply(names(course$chapters), upload_chapter, open = open, force = force)
+  }
+  
   # reset working directory
   setwd(old_wd)
-  
   invisible(NULL)
 }
 
