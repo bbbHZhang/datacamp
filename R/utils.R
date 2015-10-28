@@ -9,8 +9,8 @@ doc_url <- "http://docs.datacamp.com/teach"
 have_a_look <- sprintf("Have a look at the documentation on %s.", doc_url)
 no_response <- paste("Something went wrong. We didn't get a valid response from the datacamp server.",
                      "Try again or contact info@datacamp.com in case you keep experiencing this problem.")
-specify_lang <- "Make sure to define 'lang', the programming language of your course. Set this to \"r\" or \"python\""
-
+specify_lang <- "Make sure to define 'lang', the programming language of your course. Set this to \"r\" or \"python\"."
+specify_simplified <- "Make sure to define 'simplified', whether or not to generate simplified templates. Set this TRUE or FALSE."
 
 #' split string into separate lines (copied from knitr)
 #' @param x string or file to split in lines
