@@ -4,14 +4,12 @@
 \alias{author_course}
 \title{Generate course and chapter template}
 \usage{
-author_course(lang = c("r", "python"), simplified = FALSE, open = TRUE)
+author_course(lang, simplified)
 }
 \arguments{
-\item{lang}{The programming language of the exercises in the template exercises (default is "r")}
+\item{lang}{The programming language of the exercises in the template}
 
-\item{simplified}{Whether or not to build a simplified course scaffold (default is FALSE)}
-
-\item{open}{Whether or not to open the files in a text editor after creating it.}
+\item{simplified}{Whether or not to build simplified templates.}
 }
 \description{
 The \code{author_course} function will:
@@ -22,10 +20,8 @@ The \code{author_course} function will:
 }
 \examples{
 \dontrun{
-author_course(lang = "python", simplified = TRUE)
-author_course(lang = "python", simplified = FALSE)
-author_course(lang = "r", simplified = TRUE)
-author_course(lang = "r", simplified = FALSE)
+author_course(lang = "python")
+author_course(lang = "r")
 }
 }
 

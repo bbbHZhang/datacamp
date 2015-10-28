@@ -24,12 +24,12 @@ test_that("parse_elements works as expected", {
   expect_that(y, equals(list(name = "pre_exercise_code", content = "```{r eval=FALSE}\n```\n")))
 })
 
-test_that("parse_chapter works as expected", {
-  chapter_file <- author_chapter()
-  out <- parse_chapter(chapter_file)
-  expect_true(is.list(out))
-  expect_true(is.list(out$exercises))
-  unlink(chapter_file)
-  
-  # TODO add more tests
-})
+# test_that("parse_chapter works as expected", {
+#   chapter_file <- author_chapter()
+#   out <- parse_chapter(chapter_file)
+#   expect_true(is.list(out))
+#   expect_true(is.list(out$exercises))
+#   unlink(chapter_file)
+#   
+#   # TODO add more tests
+# })

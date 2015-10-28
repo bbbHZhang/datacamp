@@ -1,17 +1,16 @@
-#' Documentation path
+# files and paths
+course_file <- "course.yml"
+chapter_pattern <- "chapter%s.%smd"
+chapter_search_pattern <- "chapter\\d+\\.R?md"
+index_yaml <- "index.yaml"
 doc_url <- "http://docs.datacamp.com/teach"
 
-#' Information message
+# Information message
 have_a_look <- sprintf("Have a look at the documentation on %s.", doc_url)
+no_response <- paste("Something went wrong. We didn't get a valid response from the datacamp server.",
+                     "Try again or contact info@datacamp.com in case you keep experiencing this problem.")
+specify_lang <- "Make sure to define 'lang', the programming language of your course. Set this to \"r\" or \"python\""
 
-#' name of course file
-course_file <- "course.yml"
-
-#' Information message
-have_a_look <- sprintf("Have a look at the documentation on %s.", doc_url)
-
-#' name of course file
-course_file <- "course.yml"
 
 #' split string into separate lines (copied from knitr)
 #' @param x string or file to split in lines
@@ -66,3 +65,4 @@ merge_list = function(x, y) {
 }
 
 datacamp <- datacamp_accessors()
+

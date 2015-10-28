@@ -25,6 +25,11 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE) 
   setwd(dirname(chapter_file))
   chapter_file <- basename(chapter_file)
   
+  course <- load_course_file()
+  if (is.null(course$id)) {
+    stop("Error: course file does not contain a course id. Please upload your course before uploading chapters.")
+  }
+  
   if(!datacamp_logged_in()) { 
     datacamp_login() 
   }
@@ -40,21 +45,10 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE) 
     if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
   }
   
-  #   if (skip_validation == TRUE) {
-  #     sure = readline("Using 'skip_validation' implies that the exercises will not be checked for correctness. Are you sure you want to continue? (Y/N) ")
-  #     if (!(sure == "y" || sure == "Y" || sure == "yes" || sure == "Yes")) { return(message("Aborted.")) }
-  #   }
-  
-  message("Parsing course file...")
-  course <- load_course_file()
-  if (is.null(course$id)) {
-    stop("Error: course file does not contain a course id. Please upload your course before uploading chapters.")
-  }
-  
-  message("Parsing R Markdown file...")
+  message("Parsing R Markdown file ...")
   chapter <- parse_chapter(chapter_file)
   
-  message("Converting chapter content to json...")
+  message("Converting chapter content to JSON ...")
   output_list <-  list(force = force,
                        skip_validation = TRUE,
                        course = course$id,
@@ -91,8 +85,8 @@ upload_chapter_json = function(chapter_json, chapter_file, open = TRUE) {
   url = paste0(base_url,"?auth_token=", auth_token)
   x = try(POST(url = url, body = chapter_json, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   
-  if ( class(x) != "response" ) {
-    stop("Something went wrong. We didn't get a valid response from the datacamp server. Try again or contact info@datacamp.com in case you keep experiencing this problem.")
+  if (class(x) != "response") {
+    stop(no_response)
   } else { 
     if (is.list(content(x)) ) { 
       if ("course" %in% names(content(x)) ) {  

@@ -2,23 +2,24 @@
 % Please edit documentation in R/author.R
 \name{author_chapter}
 \alias{author_chapter}
-\title{Generate course and chapter template}
+\title{Generate chapter file}
 \usage{
-author_chapter(lang = c("r", "python"), simplified = FALSE, open = TRUE)
+author_chapter(lang, simplified = FALSE, title = NULL, description = NULL,
+  internal = FALSE)
 }
 \arguments{
-\item{lang}{The programming language of the exercises in the template exercises (default is "r")}
+\item{lang}{Programming language of the chapter}
 
-\item{simplified}{Whether or not to build a simplified course scaffold (default is FALSE)}
+\item{simplified}{Whether or not to build simplified templates.}
 
-\item{open}{Whether or not to open the files in a text editor after creating it.}
+\item{title}{Title of the the chapter (optional)}
+
+\item{description}{Description of the chapter (optional)}
+
+\item{internal}{Do not touch this parameter (for internal use)}
 }
 \description{
-The \code{author_course} function will:
-\enumerate{
- \item create and open a `course.yml` file, with course information
- \item create and open a `chapter1.md` file, containing some exercise templates
-}
+Generate a chapter file with 3 exercise templates so you can start right away.
 }
 \examples{
 \dontrun{

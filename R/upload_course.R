@@ -44,8 +44,21 @@ upload_course = function(course_folder = ".", open = TRUE, force = FALSE, upload
   message("Uploading chapter to datacamp.com ...")
   upload_course_json(course_json, open)
   
-  if(upload_chapters && !is.null(course$chapters)) {
-    lapply(names(course$chapters), upload_chapter, open = open, force = force)
+  if(upload_chapters) {
+    chapter_files_in_yaml <- names(course$chapters)
+    if(!is.null(chapter_files_in_yaml)) {
+      lapply(chapter_files_in_yaml, upload_chapter, open = open, force = force, ask = FALSE)  
+    }
+    
+    # Check if chapter files in working directory that are not in course.yml
+    chapter_files_in_dir <- dir(pattern = chapter_search_pattern)
+    if(length(setdiff(chapter_files_in_dir, chapter_files_in_yaml)) > 0) {
+      sure <- readline("Some chapters in your working directory are not yet uploaded to DataCamp. Do this now? (Y/N) ")
+      if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
+      lapply(setdiff(chapter_files_in_dir, chapter_files_in_yaml), upload_chapter, open = FALSE, force = force, ask = FALSE)
+      # Make sure order is correct by re-uploading
+      upload_course(open = FALSE, force = FALSE, upload_chapters = FALSE)
+    }
   }
   
   # reset working directory
@@ -65,7 +78,7 @@ upload_course_json = function(course_json, open) {
   url = paste0(base_url,"?auth_token=", auth_token)
   x = try(POST(url = url, body = course_json, add_headers(c(`Content-Type` = "application/json", `Expect` = ""))))
   if ( class(x) != "response" ) {
-    stop("Something went wrong. We didn't get a valid response from the datacamp server. Try again or contact info@datacamp.com in case you keep experiencing this problem.")
+    stop(no_response)
   } else {
     if (is.list(content(x)) ) {
       if ("course" %in% names(content(x))) {

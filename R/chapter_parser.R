@@ -12,7 +12,8 @@ parse_chapter <- function(chapter_file) {
     stop(paste0("Something went wrong when parsing the yaml header of ", chapter_file, 
                 ". Make sure to wrap your title and description in quotes if there are colons in there."))
   }
-                      
+  
+  if(splitup[2] == "") stop(sprintf("Add at least one exercise to %s before you try to upload it.", chapter_file))
   raw_exercises <- str_split(splitup[2], pattern = '\n\n---')[[1]]
   
   exercises = list()
@@ -38,7 +39,7 @@ parse_chapter <- function(chapter_file) {
   check_chapter(exercises)
   message("Rendering all exercises done.")
 
-  payload <- c(chapter_meta, list(exercises = exercises))
+  return(c(chapter_meta, list(exercises = exercises)))
 }
 
 parse_and_render_exercise <- function(raw_ex, index) {
