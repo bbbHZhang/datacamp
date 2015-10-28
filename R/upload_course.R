@@ -47,7 +47,7 @@ upload_course = function(course_folder = ".", open = TRUE, force = FALSE, upload
   if(upload_chapters) {
     chapter_files_in_yaml <- names(course$chapters)
     if(!is.null(chapter_files_in_yaml)) {
-      lapply(chapter_files_in_yaml, upload_chapter, open = open, force = force, ask = FALSE)  
+      lapply(chapter_files_in_yaml, upload_chapter, open = FALSE, force = force, ask = FALSE)  
     }
     
     # Check if chapter files in working directory that are not in course.yml

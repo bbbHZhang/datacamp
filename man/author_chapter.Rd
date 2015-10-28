@@ -4,7 +4,7 @@
 \alias{author_chapter}
 \title{Generate chapter file}
 \usage{
-author_chapter(lang, simplified = FALSE, title = NULL, description = NULL,
+author_chapter(lang, simplified, title = NULL, description = NULL,
   internal = FALSE)
 }
 \arguments{
