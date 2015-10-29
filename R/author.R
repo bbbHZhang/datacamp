@@ -57,6 +57,7 @@ generate_course_template <- function() {
 author_chapter <- function(lang, simplified, title = NULL, description = NULL, internal = FALSE) {
   if(missing(lang)) stop(specify_lang)
   if(missing(simplified)) stop(specify_simplified)
+  
   num <- 1
   chapter_file <- sprintf(chapter_pattern, num, ifelse(lang == "r", "R", ""))
   while(file.exists(chapter_file)) {
@@ -135,10 +136,7 @@ add_exercise <- function(chapter_file,
 #' @importFrom yaml yaml.load_file
 build_scaffold <- function(index_file = index_yaml, lang, simplified) {
   if(missing(lang)) stop(specify_lang)
-    
-  if(missing(simplified)) {
-    stop("Make sure to define 'simplified', whether or not to scaffold simplified exercises.")
-  }
+  if(missing(simplified)) stop(specify_simplified)
     
   chapter_files <- dir(pattern = chapter_search_pattern)
   if(length(chapter_files) > 0) {
@@ -154,9 +152,10 @@ build_scaffold <- function(index_file = index_yaml, lang, simplified) {
   
   outline <- yaml::yaml.load_file(index_file)
   for(chapter in outline) {
-    chapter_file <- author_chapter(title = chapter$chapter_title, 
+    chapter_file <- author_chapter(lang = lang,
+                                   simplified = simplified,
+                                   title = chapter$chapter_title, 
                                    description = chapter$chapter_description,
-                                   lang = lang,
                                    internal = TRUE)
     for(ex in chapter$exercises) {
       add_exercise(chapter_file = chapter_file, lang = lang, 
