@@ -170,3 +170,17 @@ extract_lang <- function(x) {
   }
   lang
 }
+
+#' Extract video link
+#' 
+#' @param x content of the video link part
+#' @param lang lang part
+extract_video_link <- function(x) {
+  if(is.null(x)) return(x)
+  lines <- split_lines(x)
+  if(any(grepl("^\\s*```+\\s*$", lines))) {
+    return(extract_code(x, "r"))
+  } else {
+    return(gsub("\n", "", x))
+  }
+}
