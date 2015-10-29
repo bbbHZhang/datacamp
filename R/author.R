@@ -140,26 +140,17 @@ build_scaffold <- function(index_file = index_yaml, lang, simplified) {
     stop("Make sure to define 'simplified', whether or not to scaffold simplified exercises.")
   }
     
-  if(!file.exists(index_file)) {
-    stop("The yaml file was not found. Make sure a file 'index.yaml' is found in your working directory.")
-  }
-    
   chapter_files <- dir(pattern = chapter_search_pattern)
-  if(file.exists(course_file) || length(chapter_files) > 0) {
+  if(length(chapter_files) > 0) {
     dirname <- paste0("archived_",gsub("-|\\s|:", "_", Sys.time()))
     dir.create(dirname)
-    if(file.exists(course_file)) {
-      file.rename(course_file, file.path(dirname, course_file))
-    }
-    if(length(chapter_files > 0)) {
-      file.rename(chapter_files, file.path(dirname, chapter_files))
-    }
-    message(sprintf(paste("Course and/or chapter files where found,",
-                          "these have been moved to %s before building the new scaffold."), 
-                    dirname))
+    file.rename(chapter_files, file.path(dirname, chapter_files))
+    message(sprintf("Chapter files were found and moved to %s before creating new chapter files.", dirname))
   }
 
-  generate_course_template()
+  if(!file.exists(index_file)) {
+    generate_course_template()
+  }
   
   outline <- yaml::yaml.load_file(index_file)
   for(chapter in outline) {
