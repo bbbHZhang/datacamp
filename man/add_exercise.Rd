@@ -21,4 +21,27 @@ add_exercise(chapter_file, lang, type = c("NormalExercise",
 \description{
 Add exercise to chapter file
 }
+\examples{
+\dontrun{
+add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise")
+add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
+add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise")
+add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise",
+             title = "My Normal Exercise", content = "This is a normal exercise.")
+add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
+             title = "My Multiple Choice Exercise", content = "This is an MCE.")
+add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise",
+             title = "My Video", content = "This video discusses interesting things.")
+
+add_exercise("chapter1.md", lang = "python", type = "NormalExercise")
+add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
+add_exercise("chapter1.md", lang = "python", type = "VideoExercise")
+add_exercise("chapter1.md", lang = "python", type = "NormalExercise",
+             title = "My Normal Exercise", content = "This is a normal exercise.")
+add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
+             title = "My Multiple Choice Exercise", content = "This is an MCE.")
+add_exercise("chapter1.md", lang = "python", type = "VideoExercise",
+             title = "My Video", content = "This video discusses interesting things.")
+}
+}
 

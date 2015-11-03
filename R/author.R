@@ -41,7 +41,6 @@ generate_course_template <- function() {
 #' @param internal Do not touch this parameter (for internal use)
 #' @inheritParams author_course
 #' 
-#' 
 #' @examples
 #' \dontrun{ 
 #' author_chapter(lang = "python")
@@ -84,6 +83,29 @@ author_chapter <- function(lang, title = NULL, description = NULL, internal = FA
 #' @param title Title of the exercise
 #' @param content Short summary of the exercise (will be filled in in assignment part)
 #' @inheritParams author_course
+#' 
+#' @examples
+#' \dontrun{ 
+#' add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise")
+#' add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
+#' add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise")
+#' add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise", 
+#'              title = "My Normal Exercise", content = "This is a normal exercise.")
+#' add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
+#'              title = "My Multiple Choice Exercise", content = "This is an MCE.")
+#' add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise",
+#'              title = "My Video", content = "This video discusses interesting things.")
+#'
+#' add_exercise("chapter1.md", lang = "python", type = "NormalExercise")
+#' add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
+#' add_exercise("chapter1.md", lang = "python", type = "VideoExercise")
+#' add_exercise("chapter1.md", lang = "python", type = "NormalExercise", 
+#'              title = "My Normal Exercise", content = "This is a normal exercise.")
+#' add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
+#'              title = "My Multiple Choice Exercise", content = "This is an MCE.")
+#' add_exercise("chapter1.md", lang = "python", type = "VideoExercise",
+#'              title = "My Video", content = "This video discusses interesting things.")
+#' }
 #' 
 #' @export
 add_exercise <- function(chapter_file,
