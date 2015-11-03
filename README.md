@@ -7,7 +7,7 @@ Everybody can teach on DataCamp. The `datacamp` package makes this possible. It 
 
 ## Installation
 
-```
+```R
 install.packages("devtools")
 library("devtools")
 install_github("Data-Camp/datacamp")
