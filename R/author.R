@@ -32,7 +32,6 @@ generate_course_template <- function() {
   message("Done.")
 }
 
-
 #' Generate chapter file
 #' 
 #' Generate a chapter file with 3 exercise templates so you can start right away.
@@ -120,7 +119,7 @@ add_exercise <- function(chapter_file,
                    gsub("prog_lang", lang, mce_body)
                  },
                  VideoExercise = {
-                   gsub("prog_lang", lang, video_body)
+                   video_body
                  })
   template <- paste(ex_header, ex_title, content, body, sep = "\n")
   write(template, file = chapter_file, append = TRUE)

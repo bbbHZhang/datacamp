@@ -1,6 +1,3 @@
-#' Load course file and check if all necessary info is there and is valid
-#' 
-#' @importFrom yaml yaml.load_file
 load_course_file = function() { 
   # Step 1: Load the yaml file such that we have a list with all course information:
   if (!file.exists(course_file)) {
@@ -25,11 +22,6 @@ load_course_file = function() {
   return(course)
 }
 
-#' Add a course_id to the course.yml file
-#' 
-#' @param course_id id to be added
-#' 
-#' @importFrom yaml as.yaml
 add_id_to_course_file = function(course_id) {
   course <- load_course_file()
   if (is.null(course$id)) {
@@ -47,18 +39,11 @@ add_id_to_course_file = function(course_id) {
   }
 }
 
-#' Get the chapter id from the course.yml for a particular chapter file.
-#' 
-#' @param chapter_file_name the chapter file name to get the id for
 get_chapter_index <- function(chapter_file_name) {
   course <- load_course_file()
   return(which(names(course$chapter) == chapter_file_name))
 }
 
-#' Add a chapter to the list of chapters in the course.yml file
-#' 
-#' @param chapter_file_name the chapter file name to add
-#' @param chapter_id the id to assign to the chapter inside the course.yml file
 add_chapter_to_course_file <- function(chapter_file_name, chapter_id) {
   course <- load_course_file()
   chapter_index = get_chapter_index(chapter_file_name)
@@ -70,4 +55,60 @@ add_chapter_to_course_file <- function(chapter_file_name, chapter_id) {
     write(yaml_output, file = course_file)
     message("The chapter was added to your course file.")
   }
+}
+
+# See if course object contains all necessary information 
+# Check if this information is valid
+check_course_object <- function(course) {
+  # Is any of the required fields missing?
+  required_fields <- c("title", "author_field", "description")
+  absent_fields <- !(required_fields %in% names(course))
+  if (any(absent_fields)) {
+    stop(sprintf("Looks like your course.yml file is missing the following field(s):\n%s\n%s", 
+                 paste0("- ", required_fields[absent_fields], collapse="\n"), have_a_look))
+  }
+  
+  # Is any of the required fields empty?
+  required_fields_content <- course[required_fields]
+  empty_fields <- sapply(required_fields_content, is_empty_field)
+  if (any(empty_fields)) {
+    stop(sprintf("Looks like your course.yml file is missing information for the field(s):\n%s\n%s", 
+                 paste0("- ", required_fields[empty_fields], collapse="\n"), have_a_look))
+  }
+  
+  # Are the chapter details listed as they should be?
+  chapters <- course$chapters
+  if(is.null(chapters)) {
+    return(course)
+  }
+  
+  chapter_error <- "Something is wrong with the chapters section in your course.yml file."
+  chapter_names <- names(chapters)
+  
+  # Do the chapter ids exist?
+  empty_chapters <- sapply(chapters, is_empty_field)
+  if(any(empty_chapters)) {
+    stop(sprintf("%s\nYour chapter id can't be empty.\n%s", chapter_error, have_a_look))
+  }
+  
+  # Are the chapter ids unique?
+  if(length(chapters) > length(unique(chapters))) {
+    stop(sprintf("%s\nYour chapter ids should be unique.\n%s", chapter_error, have_a_look))
+  }
+  
+  # Do the .Rmd files exist?
+  chapter_files_existing <- file.exists(chapter_names)
+  if (!all(chapter_files_existing)) {
+    stop(sprintf("%s\nThe following files are listed in the course.yml but do not exist in your working directory:\n%s\n%s",
+                 chapter_error, paste0("- ", names(chapters)[!chapter_files_existing], collapse = "\n"), have_a_look))
+  }
+  
+  # Are the .Rmd filenames unique?
+  if(length(chapter_names) > length(unique(chapter_names))) {
+    stop(sprintf("%s\nYour chapter file names should be unique.\n%s", chapter_error, have_a_look))
+  }
+}
+
+is_empty_field <- function(x) {
+  return(is.null(x) || (x == "") || (x == " ") || is.na(x))
 }

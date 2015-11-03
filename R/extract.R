@@ -1,8 +1,3 @@
-#' Extract the title
-#' 
-#' @param x The main content containing a second-level header title
-#' 
-#' @importFrom markdown markdownToHTML
 #' @importFrom stringr str_trim
 extract_title <- function(x) {
   lines <- split_lines(x)
@@ -15,18 +10,15 @@ extract_title <- function(x) {
     stop("More than one title found.")
   }
   title_line <- lines[hits]
-  title <- str_trim(gsub("##","",title_line))
+  title <- stringr::str_trim(gsub("##","",title_line))
   if(nchar(title) == 0) {
     stop("Make sure to specify a title.")
   }
   return(title)
 }
 
-#' Extract html from a chunk of text
-#' 
-#' If a second-level header is in the content, this is removed.
-#' 
-#' @param x Raw text to be converted to html
+# Extract html from a chunk of text
+# If a second-level header is in the content, this is removed.
 #' @importFrom markdown markdownToHTML
 extract_html <- function(x) {
   if(is.null(x) || nchar(x) == 0) {
@@ -41,15 +33,13 @@ extract_html <- function(x) {
   return(content)
 }
 
-#' Extract code chunks from raw text
-#'
-#' @param x Raw text containing R code chunk
-#' @param lang The programming language
-extract_code <- function(x, lang = "r") {
+# Extract code chunks from raw text
+extract_code <- function(x) {
   if(is.null(x)) return(x)
   lines <- split_lines(x)
-  chunk_begin = sprintf("^\\s*```+\\s*\\{[.]?%s(.*)\\}\\s*$", lang)
-  chunk_end = "^\\s*```+\\s*$"
+  lang_part <- "r|py"
+  chunk_begin <- sprintf("^\\s*```+\\s*\\{[.]?%s(.*)\\}\\s*$", lang_part)
+  chunk_end <- "^\\s*```+\\s*$"
   begin <- grepl(chunk_begin, lines)
   end <- grepl(chunk_end, lines)
   if(!any(begin) || !any(end)) {
@@ -64,10 +54,7 @@ extract_code <- function(x, lang = "r") {
   return(code)
 }
 
-#' Function to create a vector with multiple choice options
-#'
-#' @param x raw text that should contain an unordered list.
-#' @importFrom stringr str_extract
+# Create a vector with multiple choice options
 extract_mc <- function(x) {
   if(is.null(x) || nchar(x) == 0) {
     return(c())
@@ -83,11 +70,8 @@ extract_mc <- function(x) {
   return(mc)
 }
 
-#' Extract R Markdown
-#' 
-#' @param x The html content to 'rmarkdown codify'
-#' @param default_name the default file name of an r markdown code chunk, if no title is specified in three curly braces.
-#' @importFrom RJSONIO toJSON
+# Extract R Markdown
+# default_name is the default name of r markdown code chunk
 extract_markdown <- function(x, default_name) {
   if (!is.null(x) && nchar(x)!=0) {
     code <- extract_code(x)
@@ -119,12 +103,7 @@ extract_markdown <- function(x, default_name) {
   }
 }
 
-#' Convenience function for challenges
-#' 
-#' Returns embedded list. Titles are second-level headers, the content beneath it the content.
-#' 
-#' @param x input
-#' @importFrom XML xpathSApply xmlValue htmlParse toString.XMLNode
+# Extract challenge exercise data
 extract_named_list <- function(x) {
   if(is.null(x) || nchar(x) == 0) {
     return(NULL)
@@ -143,9 +122,8 @@ extract_named_list <- function(x) {
 }
 
 
-#' Extract skills from an exercise
-#' 
-#' @param x content of the skills part (should be comma separated skill ids)
+# Extract skills from an exercise
+# Both in *** =skills part as well as in --- type... header (preferred) is supported
 extract_skills <- function(x) {
   if(is.null(x)) {
     return(NULL)
@@ -171,15 +149,13 @@ extract_lang <- function(x) {
   lang
 }
 
-#' Extract video link
-#' 
-#' @param x content of the video link part
-#' @param lang lang part
+# Extract video link
+# Both with and without (preferred) code chunks is supported.
 extract_video_link <- function(x) {
   if(is.null(x)) return(x)
   lines <- split_lines(x)
   if(any(grepl("^\\s*```+\\s*$", lines))) {
-    return(extract_code(x, "r"))
+    return(extract_code(x))
   } else {
     return(gsub("\n", "", x))
   }

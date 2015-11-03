@@ -43,9 +43,7 @@ test_mc(2) # if 2 is the correct option.
 video_body <- 
 "
 *** =video_link
-```{prog_lang}
 //player.vimeo.com/video/108225030
-```
 "
 
 sample <- 

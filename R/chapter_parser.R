@@ -20,8 +20,9 @@ parse_chapter <- function(chapter_file) {
   message("Rendering all exercises...")
   for(i in 1:length(raw_exercises)) {
     
+    message(sprintf("  - %s. ", i), appendLF = FALSE)
     rendered_exercise <- parse_and_render_exercise(raw_exercises[[i]], i)
-    message(sprintf("  - %s", rendered_exercise$title))
+    message(rendered_exercise$title)
     
     # check exercise for consistency
     check_exercise(rendered_exercise)
