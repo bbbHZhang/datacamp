@@ -4,12 +4,10 @@
 \alias{author_course}
 \title{Generate course and chapter template}
 \usage{
-author_course(lang, simplified = FALSE)
+author_course(lang)
 }
 \arguments{
 \item{lang}{The programming language of the exercises in the template}
-
-\item{simplified}{Whether or not to build simplified templates.}
 }
 \description{
 The \code{author_course} function will:

@@ -7,7 +7,6 @@
 #' }
 #' 
 #' @param lang The programming language of the exercises in the template
-#' @param simplified Whether or not to build simplified templates.
 #' 
 #' @examples
 #' \dontrun{ 
@@ -16,11 +15,10 @@
 #' }
 #' 
 #' @export
-author_course <- function(lang, simplified = FALSE) {
+author_course <- function(lang) {
   if(missing(lang)) stop(specify_lang)
-  # if(missing(simplified)) stop(specify_simplified)
   generate_course_template()
-  author_chapter(lang = lang, simplified = simplified)
+  author_chapter(lang = lang)
   return(invisible(course_file))
 }
 
@@ -46,18 +44,17 @@ generate_course_template <- function() {
 #' 
 #' @examples
 #' \dontrun{ 
-#' author_chapter(lang = "python", simplified = TRUE)
-#' author_chapter(lang = "python", simplified = FALSE)
-#' author_chapter(lang = "r", simplified = TRUE)
-#' author_chapter(lang = "r", simplified = FALSE)
+#' author_chapter(lang = "python")
+#' author_chapter(lang = "r")
+#' author_chapter(lang = "r", 
+#'                title = "My Chapter", 
+#'                description = "This is my chapter!")
 #' }
 #' 
 #' @export
 #'@importFrom stringr str_extract
-author_chapter <- function(lang, simplified = FALSE, title = NULL, description = NULL, internal = FALSE) {
+author_chapter <- function(lang, title = NULL, description = NULL, internal = FALSE) {
   if(missing(lang)) stop(specify_lang)
-  # if(!isTRUE(internal) && missing(simplified)) stop(specify_simplified)
-  
   num <- 1
   chapter_file <- sprintf(chapter_pattern, num, ifelse(lang == "r", "R", ""))
   while(file.exists(chapter_file)) {
@@ -73,7 +70,7 @@ author_chapter <- function(lang, simplified = FALSE, title = NULL, description =
   
   if(!isTRUE(internal)) {
     types <- c("VideoExercise", "MultipleChoiceExercise", "NormalExercise")
-    lapply(types, add_exercise, chapter_file = chapter_file, lang = lang, simplified = simplified)
+    lapply(types, add_exercise, chapter_file = chapter_file, lang = lang)
   }
   
   message("Done.")
@@ -94,11 +91,9 @@ add_exercise <- function(chapter_file,
                          type = c("NormalExercise", 
                                   "MultipleChoiceExercise", 
                                   "VideoExercise"),
-                         simplified = FALSE,
                          title = NULL,
                          content = NULL) {
   if(missing(lang)) stop(specify_lang)
-  # if(missing(simplified)) stop(specify_simplified)
   type <- match.arg(type)
   stopifnot(file.exists(chapter_file))
   
@@ -109,19 +104,11 @@ add_exercise <- function(chapter_file,
   ex_title <- paste0("## ", title, "\n")
   if(is.null(content)) content <- "Assignment comes here. Use Markdown for text formatting."
 
-  body <- switch(type,
-                 NormalExercise = {
-                   sample <- ifelse(simplified, "", sample)
-                   sct <- ifelse(simplified, "", sct)
-                   body <- sprintf(normal_body, sample, sct)
-                   gsub("prog_lang", lang, body)
-                 },
-                 MultipleChoiceExercise = {
-                   gsub("prog_lang", lang, mce_body)
-                 },
-                 VideoExercise = {
-                   video_body
-                 })
+  body <- switch(type, 
+                 NormalExercise = sprintf(normal_body, lang),
+                 MultipleChoiceExercise = sprintf(mce_body, lang),
+                 VideoExercise = sprintf(video_body))
+  
   template <- paste(ex_header, ex_title, content, body, sep = "\n")
   write(template, file = chapter_file, append = TRUE)
 }
@@ -134,9 +121,8 @@ add_exercise <- function(chapter_file,
 #' 
 #' @export
 #' @importFrom yaml yaml.load_file
-build_scaffold <- function(index_file = index_yaml, lang, simplified) {
+build_scaffold <- function(index_file = index_yaml, lang) {
   if(missing(lang)) stop(specify_lang)
-  # if(missing(simplified)) stop(specify_simplified)
     
   chapter_files <- dir(pattern = chapter_search_pattern)
   if(length(chapter_files) > 0) {
@@ -146,21 +132,19 @@ build_scaffold <- function(index_file = index_yaml, lang, simplified) {
     message(sprintf("Chapter files were found and moved to %s before creating new chapter files.", dirname))
   }
 
-  if(!file.exists(index_file)) {
+  if(!file.exists(course_file)) {
     generate_course_template()
   }
   
   outline <- yaml::yaml.load_file(index_file)
   for(chapter in outline) {
     chapter_file <- author_chapter(lang = lang,
-                                   simplified = simplified,
                                    title = chapter$chapter_title, 
                                    description = chapter$chapter_description,
                                    internal = TRUE)
     for(ex in chapter$exercises) {
       add_exercise(chapter_file = chapter_file, lang = lang, 
-                   type = ex$type, simplified = simplified,
-                   title = ex$title, content = ex$content)
+                   type = ex$type, title = ex$title, content = ex$content)
     }
   }
   message("To upload this entire course and all chapters, run 'upload_course(upload_chapters = TRUE)'")

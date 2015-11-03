@@ -8,15 +8,24 @@ normal_body <-
 hint comes here
 
 *** =pre_exercise_code
-```{prog_lang}
+```{%1$s}
 # pec comes here
 ```
-%s
+
+*** =sample_code
+```{%1$s}
+# sample code comes here
+```
+
 *** =solution
-```{prog_lang}
+```{%1$s}
 # Solution code
 ```
-%s
+
+*** =sct
+```{%1$s}
+# sct code comes here
+```
 "
 
 mce_body <- 
@@ -30,12 +39,12 @@ mce_body <-
 hint comes here
 
 *** =pre_exercise_code
-```{prog_lang}
+```{%1$s}
 # pec comes here
 ```
 
 *** =sct
-```{prog_lang}
+```{%1$s}
 test_mc(2) # if 2 is the correct option.
 ```
 "
@@ -44,22 +53,6 @@ video_body <-
 "
 *** =video_link
 //player.vimeo.com/video/108225030
-"
-
-sample <- 
-"
-*** =sample_code
-```{prog_lang}
-# sample code comes here
-```
-"
-  
-sct <- 
-"
-*** =sct
-```{prog_lang}
-# sct code comes here
-```
 "
   
 course_yaml_template <- 

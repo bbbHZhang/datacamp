@@ -26,7 +26,7 @@ test_that("parse_elements works as expected", {
 
 
 test_that("parse_chapter works as expected", {
-  chapter_file <- author_chapter(lang = "r", simplified = FALSE, internal = TRUE)
+  chapter_file <- author_chapter(lang = "r", internal = TRUE)
   write(paste0("--- type:NormalExercise xp:100 skills:1,3 lang:r\n## Test\nAssignment\n",
                "*** =instructions\n- instruction 1\n- instruction 2\n\n",
                "*** =hint\njust a hint\n\n",
@@ -145,14 +145,3 @@ test_that("parse_chapter works as expected", {
   expect_equal(ex5$sct, "success_msg(\"OK\")")
 })
                             
-                           
-  
-  
-#   chapter_file <- author_chapter()
-#   out <- parse_chapter(chapter_file)
-#   expect_true(is.list(out))
-#   expect_true(is.list(out$exercises))
-#   unlink(chapter_file)
-#   
-#   # TODO add more tests
-# })

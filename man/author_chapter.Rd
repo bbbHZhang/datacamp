@@ -4,13 +4,10 @@
 \alias{author_chapter}
 \title{Generate chapter file}
 \usage{
-author_chapter(lang, simplified = FALSE, title = NULL, description = NULL,
-  internal = FALSE)
+author_chapter(lang, title = NULL, description = NULL, internal = FALSE)
 }
 \arguments{
 \item{lang}{Programming language of the chapter}
-
-\item{simplified}{Whether or not to build simplified templates.}
 
 \item{title}{Title of the the chapter (optional)}
 
@@ -23,10 +20,11 @@ Generate a chapter file with 3 exercise templates so you can start right away.
 }
 \examples{
 \dontrun{
-author_chapter(lang = "python", simplified = TRUE)
-author_chapter(lang = "python", simplified = FALSE)
-author_chapter(lang = "r", simplified = TRUE)
-author_chapter(lang = "r", simplified = FALSE)
+author_chapter(lang = "python")
+author_chapter(lang = "r")
+author_chapter(lang = "r",
+               title = "My Chapter",
+               description = "This is my chapter!")
 }
 }
 

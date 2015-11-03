@@ -3,7 +3,7 @@ context("author")
 test_that("author_course works as expected", {
   expect_that(author_course(), throws_error())
   
-  crs_file <- author_course(lang = "r", simplified = TRUE)
+  crs_file <- author_course(lang = "r")
   
   expect_true(file.exists(crs_file))
   crs <- load_course_file()
@@ -21,7 +21,7 @@ test_that("author_course works as expected", {
 
 test_that("author_chapter works as expected", {
   expect_that(author_chapter(), throws_error())
-  chapter_file <- author_chapter(lang = "r", simplified = FALSE)
+  chapter_file <- author_chapter(lang = "r")
   expect_true(file.exists(chapter_file))
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
@@ -31,7 +31,7 @@ test_that("author_chapter works as expected", {
   expect_equal(out$description, "Insert the chapter description here")
   
   
-  chapter_file <- author_chapter(lang = "r", simplified = FALSE, title = "test", description = "description")
+  chapter_file <- author_chapter(lang = "r", title = "test", description = "description")
   expect_true(file.exists(chapter_file))
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
@@ -42,14 +42,15 @@ test_that("author_chapter works as expected", {
 })
   
 test_that("add_exercise works as expected", {
+  
+  # NormalExercise
   chapter_file <- author_chapter(lang = "r", internal = TRUE)
-  add_exercise(chapter_file, lang = "r", simplified = FALSE, type = "NormalExercise", title = "Test", content = "Assignment")
-  add_exercise(chapter_file, lang = "python", simplified = FALSE, type = "NormalExercise", title = "Test 2", content = "Assignment")
-  add_exercise(chapter_file, lang = "r", simplified = TRUE, type = "NormalExercise", title = "Test 3", content = "Assignment")
-  add_exercise(chapter_file, lang = "python", simplified = TRUE, type = "NormalExercise", title = "Test 4", content = "Assignment")
+  add_exercise(chapter_file, lang = "r", type = "NormalExercise", title = "Test", content = "Assignment")
+  add_exercise(chapter_file, lang = "python", type = "NormalExercise", title = "Test 2", content = "Assignment")
+  
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
-  expect_equal(length(out$exercises), 4)
+  expect_equal(length(out$exercises), 2)
   expect_equal(out$exercises[[1]]$title, "Test")
   expect_equal(out$exercises[[1]]$type, "NormalExercise")
   expect_equal(out$exercises[[1]]$lang, "r")
@@ -62,27 +63,14 @@ test_that("add_exercise works as expected", {
   expect_equal(out$exercises[[2]]$assignment, "<p>Assignment</p>\n")
   expect_equal(out$exercises[[2]]$sample_code, "# sample code comes here")
   
-  expect_equal(out$exercises[[3]]$title, "Test 3")
-  expect_equal(out$exercises[[3]]$type, "NormalExercise")
-  expect_equal(out$exercises[[3]]$lang, "r")
-  expect_equal(out$exercises[[3]]$assignment, "<p>Assignment</p>\n")
-  expect_equal(out$exercises[[3]]$sample_code, NULL)
-  
-  expect_equal(out$exercises[[4]]$title, "Test 4")
-  expect_equal(out$exercises[[4]]$type, "NormalExercise")
-  expect_equal(out$exercises[[4]]$lang, "python")
-  expect_equal(out$exercises[[4]]$assignment, "<p>Assignment</p>\n")
-  expect_equal(out$exercises[[4]]$sample_code, NULL)
-  
+  # MultipleChoiceExercise
   chapter_file <- author_chapter(lang = "r", internal = TRUE)
-  add_exercise(chapter_file, lang = "r", simplified = FALSE, type = "MultipleChoiceExercise", title = "Test", content = "Assignment")
-  add_exercise(chapter_file, lang = "python", simplified = FALSE, type = "MultipleChoiceExercise", title = "Test 2", content = "Assignment")
-  add_exercise(chapter_file, lang = "r", simplified = FALSE, type = "VideoExercise", title = "Test 3", content = "Assignment")
-  add_exercise(chapter_file, lang = "python", simplified = FALSE, type = "VideoExercise", title = "Test 4", content = "Assignment")
+  add_exercise(chapter_file, lang = "r", type = "MultipleChoiceExercise", title = "Test", content = "Assignment")
+  add_exercise(chapter_file, lang = "python", type = "MultipleChoiceExercise", title = "Test 2", content = "Assignment")
   
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
-  expect_equal(length(out$exercises), 4)
+  expect_equal(length(out$exercises), 2)
   expect_equal(out$exercises[[1]]$title, "Test")
   expect_equal(out$exercises[[1]]$type, "MultipleChoiceExercise")
   expect_equal(out$exercises[[1]]$lang, "r")
@@ -95,17 +83,79 @@ test_that("add_exercise works as expected", {
   expect_equal(out$exercises[[2]]$assignment, "<p>Assignment</p>\n")
   expect_equal(out$exercises[[1]]$instructions, c("option 1", "option 2", "option 3"))
   
-  expect_equal(out$exercises[[3]]$title, "Test 3")
-  expect_equal(out$exercises[[3]]$type, "VideoExercise")
-  expect_equal(out$exercises[[3]]$lang, "r")
-  expect_equal(out$exercises[[3]]$video_link, "//player.vimeo.com/video/108225030")
+  # VideoExercise
+  chapter_file <- author_chapter(lang = "r", internal = TRUE)
+  add_exercise(chapter_file, lang = "r", type = "VideoExercise", title = "Test", content = "Assignment")
+  add_exercise(chapter_file, lang = "python", type = "VideoExercise", title = "Test 2", content = "Assignment")
   
-  expect_equal(out$exercises[[4]]$title, "Test 4")
-  expect_equal(out$exercises[[4]]$type, "VideoExercise")
-  expect_equal(out$exercises[[4]]$lang, "python")
-  expect_equal(out$exercises[[4]]$video_link, "//player.vimeo.com/video/108225030")
+  out <- parse_chapter(chapter_file)
+  unlink(chapter_file)
+  expect_equal(length(out$exercises), 2)
+  expect_equal(out$exercises[[1]]$title, "Test")
+  expect_equal(out$exercises[[1]]$type, "VideoExercise")
+  expect_equal(out$exercises[[1]]$lang, "r")
+  expect_equal(out$exercises[[1]]$video_link, "//player.vimeo.com/video/108225030")
+  
+  expect_equal(out$exercises[[2]]$title, "Test 2")
+  expect_equal(out$exercises[[2]]$type, "VideoExercise")
+  expect_equal(out$exercises[[2]]$lang, "python")
+  expect_equal(out$exercises[[2]]$video_link, "//player.vimeo.com/video/108225030")
 })
 
 test_that("build_scaffold works as expected", {
-  # TO DO
+  write(paste0("- chapter_title: Chapter 1\n",
+               "  chapter_description: This is my chapter\n",
+               "  exercises:\n",
+               "    - type: NormalExercise\n",
+               "      title: normal\n",
+               "      content: normal content\n",
+               "    - type: MultipleChoiceExercise\n",
+               "      title: mce\n",
+               "      content: mce content\n",
+               "    - type: VideoExercise\n",
+               "      title: video\n",
+               "      content: video content\n",
+               "- chapter_title: Chapter 2\n",
+               "  chapter_description: This is another chapter\n",
+               "  exercises:\n",
+               "    - type: NormalExercise\n",
+               "      title: normal 2\n",
+               "      content: normal content 2\n",
+               "    - type: MultipleChoiceExercise\n",
+               "      title: mce 2\n",
+               "      content: mce content 2\n",
+               "    - type: VideoExercise\n",
+               "      title: video 2\n",
+               "      content: video content 2\n"),
+        file = index_yaml)
+  build_scaffold(index_yaml, lang = "r")
+  unlink(index_yaml)
+  crs <- load_course_file()
+  expect_equal(crs$title, "insert course title here")
+  out1 <- parse_chapter("chapter1.Rmd")
+  unlink("chapter1.Rmd")
+  expect_equal(length(out1$exercises), 3)
+  expect_equal(out1$exercises[[1]]$type, "NormalExercise")
+  expect_equal(out1$exercises[[1]]$title, "normal")
+  expect_equal(out1$exercises[[1]]$assignment, "<p>normal content</p>\n")
+  expect_equal(out1$exercises[[2]]$type, "MultipleChoiceExercise")
+  expect_equal(out1$exercises[[2]]$title, "mce")
+  expect_equal(out1$exercises[[2]]$assignment, "<p>mce content</p>\n")
+  expect_equal(out1$exercises[[3]]$type, "VideoExercise")
+  expect_equal(out1$exercises[[3]]$title, "video")
+  expect_equal(out1$exercises[[3]]$assignment, "<p>video content</p>\n")
+  
+  out2 <- parse_chapter("chapter2.Rmd")
+  unlink("chapter2.Rmd")
+  expect_equal(out2$exercises[[1]]$type, "NormalExercise")
+  expect_equal(out2$exercises[[1]]$title, "normal 2")
+  expect_equal(out2$exercises[[1]]$assignment, "<p>normal content 2</p>\n")
+  expect_equal(out2$exercises[[2]]$type, "MultipleChoiceExercise")
+  expect_equal(out2$exercises[[2]]$title, "mce 2")
+  expect_equal(out2$exercises[[2]]$assignment, "<p>mce content 2</p>\n")
+  expect_equal(out2$exercises[[3]]$type, "VideoExercise")
+  expect_equal(out2$exercises[[3]]$title, "video 2")
+  expect_equal(out2$exercises[[3]]$assignment, "<p>video content 2</p>\n")
+  
+  # TO DO ADD TESTS FOR ARCHIVING
 })

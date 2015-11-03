@@ -4,14 +4,12 @@
 \alias{build_scaffold}
 \title{Build a scaffold for a YAML outlining the entire course}
 \usage{
-build_scaffold(index_file = index_yaml, lang, simplified)
+build_scaffold(index_file = index_yaml, lang)
 }
 \arguments{
 \item{index_file}{The path of the index file, by default this is index.yaml in your current working directory.}
 
 \item{lang}{The programming language of the exercises in the template}
-
-\item{simplified}{Whether or not to build simplified templates.}
 }
 \description{
 Build a scaffold for a YAML outlining the entire course
