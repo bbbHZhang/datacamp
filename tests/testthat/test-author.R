@@ -20,7 +20,7 @@ test_that("author functions work as expected", {
   expect_equal(length(out$exercises), 3)
   expect_equal(out$title_meta, "Chapter 1")
   expect_equal(out$title, "Insert the chapter title here")
-  expect_equal(out$title_meta, "Insert the chapter description here")
+  expect_equal(out$description, "Insert the chapter description here")
   unlink(chapter_file)
   
   chapter_file <- author_chapter(lang = "r", simplified = FALSE, title = "test", description = "description")
