@@ -16,9 +16,9 @@
 #' }
 #' 
 #' @export
-author_course <- function(lang, simplified) {
+author_course <- function(lang, simplified = FALSE) {
   if(missing(lang)) stop(specify_lang)
-  if(missing(simplified)) stop(specify_simplified)
+  # if(missing(simplified)) stop(specify_simplified)
   generate_course_template()
   author_chapter(lang = lang, simplified = simplified)
   return(invisible(course_file))
@@ -54,9 +54,9 @@ generate_course_template <- function() {
 #' 
 #' @export
 #'@importFrom stringr str_extract
-author_chapter <- function(lang, simplified, title = NULL, description = NULL, internal = FALSE) {
+author_chapter <- function(lang, simplified = FALSE, title = NULL, description = NULL, internal = FALSE) {
   if(missing(lang)) stop(specify_lang)
-  if(!isTRUE(internal) && missing(simplified)) stop(specify_simplified)
+  # if(!isTRUE(internal) && missing(simplified)) stop(specify_simplified)
   
   num <- 1
   chapter_file <- sprintf(chapter_pattern, num, ifelse(lang == "r", "R", ""))
@@ -94,11 +94,11 @@ add_exercise <- function(chapter_file,
                          type = c("NormalExercise", 
                                   "MultipleChoiceExercise", 
                                   "VideoExercise"),
-                         simplified,
+                         simplified = FALSE,
                          title = NULL,
                          content = NULL) {
   if(missing(lang)) stop(specify_lang)
-  if(missing(simplified)) stop(specify_simplified)
+  # if(missing(simplified)) stop(specify_simplified)
   type <- match.arg(type)
   stopifnot(file.exists(chapter_file))
   
@@ -136,7 +136,7 @@ add_exercise <- function(chapter_file,
 #' @importFrom yaml yaml.load_file
 build_scaffold <- function(index_file = index_yaml, lang, simplified) {
   if(missing(lang)) stop(specify_lang)
-  if(missing(simplified)) stop(specify_simplified)
+  # if(missing(simplified)) stop(specify_simplified)
     
   chapter_files <- dir(pattern = chapter_search_pattern)
   if(length(chapter_files) > 0) {

@@ -1,7 +1,10 @@
 .onAttach <- function(...) {
-  packageStartupMessage("author_course(): Create a course template to get you started.\n",
-                        "datacamp_login(): log in to DataCamp from within R.\n",
-                        "upload_course(): upload or update your course file on DataCamp.\n",
-                        "upload_chapter(): upload or update your chapter files on DataCamp.\n",
-                        "For more information on course creation, visit http://teach.datacamp.com.\n")
+  packageStartupMessage("Everybody can teach on DataCamp! Use these functions to build your own course:\n",
+                        " - datacamp_login(): log in to DataCamp from within R.\n",
+                        " - author_course(): Create a course and chapter template to get you started.\n",
+                        " - author_chapter(): Create new chapter templates to grow your course.\n",
+                        " - add_exercise(): Add exercise templates to your chapter files.\n",
+                        " - upload_course(): upload or update your course file on DataCamp.\n",
+                        " - upload_chapter(): upload or update your chapter files on DataCamp.\n",
+                        "For more information on course creation, visit http://docs.datacamp.com/teach.\n")
 }

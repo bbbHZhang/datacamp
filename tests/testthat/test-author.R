@@ -2,7 +2,6 @@ context("author")
 
 test_that("author_course works as expected", {
   expect_that(author_course(), throws_error())
-  expect_that(author_course(lang = "r"), throws_error())
   
   crs_file <- author_course(lang = "r", simplified = TRUE)
   
@@ -22,7 +21,6 @@ test_that("author_course works as expected", {
 
 test_that("author_chapter works as expected", {
   expect_that(author_chapter(), throws_error())
-  expect_that(author_chapter(lang = "r"), throws_error())
   chapter_file <- author_chapter(lang = "r", simplified = FALSE)
   expect_true(file.exists(chapter_file))
   out <- parse_chapter(chapter_file)

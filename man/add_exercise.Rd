@@ -5,8 +5,8 @@
 \title{Add exercise to chapter file}
 \usage{
 add_exercise(chapter_file, lang, type = c("NormalExercise",
-  "MultipleChoiceExercise", "VideoExercise"), simplified, title = NULL,
-  content = NULL)
+  "MultipleChoiceExercise", "VideoExercise"), simplified = FALSE,
+  title = NULL, content = NULL)
 }
 \arguments{
 \item{chapter_file}{path to the chapter you want to append a template to}
