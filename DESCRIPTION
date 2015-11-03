@@ -17,6 +17,7 @@ Imports:
     RCurl,
     markdown,
     stringr,
-    lintr
+    lintr,
+    magrittr
 Suggests: 
     testthat
