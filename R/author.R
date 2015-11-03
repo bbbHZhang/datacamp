@@ -56,7 +56,7 @@ generate_course_template <- function() {
 #'@importFrom stringr str_extract
 author_chapter <- function(lang, simplified, title = NULL, description = NULL, internal = FALSE) {
   if(missing(lang)) stop(specify_lang)
-  if(missing(simplified)) stop(specify_simplified)
+  if(!isTRUE(internal) && missing(simplified)) stop(specify_simplified)
   
   num <- 1
   chapter_file <- sprintf(chapter_pattern, num, ifelse(lang == "r", "R", ""))
