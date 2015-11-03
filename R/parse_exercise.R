@@ -1,9 +1,25 @@
+parse_exercise <- function(raw_ex, index) {
+  raw_parts <- str_split(raw_ex, "\n\\*{3}")[[1]]
+  parts <- lapply(raw_parts, parse_elements)
+  if (length(parts) > 1){
+    main  <- parts[[1]]
+    named <- Filter(function(z) !is.null(z$name), parts[-1])
+    names(named) <- lapply(named, '[[', "name")
+    exercise <- c(main, named)
+  } else {
+    exercise <- parts[[1]]
+  }
+  
+  class(exercise) <- exercise$type
+  return(render_exercise(exercise, index))
+}
+
 render_exercise <- function(ex, num) UseMethod("render_exercise")
 
 render_exercise.default <- function(ex, num) {
   stop("Unknown Exercise type. Make sure to specify this, e.g. --- type:NormalExercise")
 }
-  
+
 get_commons <- function(ex, num) {
   list(title = extract_title(ex$content),
        language = extract_lang(ex$lang),
@@ -69,3 +85,4 @@ render_exercise.ChallengeExercise <- function(ex, num) {
          sct = extract_code(ex$sct$content),
          pre_exercise_code = extract_code(ex$pre_exercise_code$content)))
 } 
+

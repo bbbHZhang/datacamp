@@ -21,6 +21,41 @@ split_lines <- function(x) {
   readLines(con)
 }
 
+parse_elements <- function(raw_part) {
+  # element_details <- parse_meta(raw_part)
+  splitup <- split_meta(raw_part)
+  element <- parse_meta(splitup[1])
+  element$content <- splitup[2]
+  element
+}
+
+#' @importFrom stringr str_split_fixed
+split_meta <- function(blocks){
+  split_block <- function(block){
+    if (grepl("^\\s*\\{", block)){
+      block <- str_split_fixed(block, "}\n", 2)
+      block[1] <- paste(block[1], "}")
+    } else {
+      block <- str_split_fixed(block, "\n", 2)
+    }
+    return(block)
+  }
+  t(sapply(blocks, split_block, USE.NAMES = F))
+}
+
+#' @importFrom stringr str_split_fixed
+parse_meta <- function(meta){
+  x <- strsplit(meta, ' ')[[1]]
+  x <- sub('^=', 'name:', x)
+  y <- str_split_fixed(x[grep(":", x)], ":", 2)
+  y1 = y[,1]; y2 = y[,2]
+  meta  = as.list(y2[y1 != 'class'])
+  names(meta) = y1[y1 != 'class']
+  meta
+  #  filter_blank(meta)
+}
+
+
 # Utility function to convert the code words _tbt_ and _tast_ to triple backticks and triple asterisks respectively
 # This is to escape from the backtick inception in R markdown files (R markdown containing R markdown...)
 fix_specials <- function(code) {
