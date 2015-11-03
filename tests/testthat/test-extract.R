@@ -108,9 +108,13 @@ test_that("extract_video_link works as expected", {
   s2in <- "\n//player.vimeo.com/video/144351865\n\n"
   s3in <- "```{r,eval=FALSE}\n//player.vimeo.com/video/144351865\n```\n"
   s4in <- "\n\n```{r,eval=FALSE}\n//player.vimeo.com/video/144351865\n```\n"
+  s5in <- "```{python,eval=FALSE}\n//player.vimeo.com/video/144351865\n```\n"
+  s6in <- "\n\n```{python,eval=FALSE}\n//player.vimeo.com/video/144351865\n```\n"
   sout <- "//player.vimeo.com/video/144351865"
   expect_equal(extract_video_link(s1in), sout)
   expect_equal(extract_video_link(s2in), sout)
   expect_equal(extract_video_link(s3in), sout)
   expect_equal(extract_video_link(s4in), sout)
+  expect_equal(extract_video_link(s5in), sout)
+  expect_equal(extract_video_link(s6in), sout)
 })

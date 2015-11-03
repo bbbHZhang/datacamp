@@ -19,3 +19,13 @@ test_that("fix_specials is working as expected", {
   expect_that(fix_specials(s3), equals("```\n***"))
   expect_that(fix_specials(s4), equals(s4))
 })
+
+test_that("datacamp object works as expected", {
+  datacamp$set(test = 1)
+  expect_equal(datacamp$get("test"), 1)
+  datacamp$set(test2 = 2)
+  expect_equal(datacamp$get("test2"), 2)
+  expect_equal(length(datacamp$get()), 2)
+  datacamp$clear()
+  expect_equal(datacamp$get(), list())
+})

@@ -1,3 +1,4 @@
+#' @importFrom yaml yaml.load_file
 load_course_file = function() { 
   # Step 1: Load the yaml file such that we have a list with all course information:
   if (!file.exists(course_file)) {
@@ -11,9 +12,9 @@ load_course_file = function() {
   }
   
   # Parse the yaml file
-  course <- try(suppressWarnings(yaml.load_file(course_file)))
+  course <- try(suppressWarnings(yaml.load_file(course_file)), silent = TRUE)
   if (inherits(course,"try-error")) {
-    stop(sprintf("An error occurred when reading your course file.%s",have_a_look))
+    stop(sprintf("An error occurred when reading your course file.\n%s",have_a_look))
   }
   
   # Check the course yaml object on inconsistencies.
@@ -22,6 +23,7 @@ load_course_file = function() {
   return(course)
 }
 
+#' @importFrom yaml as.yaml
 add_id_to_course_file = function(course_id) {
   course <- load_course_file()
   if (is.null(course$id)) {
@@ -44,6 +46,7 @@ get_chapter_index <- function(chapter_file_name) {
   return(which(names(course$chapter) == chapter_file_name))
 }
 
+#' @importFrom yaml as.yaml
 add_chapter_to_course_file <- function(chapter_file_name, chapter_id) {
   course <- load_course_file()
   chapter_index = get_chapter_index(chapter_file_name)

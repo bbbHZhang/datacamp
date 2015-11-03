@@ -12,8 +12,7 @@ no_response <- paste("Something went wrong. We didn't get a valid response from 
 specify_lang <- "Make sure to define 'lang', the programming language of your course. Set this to \"r\" or \"python\"."
 specify_simplified <- "Make sure to define 'simplified', whether or not to generate simplified templates. Set this TRUE or FALSE."
 
-#' split string into separate lines (copied from knitr)
-#' @param x string or file to split in lines
+# split string into separate lines (copied from knitr)
 split_lines <- function(x) {
   if (length(grep("\n", x)) == 0L) 
     return(x)
@@ -22,10 +21,8 @@ split_lines <- function(x) {
   readLines(con)
 }
 
-#' Utility function to convert the code words _tbt_ and _tast_ to triple backticks and triple asterisks respectively
-#' This is to escape from the backtick inception in R markdown files (R markdown containing R markdown...)
-#' 
-#' @param code The code to convert
+# Utility function to convert the code words _tbt_ and _tast_ to triple backticks and triple asterisks respectively
+# This is to escape from the backtick inception in R markdown files (R markdown containing R markdown...)
 fix_specials <- function(code) {
   code <- gsub("_tbt_","```",code)
   code <- gsub("_tast_","***",code)

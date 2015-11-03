@@ -49,7 +49,7 @@ render_exercise.MarkdownExercise <- function(ex, num) {
          hint = extract_html(ex$hint$content),
          pre_exercise_code = extract_code(ex$pre_exercise_code$content),
          sample_code = extract_markdown(ex$sample_code$content, "my_document.Rmd"),
-         solution = extract_markdown(ex$solution$content, "my_solution.Rmd"),
+         solution = extract_markdown(ex$solution$content, "solution.Rmd"),
          sct = extract_code(ex$sct$content)))
 }
 
@@ -65,7 +65,7 @@ render_exercise.ChallengeExercise <- function(ex, num) {
     list(type = "ChallengeExercise",
          challenge_steps = extract_named_list(ex$challenge_steps$content),
          challenge_goal = extract_named_list(ex$challenge_goal$content),
-         solution = extract_code(ex$solution$content, lang),
-         sct = extract_code(ex$sct$content, lang),
-         pre_exercise_code = extract_code(ex$pre_exercise_code$content, lang)))
+         solution = extract_code(ex$solution$content),
+         sct = extract_code(ex$sct$content),
+         pre_exercise_code = extract_code(ex$pre_exercise_code$content)))
 } 

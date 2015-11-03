@@ -21,6 +21,7 @@ author_course <- function(lang, simplified) {
   if(missing(simplified)) stop(specify_simplified)
   generate_course_template()
   author_chapter(lang = lang, simplified = simplified)
+  return(invisible(course_file))
 }
 
 generate_course_template <- function() {
@@ -66,7 +67,7 @@ author_chapter <- function(lang, simplified, title = NULL, description = NULL, i
   
   message(sprintf("Creating %s in current directory ... ", chapter_file), appendLF = FALSE)
   if(is.null(title)) title <- "Insert the chapter title here"
-  if(is.null(description)) description <- "Add chapter description here."
+  if(is.null(description)) description <- "Insert the chapter description here"
   yaml_header <- sprintf(chapter_yaml_template, num, title, description)
   write(yaml_header, file = chapter_file)
   
@@ -76,7 +77,7 @@ author_chapter <- function(lang, simplified, title = NULL, description = NULL, i
   }
   
   message("Done.")
-  return(chapter_file)
+  return(invisible(chapter_file))
 }
 
 #' Add exercise to chapter file

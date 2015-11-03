@@ -57,8 +57,7 @@ test_that("add_id_to_course_file works as expected", {
   
   # no id there yet
   write("title: test\nauthor_field: testauthor\ndescription: testdescription\n", file = "course.yml")
-  result = try(suppressMessages(add_id_to_course_file(1)))
-  expect_false(inherits(result,"try-error"))
+  add_id_to_course_file(1)
   expect_that(load_course_file()$id, equals(1))
   
   # add other id than the one already available (course.yml contains id: 1)

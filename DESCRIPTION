@@ -7,16 +7,13 @@ Author: DataCamp
 Maintainer: Filip Schouwenaars <filip@datacamp.com>
 Description: This package makes it easy and fun to create interactive courses
     for www.DataCamp.com. All interactive exercises and course chapters are
-    created and structured via R Markdown documents. The package has built-in
-    functionality to effortlessly write Submission Correctness Tests for
-    interactivity.
+    created and structured in R Markdown documents.
 License: MIT + file LICENSE
 URL: www.datacamp.com
 Imports:
     httr,
     RJSONIO,
     yaml,
-    XML,
     RCurl,
     markdown,
     stringr,

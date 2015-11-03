@@ -72,6 +72,7 @@ extract_mc <- function(x) {
 
 # Extract R Markdown
 # default_name is the default name of r markdown code chunk
+#' @importFrom RJSONIO toJSON
 extract_markdown <- function(x, default_name) {
   if (!is.null(x) && nchar(x)!=0) {
     code <- extract_code(x)
