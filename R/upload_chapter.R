@@ -73,11 +73,7 @@ upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE) 
   invisible(NULL)
 }
 
-#' Upload the chapter json
-#' @param chapter_json the JSON string to be posted
-#' @param chapter_file chapter file name that is being uploaded
-#' @param open whether or not to open the teach website after upload.
-#' 
+# Upload the chapter json
 #' @importFrom httr POST content add_headers
 upload_chapter_json = function(chapter_json, chapter_file, open = TRUE) {
   base_url = paste0(datacamp$get("base_url"), "/chapters/create_from_r.json")

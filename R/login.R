@@ -16,43 +16,43 @@
 #' @export
 datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
   if(is.null(email))
-    email = readline("Email: ")
+    email <- readline("Email: ")
   if(is.null(pw)) {
     if (exists(".rs.askForPassword")) {
       pw <- do.call(".rs.askForPassword", list(prompt = "Password: "))
     } else {
-      pw = readline("Password: ")
+      pw <- readline("Password: ")
     }  
   }
   if(is.null(subdomain))
     subdomain = readline("Subdomain (leave empty for default): ")
   
   if (subdomain == "" || subdomain == " ") {
-    base_url = paste0("https://www.datacamp.com/api")
-    redirect_base_url = paste0("https://teach.datacamp.com/courses")
+    base_url <- "https://www.datacamp.com/api"
+    redirect_base_url = "https://teach.datacamp.com/courses"
   } else if (subdomain == "localhost") {
-    base_url = "127.0.0.1:3000/api"
+    base_url <- "127.0.0.1:3000/api"
     redirect_base_url = "http://localhost:9000/courses"
   } else {
-    base_url = paste0("https://", subdomain, ".datacamp.com/api")
-    redirect_base_url = paste0("http://teach-", subdomain, ".datacamp.com/courses")
+    base_url <- sprintf("https://%s.datacamp.com/api", subdomain)
+    redirect_base_url <- sprintf("https://teach-%s.datacamp.com/courses", subdomain)
   }
   
-  url = paste0(base_url, "/users/details.json?email=", curlEscape(email), "&password=", curlEscape(pw)) 
+  url <- sprintf("%s/users/details.json?email=%s&password=%s", base_url, curlEscape(email), curlEscape(pw))
   message("Logging in...")
   if (url.exists(url, ssl.verifypeer=FALSE)) {
-    getURL(url, ssl.verifypeer=FALSE)
-    content = getURLContent(url, ssl.verifypeer=FALSE)
-    auth_token = fromJSON(content)$authentication_token
+    getURL(url, ssl.verifypeer = FALSE)
+    content <- getURLContent(url, ssl.verifypeer=FALSE)
+    auth_token <- fromJSON(content)$authentication_token
     datacamp$set(auth_token = auth_token)
     datacamp$set(email = email)
     datacamp$set(base_url = base_url)
     datacamp$set(redirect_base_url = redirect_base_url)
-    message("Logged in successfully to datacamp.com through R!")
-    message("Make sure to log in with your browser to datacamp.com as well using the same account.")
+    message(paste("Logged in successfully to datacamp.com through R!", 
+                  "Make sure to log in with your browser to datacamp.com as well using the same account."))
   } else {
     datacamp$clear()
-    stop("Wrong user name  or password for datacamp.com.")
+    stop("Wrong user name or password. Make sure to create an account on www.datacamp.com first!")
   } 
 }
 

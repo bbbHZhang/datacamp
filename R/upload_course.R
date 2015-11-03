@@ -67,10 +67,7 @@ upload_course = function(course_folder = ".", open = TRUE, force = FALSE, upload
 }
 
 
-#' Upload the course json
-#' @param course_json the JSON string to be posted
-#' @param open whether or not to open the teach website after upload.
-#' 
+# Upload the course json
 #' @importFrom httr POST content add_headers
 upload_course_json = function(course_json, open) { 
   base_url = paste0(datacamp$get("base_url"), "/courses/create_from_r.json")
