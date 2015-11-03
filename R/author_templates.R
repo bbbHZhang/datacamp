@@ -9,22 +9,22 @@ hint comes here
 
 *** =pre_exercise_code
 ```{%1$s}
-# pec comes here
+# pec
 ```
 
 *** =sample_code
 ```{%1$s}
-# sample code comes here
+# sample code
 ```
 
 *** =solution
 ```{%1$s}
-# Solution code
+# solution code
 ```
 
 *** =sct
 ```{%1$s}
-# sct code comes here
+# sct code
 ```
 "
 
@@ -36,11 +36,11 @@ mce_body <-
 - option 3
 
 *** =hint
-hint comes here
+hint
 
 *** =pre_exercise_code
 ```{%1$s}
-# pec comes here
+# pec
 ```
 
 *** =sct

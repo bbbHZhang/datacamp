@@ -55,13 +55,15 @@ test_that("add_exercise works as expected", {
   expect_equal(out$exercises[[1]]$type, "NormalExercise")
   expect_equal(out$exercises[[1]]$lang, "r")
   expect_equal(out$exercises[[1]]$assignment, "<p>Assignment</p>\n")
-  expect_equal(out$exercises[[1]]$sample_code, "# sample code comes here")
+  expect_equal(out$exercises[[1]]$sample_code, "# sample code")
+  expect_equal(out$exercises[[1]]$solution, "# solution code")
   
   expect_equal(out$exercises[[2]]$title, "Test 2")
   expect_equal(out$exercises[[2]]$type, "NormalExercise")
   expect_equal(out$exercises[[2]]$lang, "python")
   expect_equal(out$exercises[[2]]$assignment, "<p>Assignment</p>\n")
-  expect_equal(out$exercises[[2]]$sample_code, "# sample code comes here")
+  expect_equal(out$exercises[[2]]$sample_code, "# sample code")
+  expect_equal(out$exercises[[2]]$solution, "# solution code")
   
   # MultipleChoiceExercise
   chapter_file <- author_chapter(lang = "r", internal = TRUE)
