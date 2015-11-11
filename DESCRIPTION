@@ -18,6 +18,7 @@ Imports:
     markdown,
     stringr,
     lintr,
-    magrittr
+    magrittr,
+    xml2
 Suggests: 
     testthat
