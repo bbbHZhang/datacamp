@@ -66,13 +66,12 @@ test_that("extract_as_* works as expected", {
   s5in <- NULL
   
   expect_equal(extract_as_vec(s1in), s1out)
-  expect_equal(extract_as_vec(s2in), s2out)
+  expect_equal(gsub("\n", "", extract_as_vec(s2in)), gsub("\n", "", s2out))
   expect_error(extract_as_vec(s3in))
   expect_equal(extract_as_vec(s4in), "empty")
   expect_equal(extract_as_vec(s5in), "empty")
   
   expect_equal(extract_as_list(s1in), as.list(s1out))
-  expect_equal(extract_as_list(s2in), as.list(s2out))
 })
 
 test_that("extract_markdown works as expected", {
