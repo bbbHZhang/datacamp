@@ -40,10 +40,26 @@ render_exercise.NormalExercise <- function(ex, num) {
          sct = extract_code(ex$sct$content)))
 }
 
+render_exercise.InteractiveExercise <- function(ex, num) {
+  insts <- extract_as_list(ex$instructions$content)
+  hints <- extract_as_list(ex$hint$content)
+  if(length(insts) != length(hints)) {
+    stop("The number of instructions does not match the number of hints.")
+  }
+  c(get_commons(ex, num),
+    list(type = "InteractiveExercise",
+         instructions = insts,
+         hint = hints,
+         pre_exercise_code = extract_code(ex$pre_exercise_code$content),
+         sample_code = extract_code(ex$sample_code$content),
+         solution = extract_code(ex$solution$content),
+         sct = extract_code(ex$sct$content)))
+} 
+
 render_exercise.MultipleChoiceExercise <- function(ex, num) {
   c(get_commons(ex, num),
     list(type = "MultipleChoiceExercise",
-         instructions = extract_mc(ex$instructions$content),
+         instructions = extract_as_vec(ex$instructions$content),
          hint = extract_html(ex$hint$content),
          pre_exercise_code = extract_code(ex$pre_exercise_code$content),
          sct = extract_code(ex$sct$content)))

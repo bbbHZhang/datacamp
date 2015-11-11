@@ -55,7 +55,6 @@ parse_meta <- function(meta){
   #  filter_blank(meta)
 }
 
-
 # Utility function to convert the code words _tbt_ and _tast_ to triple backticks and triple asterisks respectively
 # This is to escape from the backtick inception in R markdown files (R markdown containing R markdown...)
 fix_specials <- function(code) {

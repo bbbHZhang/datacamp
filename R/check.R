@@ -10,6 +10,7 @@ linters_to_ignore <- c("trailing_blank_lines_linter", "trailing_whitespace_linte
 # how long each exercise takes to complete, in minutes
 timing_lut <- c(VideoExercise = 5,
                 NormalExercise = 3,
+                InteractiveExercise = 3,
                 MultipleChoiceExercise = 2,
                 ChallengeExercise = 4,
                 MarkdownExercise = 3)

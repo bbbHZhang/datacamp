@@ -33,6 +33,18 @@ extract_html <- function(x) {
   return(content)
 }
 
+# Extract html as a list of html elements
+#' @importFrom markdown markdownToHTML
+extract_html_list <- function(x) {
+  if(is.null(x) || nchar(x) == 0) {
+    return(NULL)
+  }
+  vapply()
+  
+  return(content)
+}
+
+
 # Extract code chunks from raw text
 extract_code <- function(x) {
   if(is.null(x)) return(x)
@@ -54,20 +66,23 @@ extract_code <- function(x) {
   return(code)
 }
 
-# Create a vector with multiple choice options
-extract_mc <- function(x) {
+#' @importFrom markdown markdownToHTML
+#' @importFrom xml2 read_html xml_find_all
+extract_as_vec <- function(x) {
   if(is.null(x) || nchar(x) == 0) {
-    return(c())
+    return(c("empty"))
   }
   html <- markdownToHTML(text = x, fragment.only = TRUE)
-  lines <- split_lines(html)
-  pattern <- "<li>(.*?)</li>"
-  list_elements <- lines[grepl(pattern, lines)]
-  mc <- gsub("<li>|</li>","",str_extract(list_elements, "<li>.*</li>"))
-  if(length(mc) == 0 || length(mc) == 1) {
-    stop("No or only one choice could be extracted for the MCE.")
+  vec <- vapply(xml_find_all(xml2::read_html(html), "./body/ul/li"), as.character, character(1))
+  instructions <- gsub("^\\s*<li>(.*)</li>\\s*$", "\\1", vec)
+  if(length(instructions) == 0) {
+    stop("No instructions could be extracted. Make sure to use a markdown list under \"*** =instructions.\"")
   }
-  return(mc)
+  return(instructions)
+}
+
+extract_as_list <- function(x) {
+  as.list(extract_as_vec(x))
 }
 
 # Extract R Markdown

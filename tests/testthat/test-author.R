@@ -1,7 +1,7 @@
 context("author")
 
 test_that("author_course works as expected", {
-  expect_that(author_course(), throws_error())
+  expect_error(author_course())
   
   crs_file <- author_course(lang = "r")
   
@@ -17,10 +17,15 @@ test_that("author_course works as expected", {
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
   expect_equal(length(out$exercises), 3)
+  
+  crs_file <- author_course(lang = "r")
+  expect_error(author_course(lang = "r"), "A file named course.yml already exists in your current working directory.")
+  unlink(crs_file)
+  unlink("chapter1.Rmd")
 })
 
 test_that("author_chapter works as expected", {
-  expect_that(author_chapter(), throws_error())
+  expect_error(author_chapter())
   chapter_file <- author_chapter(lang = "r")
   expect_true(file.exists(chapter_file))
   out <- parse_chapter(chapter_file)
@@ -29,7 +34,6 @@ test_that("author_chapter works as expected", {
   expect_equal(out$title_meta, "Chapter 1")
   expect_equal(out$title, "Insert the chapter title here")
   expect_equal(out$description, "Insert the chapter description here")
-  
   
   chapter_file <- author_chapter(lang = "r", title = "test", description = "description")
   expect_true(file.exists(chapter_file))
@@ -131,7 +135,6 @@ test_that("build_scaffold works as expected", {
                "      content: video content 2\n"),
         file = index_yaml)
   build_scaffold(index_yaml, lang = "r")
-  unlink(index_yaml)
   crs <- load_course_file()
   expect_equal(crs$title, "insert course title here")
   out1 <- parse_chapter("chapter1.Rmd")
@@ -159,5 +162,13 @@ test_that("build_scaffold works as expected", {
   expect_equal(out2$exercises[[3]]$title, "video 2")
   expect_equal(out2$exercises[[3]]$assignment, "<p>video content 2</p>\n")
   
-  # TO DO ADD TESTS FOR ARCHIVING
+  build_scaffold(index_yaml, lang = "r")
+  build_scaffold(index_yaml, lang = "r")
+  archived <- grepl("archived_*", dir())
+  expect_true(any(archived))
+  unlink(dir()[archived], recursive = TRUE)
+  unlink("chapter1.Rmd")
+  unlink("chpater2.Rmd")
+  
+  unlink(index_yaml)
 })

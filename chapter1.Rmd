@@ -1,0 +1,38 @@
+---
+title_meta  : Chapter 1
+title       : Insert the chapter title here
+description : Insert the chapter description here
+
+--- type:InteractiveExercise lang:r xp:100 skills:1
+## My NormalExercise
+
+Assignment comes here. Use Markdown for text formatting.
+
+*** =instructions
+- instruction 1
+- instruction 2
+
+*** =hint
+- hint 1
+- hint 2
+
+*** =pre_exercise_code
+```{r}
+# pec
+```
+
+*** =sample_code
+```{r}
+# sample code
+```
+
+*** =solution
+```{r}
+# solution code
+```
+
+*** =sct
+```{r}
+# sct code
+```
+
