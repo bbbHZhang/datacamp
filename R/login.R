@@ -35,7 +35,7 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
     redirect_base_url = "http://localhost:9000/courses"
   } else {
     base_url <- sprintf("https://%s.datacamp.com/api", subdomain)
-    redirect_base_url <- sprintf("https://teach-%s.datacamp.com/courses", subdomain)
+    redirect_base_url <- sprintf("https://%s.datacamp.com/teach/courses", subdomain)
   }
   
   url <- sprintf("%s/users/details.json?email=%s&password=%s", base_url, curlEscape(email), curlEscape(pw))
