@@ -15,14 +15,15 @@ timing_lut <- c(VideoExercise = 5,
                 ChallengeExercise = 4,
                 MarkdownExercise = 3)
 max_time <- 60
+min_time <- 30
 
 check_chapter <- function(exercises) {
   ex_types <- sapply(exercises, function(x) x$type)
   timings <- timing_lut[ex_types]
   total_time <- sum(timings)
   message(sprintf("  -- Estimated time to take chapter: %s minutes.", total_time))
-  if(total_time > max_time) {
-    message(sprintf("     Try limiting the content to stay under %s minutes.", max_time))
+  if(total_time > max_time || total_time < min_time) {
+    message(sprintf("     The ideal DataCamp chapter is between %s and %s minutes long.", min_time, max_time))
   }
 }
 
