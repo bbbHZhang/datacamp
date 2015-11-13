@@ -90,11 +90,11 @@ check_instructions <- function(exercise) {
     if(exercise$type == "MultipleChoiceExercise") {
       num_instr <- length(exercise$instructions)
     } else {
-      num_instr <- stringr::str_count(exercise$instructions, "<li>")
+      num_instr <- length(vapply(xml_find_all(xml2::read_html(exercise$instructions), "./body/ul/li"), as.character, character(1)))
     }
     
     if(num_instr > max_number_instructions) {
-      message(sprintf("\t> instructions\n\t  You have %s instructions. Try to limit yourself to %s.\n", 
+      message(sprintf("\t> instructions\n\t  You have %s top-level bullets. Try to limit yourself to %s.\n", 
                       num_instr, max_number_instructions))
     }
   }
