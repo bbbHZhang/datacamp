@@ -22,7 +22,7 @@ extract_title <- function(x) {
 #' @importFrom markdown markdownToHTML
 extract_html <- function(x) {
   if(is.null(x) || nchar(x) == 0) {
-    return(NULL)
+    return("")
   }
   html <- markdownToHTML(text = x, fragment.only = TRUE)
   # remove title, if any
@@ -47,7 +47,7 @@ extract_html_list <- function(x) {
 
 # Extract code chunks from raw text
 extract_code <- function(x) {
-  if(is.null(x)) return(x)
+  if(is.null(x)) return("")
   lines <- split_lines(x)
   lang_part <- "r|py"
   chunk_begin <- sprintf("^\\s*```+\\s*\\{[.]?%s(.*)\\}\\s*$", lang_part)
@@ -152,9 +152,7 @@ extract_skills <- function(x) {
   return(as.list(ids))
 }
 
-#' Extract language
-#' 
-#' @param x lang part
+# Extract language
 extract_lang <- function(x) {
   if(isTRUE(grepl("py", tolower(x)))) {
     lang <- "python"
@@ -168,7 +166,7 @@ extract_lang <- function(x) {
 # Extract video link
 # Both with and without (preferred) code chunks is supported.
 extract_video_link <- function(x) {
-  if(is.null(x)) return(x)
+  if(is.null(x)) return(NULL)
   lines <- split_lines(x)
   if(any(grepl("^\\s*```+\\s*$", lines))) {
     return(extract_code(x))
