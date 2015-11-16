@@ -124,7 +124,7 @@ add_exercise <- function(chapter_file,
   ex_header <- sprintf("--- type:%s lang:%s xp:%s skills:%s", type, lang, xp, skills_id)
   if(is.null(title)) title <- paste("My", type)
   ex_title <- paste0("## ", title, "\n")
-  if(is.null(content)) content <- "Assignment comes here. Use Markdown for text formatting."
+  if(is.null(content) && type != "VideoExercise") content <- "Assignment comes here. Use Markdown for text formatting."
 
   body <- switch(type, 
                  NormalExercise = sprintf(normal_body, lang),
