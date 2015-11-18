@@ -50,15 +50,19 @@ check_code_blocks <- function(exercise) {
 diagnose_code <- function(code, type) {
   file <- tempfile(fileext = ".R")
   write(code, file = file)
-  lints <- lintr::lint(file)
   
-  for(lint in lints) {
-    if(lint$linter %in% linters_to_ignore) {
-      cat("")
-    } else {
-      message(sprintf("\t> %s\n\t  Code: %s\n\t  Line: %s\n\t  Column: %s\n\t  Message: %s\n", 
-                      type, lint$line, lint$line_number, lint$column, lint$message))
-    }
+  lints <- try(lintr::lint(file), silent = TRUE)
+  if(inherits(lints, "try-error")) {
+    message(sprintf("\t> %s\n\t  lintr package encountered an error.\n", type))
+  } else {
+    for(lint in lints) {
+      if(lint$linter %in% linters_to_ignore) {
+        cat("")
+      } else {
+        message(sprintf("\t> %s\n\t  Code: %s\n\t  Line: %s\n\t  Column: %s\n\t  Message: %s\n", 
+                        type, lint$line, lint$line_number, lint$column, lint$message))
+      }
+    }  
   }
   unlink(file)
 }
