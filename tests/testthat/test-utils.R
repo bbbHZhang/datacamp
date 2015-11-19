@@ -1,29 +1,11 @@
 context("utils")
 
-test_that("split_lines behaves as expected", {
-  s1 <- "a\nb\nc\nd\n"
-  expect_equal(length(split_lines(s1)), 5)
-  s2 <- "\n\n\n\n\n"
-  expect_equal(length(split_lines(s2)), 6)
-  s3 <- "nonewlinesinhere"
-  expect_equal(split_lines(s3), s3)
-})
-
 test_that("parse_meta works as expected", {
   expect_equal(length(parse_meta("")), 0)
   expect_equal(parse_meta(" =instructions"), list(name = "instructions"))
   expect_equal(parse_meta(" =hint"), list(name = "hint"))
   expect_equal(parse_meta(" type:VideoExercise"), list(type = "VideoExercise"))
   expect_equal(parse_meta(" type:VideoExercise aspect_ratio:62.5"), list(type = "VideoExercise", aspect_ratio = "62.5"))
-})
-
-test_that("split_meta works as expected", {
-  x <- split_meta(" type:VideoExercise aspect_ratio:62.5\n## Video Exercise Title\n")
-  expect_equal(x[1], " type:VideoExercise aspect_ratio:62.5")
-  expect_equal(x[2], "## Video Exercise Title\n")
-  y <- split_meta(" =pre_exercise_code\n```{r,eval=FALSE}\nurl <- \"http://assets.datacamp.com/blog_assets/chol.txt\"\n```\n")
-  expect_equal(y[1], " =pre_exercise_code")
-  expect_equal(y[2], "```{r,eval=FALSE}\nurl <- \"http://assets.datacamp.com/blog_assets/chol.txt\"\n```\n")
 })
 
 test_that("parse_elements works as expected", {

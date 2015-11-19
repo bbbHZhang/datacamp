@@ -1,17 +1,39 @@
 parse_exercise <- function(raw_ex, index) {
   raw_parts <- str_split(raw_ex, "\n\\*{3}")[[1]]
+  
   parts <- lapply(raw_parts, parse_elements)
   if (length(parts) > 1){
     main  <- parts[[1]]
-    named <- Filter(function(z) !is.null(z$name), parts[-1])
-    names(named) <- lapply(named, '[[', "name")
-    exercise <- c(main, named)
+    others <- parts[-1]
+    names(others) <- lapply(others, `[[`, "name")
+    exercise <- c(main, others)
   } else {
-    exercise <- parts[[1]]
+    stop("Something went wrong during parsing")
   }
   
   class(exercise) <- exercise$type
   return(render_exercise(exercise, index))
+}
+
+parse_elements <- function(raw_part) {
+  # element_details <- parse_meta(raw_part)
+  splitup <- str_split_fixed(raw_part, "\n", 2)
+  element <- parse_header(splitup[1])
+  element$content <- splitup[2]
+  return(element)
+}
+
+#' @importFrom stringr str_split_fixed
+parse_header <- function(meta){
+  x <- strsplit(meta, ' ')[[1]]
+  
+  # change =sample_code to name:sample_code
+  x <- sub('^=', 'name:', x)
+  
+  y <- str_split_fixed(x[grep(":", x)], ":", 2)
+  meta  = as.list(y[,2])
+  names(meta) = y[,1]
+  return(meta)
 }
 
 render_exercise <- function(ex, num) UseMethod("render_exercise")

@@ -1,6 +1,6 @@
 #' @importFrom stringr str_trim
 extract_title <- function(x) {
-  lines <- split_lines(x)
+  lines <- str_split(x, pattern = "\n")[[1]]
   pattern <- "^##\\s+(.*?)"
   hits <- grepl(pattern, lines)
   if(sum(hits) == 0) {
@@ -48,7 +48,7 @@ extract_html_list <- function(x) {
 # Extract code chunks from raw text
 extract_code <- function(x) {
   if(is.null(x)) return("")
-  lines <- split_lines(x)
+  lines <- str_split(x, "\n")[[1]]
   lang_part <- "r|py"
   chunk_begin <- sprintf("^\\s*```+\\s*\\{[.]?%s(.*)\\}\\s*$", lang_part)
   chunk_end <- "^\\s*```+\\s*$"
@@ -125,7 +125,7 @@ extract_named_list <- function(x) {
     return(NULL)
   }
   html <- markdownToHTML(text = x, fragment.only = TRUE)
-  lines <- split_lines(html)
+  lines <- str_split(html, "\n")[[1]]
   pattern <- "<h2>(.*?)</h2>"
   title_lines <- grepl(pattern, lines)
   blocks <- cumsum(title_lines)
@@ -167,7 +167,7 @@ extract_lang <- function(x) {
 # Both with and without (preferred) code chunks is supported.
 extract_video_link <- function(x) {
   if(is.null(x)) return(NULL)
-  lines <- split_lines(x)
+  lines <- str_split(x, pattern = "\n")[[1]]
   if(any(grepl("^\\s*```+\\s*$", lines))) {
     return(extract_code(x))
   } else {

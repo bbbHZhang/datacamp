@@ -6,7 +6,10 @@
 #' @importFrom yaml yaml.load
 #' @export
 parse_chapter <- function(chapter_file) {
+  # split yaml header from exercises
   splitup <- str_split_fixed(paste(readLines(chapter_file, warn = FALSE), collapse = '\n'), "\n---", 2)
+  
+  # get yaml info
   chapter_meta <- try(yaml.load(gsub("^---\n+", '', splitup[1])))
   if(inherits(chapter_meta, "try-error")) {
     stop(paste0("Something went wrong when parsing the yaml header of ", chapter_file, 
@@ -21,7 +24,13 @@ parse_chapter <- function(chapter_file) {
   for(i in 1:length(raw_exercises)) {
     
     message(sprintf("  - %s. ", i), appendLF = FALSE)
+    
+    
+    
     exercise <- parse_exercise(raw_exercises[[i]], i)
+    
+    
+    
     message(exercise$title)
     
     # check exercise for consistency
@@ -42,4 +51,5 @@ parse_chapter <- function(chapter_file) {
 
   return(c(chapter_meta, list(exercises = exercises)))
 }
+
 
