@@ -11,7 +11,7 @@ parse_exercise <- function(raw_ex, index) {
     stop("Something went wrong during parsing")
   }
   
-  class(exercise) <- exercise$type
+  class(exercise) <- c(exercise$type, class(exercise))
   return(render_exercise(exercise, index))
 }
 
@@ -44,7 +44,7 @@ render_exercise.default <- function(ex, num) {
 
 get_commons <- function(ex, num) {
   list(title = extract_title(ex$content),
-       language = extract_lang(ex$lang),
+       lang = extract_lang(ex$lang),
        xp = ex$xp,
        skills = extract_skills(ex$skills),
        assignment = extract_html(ex$content),

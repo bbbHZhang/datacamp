@@ -1,0 +1,9 @@
+title_meta: Chapter 1
+title: Importing data from flat files
+description: 'Lots of data comes in the form of flat files: simple tabular text files.
+  Learn how to import all common formats of flat file data with base R functions and
+  the dedicated readr and data.table packages.'
+attachments:
+  slides_link: https://s3.amazonaws.com/assets.datacamp.com/course/importing_data_into_r/slides/ch1_slides.pdf
+free_preview: yes
+
