@@ -1,13 +1,5 @@
 context("utils")
 
-test_that("parse_meta works as expected", {
-  expect_equal(length(parse_meta("")), 0)
-  expect_equal(parse_meta(" =instructions"), list(name = "instructions"))
-  expect_equal(parse_meta(" =hint"), list(name = "hint"))
-  expect_equal(parse_meta(" type:VideoExercise"), list(type = "VideoExercise"))
-  expect_equal(parse_meta(" type:VideoExercise aspect_ratio:62.5"), list(type = "VideoExercise", aspect_ratio = "62.5"))
-})
-
 test_that("parse_elements works as expected", {
   x <- parse_elements(" type:VideoExercise aspect_ratio:62.5\n## Video Exercise Title\n")
   expect_equal(x, list(type = "VideoExercise", aspect_ratio = "62.5", content = "## Video Exercise Title\n"))
