@@ -1,6 +1,8 @@
 #' Parse chapter file into R list
 #'  
 #' @param chapter_file path to the chapter file you want to parse
+#' @param htmlify convert the text elements to HTML? TRUE by default
+#' @param check check the code against datacamp guidelines? TRUE by default
 #' 
 #' @importFrom stringr str_split_fixed str_split
 #' @importFrom yaml yaml.load

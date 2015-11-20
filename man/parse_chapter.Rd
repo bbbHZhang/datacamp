@@ -8,6 +8,10 @@ parse_chapter(chapter_file, htmlify = TRUE, check = TRUE)
 }
 \arguments{
 \item{chapter_file}{path to the chapter file you want to parse}
+
+\item{htmlify}{convert the text elements to HTML? TRUE by default}
+
+\item{check}{check the code against datacamp guidelines? TRUE by default}
 }
 \description{
 Parse chapter file into R list

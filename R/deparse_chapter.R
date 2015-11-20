@@ -1,3 +1,14 @@
+#' Based on the structured list representing a chapter file, create the chapter file again.
+#' 
+#' @param chapter_list structured list resulting from \link{parse_chapter}
+#' @param chapter_file Path of the file to which you want to write the list representing the chapter.
+#' 
+#' @examples 
+#' \dontrun{
+#' chapter_list <- parse_chapter("path_to_file", htmlify = FALSE, check = FALSE)
+#' deparse_chapter(chapter_list, "chapterX.Rmd")
+#' }
+#'
 #' @export
 deparse_chapter <- function(chapter_list, chapter_file) {
   chapter_meta <- chapter_list[-which(names(chapter_list) == "exercises")]
@@ -8,8 +19,6 @@ deparse_chapter <- function(chapter_list, chapter_file) {
   })
   write(exercise_strings, file = chapter_file, append = TRUE)
 }
-
-
 
 build_commons <- function(ex) {
   sprintf("--- type:%s lang:%s skills:%s xp:%s\n## %s\n\n%s\n",
