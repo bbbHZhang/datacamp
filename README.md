@@ -17,5 +17,5 @@ library("datacamp")
 For more details, questions and suggestions, you can contact <b>support@datacamp.com</b>.
 
 <p align="center">
-<img src="https://s3.amazonaws.com/assets.datacamp.com/img/logo/logo_blue_full.svg" width="250">
+<img src="https://s3.amazonaws.com/assets.datacamp.com/img/logo/logo_blue_full.svg" width="150">
 </p>
