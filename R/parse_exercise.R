@@ -127,3 +127,22 @@ render_exercise.ChallengeExercise <- function(ex, num, htmlify) {
          pre_exercise_code = extract_code(ex$pre_exercise_code$content)))
 } 
 
+render_exercise.CapstoneVideoExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
+    list(id = ex$id, nxt = ex$nxt),
+    list(type = "CapstoneVideoExercise",
+         aspect_ratio = ex$aspect_ratio,
+         video_link = extract_video_link(ex$video_link$content),
+         video_stream = extract_video_link(ex$video_stream$content),
+         video_hls = extract_video_link(ex$video_hls$content)))
+}
+
+render_exercise.CapstoneMultipleChoiceExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
+    list(id = ex$id),
+    list(type = "CapstoneMultipleChoiceExercise",
+         instructions = extract_as_vec(ex$instructions$content),
+         hint = extract_html(ex$hint$content, htmlify),
+         pre_exercise_code = extract_code(ex$pre_exercise_code$content),
+         sct = extract_code(ex$sct$content)))
+}

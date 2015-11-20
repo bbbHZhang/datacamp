@@ -13,7 +13,10 @@ timing_lut <- c(VideoExercise = 5,
                 InteractiveExercise = 3,
                 MultipleChoiceExercise = 2,
                 ChallengeExercise = 4,
-                MarkdownExercise = 3)
+                MarkdownExercise = 3,
+                CapstoneVideoExercise = 3,
+                CapstoneMultipleChoiceExercise = 3)
+
 max_time <- 60
 min_time <- 30
 
