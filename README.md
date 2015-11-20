@@ -3,7 +3,7 @@
 [![Build Status](https://api.travis-ci.org/Data-Camp/datacamp.svg?branch=master)](https://travis-ci.org/Data-Camp/datacamp)
 [![codecov.io](https://codecov.io/github/Data-Camp/datacamp/coverage.svg?branch=master)](https://codecov.io/github/Data-Camp/datacamp?branch=master)
 
-Everybody can teach on DataCamp. The `datacamp` package makes this possible. It helps you in geting started on creating DataCamp course files, which are simple Markdown files. Next, you can upload these course files to DataCamp's servers with easy-to-use functions, making the course availalbe for a wider audience on DataCamp. A detailed guide on course creation for the DataCamp platform can be found at <b>http://docs.datacamp.com/teach/</b>.
+Everybody can teach on DataCamp: just use the `datacamp` package. It helps you in geting started on creating DataCamp course files, which are simple Markdown files. Next, you can upload these course files to DataCamp's servers with easy-to-use functions, making the course available for everybody on DataCamp. A detailed guide on course creation for the DataCamp platform can be found at **http://docs.datacamp.com/teach/**.
 
 ## Installation
 
