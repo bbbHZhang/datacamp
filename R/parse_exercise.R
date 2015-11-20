@@ -12,7 +12,9 @@ parse_exercise <- function(raw_ex, index, htmlify) {
   }
   
   class(exercise) <- c(exercise$type, class(exercise))
-  return(render_exercise(exercise, index, htmlify))
+  parsed_exercise <- render_exercise(exercise, index, htmlify)
+  
+  return(parsed_exercise)
 }
 
 parse_elements <- function(raw_part) {
@@ -46,7 +48,7 @@ get_commons <- function(ex, num, htmlify) {
        number = num)
 }
 
-render_exercise <- function(ex, num, htmlify) UseMethod("render_exercise")
+render_exercise <- function(ex, num, htmlify, capstone) UseMethod("render_exercise")
 
 render_exercise.default <- function(ex, num, htmlify) {
   stop("Unknown Exercise type. Make sure to specify this, e.g. --- type:NormalExercise")

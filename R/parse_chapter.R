@@ -44,7 +44,10 @@ parse_chapter <- function(chapter_file, htmlify = TRUE, check = TRUE) {
                        "make sure they are unique."), chapter_file))
   }
     
-  check_chapter(exercises)
+  if(check) {
+    check_chapter(exercises)  
+  }
+  
   message("Rendering all exercises done.")
 
   return(c(chapter_meta, list(exercises = exercises)))
