@@ -2,10 +2,11 @@
 deparse_chapter <- function(chapter_list, chapter_file) {
   chapter_meta <- chapter_list[-which(names(chapter_list) == "exercises")]
   write(as.yaml(chapter_meta), file = chapter_file)
-  exercise_strings <- lapply(chapter_list$exercises, function(ex) {
+  exercise_strings <- sapply(chapter_list$exercises, function(ex) {
     class(ex) <- c(ex$type, class(ex))
-    deparse_exercise(ex)
+    paste0(deparse_exercise(ex), "\n")
   })
+  write(exercise_strings, file = chapter_file, append = TRUE)
 }
 
 
@@ -23,40 +24,26 @@ deparse_exercise.default <- function(ex) {
 }
 
 deparse_exercise.NormalExercise <- function(ex) {
-  x <- paste(build_commons(ex), 
-             build_text(ex[c("instructions", "hint")]),
-             build_code(ex[c("pre_exercise_code", "sample_code", "solution", "pre_exercise_code", "sct")], ex$lang), 
-             collapse = "\n")
-  x
-}
-
-build_text <- function(lst) {
-  string_vecs <- mapply(function(x, y) {
-    sprintf("*** =%s\n%s", x, y)
-  }, names(lst), lst)
-  paste(string_vecs, collapse = "\n")
-}
-
-build_code <- function(lst, lang) {
-  string_vecs <- mapply(function(x, y) {
-    sprintf("*** =%s\n```{%s}\n%s\n```\n", x, lang, y)
-  }, names(lst), lst)
-  paste(string_vecs, collapse = "\n")
+  paste0(build_commons(ex), 
+         build_text(ex[c("instructions", "hint")]),
+         build_code(ex[c("pre_exercise_code", "sample_code", "solution", "pre_exercise_code", "sct")], ex$lang), 
+         collapse = "\n")
 }
 
 deparse_exercise.MultipleChoiceExercise <- function(ex) {
-  ex
-  #   paste(build_commons(ex), 
-  #         
-  #         , collapse = "\n")
+  paste0(build_commons(ex),
+         paste("*** =instructions\n", paste0("- ", ex$instructions, collapse = "\n"), collapse = "\n"),
+         build_text(ex["hint"]),
+         build_code(ex[c("pre_exercise_code", "sct")], ex$lang),
+         collapse = "\n")
 }
 
 deparse_exercise.VideoExercise <- function(ex) {
-  ex
-  #   paste(build_commons(ex), 
-  #         
-  #         , collapse = "\n")
+  paste0(build_commons(ex),
+         build_text(ex[c("video_link", "video_stream", "video_hls")]),
+         collapse = "\n\n")
 }
+
 
 deparse_exercise.ChallengeExercise <- function(ex) {
   stop("No support for deparsing Challenge Exercises")
@@ -65,3 +52,18 @@ deparse_exercise.ChallengeExercise <- function(ex) {
 deparse_exercise.MarkdownExercise <- function(ex) {
   stop("No support for deparsing Markdown Exercises")
 }
+
+build_text <- function(lst) {
+  string_vecs <- mapply(function(x, y) {
+    sprintf("*** =%s\n%s", x, y)
+  }, names(lst), lst)
+  paste0(paste0(string_vecs, collapse = "\n"),"\n")
+}
+
+build_code <- function(lst, lang) {
+  string_vecs <- mapply(function(x, y) {
+    sprintf("*** =%s\n```{%s}\n%s\n```\n", x, lang, y)
+  }, names(lst), lst)
+  paste0(paste0(string_vecs, collapse = "\n"), "\n")
+}
+

@@ -4,7 +4,7 @@
 \alias{parse_chapter}
 \title{Parse chapter file into R list}
 \usage{
-parse_chapter(chapter_file)
+parse_chapter(chapter_file, htmlify = TRUE, check = TRUE)
 }
 \arguments{
 \item{chapter_file}{path to the chapter file you want to parse}

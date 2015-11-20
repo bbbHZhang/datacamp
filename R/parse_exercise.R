@@ -1,4 +1,4 @@
-parse_exercise <- function(raw_ex, index) {
+parse_exercise <- function(raw_ex, index, htmlify) {
   raw_parts <- str_split(raw_ex, "\n\\*{3}")[[1]]
   
   parts <- lapply(raw_parts, parse_elements)
@@ -12,7 +12,7 @@ parse_exercise <- function(raw_ex, index) {
   }
   
   class(exercise) <- c(exercise$type, class(exercise))
-  return(render_exercise(exercise, index))
+  return(render_exercise(exercise, index, htmlify))
 }
 
 parse_elements <- function(raw_part) {
@@ -36,39 +36,40 @@ parse_header <- function(meta){
   return(meta)
 }
 
-render_exercise <- function(ex, num) UseMethod("render_exercise")
 
-render_exercise.default <- function(ex, num) {
-  stop("Unknown Exercise type. Make sure to specify this, e.g. --- type:NormalExercise")
-}
-
-get_commons <- function(ex, num) {
+get_commons <- function(ex, num, htmlify) {
   list(title = extract_title(ex$content),
        lang = extract_lang(ex$lang),
        xp = ex$xp,
        skills = extract_skills(ex$skills),
-       assignment = extract_html(ex$content),
+       assignment = extract_html(ex$content, htmlify),
        number = num)
 }
 
-render_exercise.NormalExercise <- function(ex, num) {
-  c(get_commons(ex, num),
+render_exercise <- function(ex, num, htmlify) UseMethod("render_exercise")
+
+render_exercise.default <- function(ex, num, htmlify) {
+  stop("Unknown Exercise type. Make sure to specify this, e.g. --- type:NormalExercise")
+}
+
+render_exercise.NormalExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
     list(type = "NormalExercise",
-         instructions = extract_html(ex$instructions$content),
-         hint = extract_html(ex$hint$content),
+         instructions = extract_html(ex$instructions$content, htmlify),
+         hint = extract_html(ex$hint$content, htmlify),
          pre_exercise_code = extract_code(ex$pre_exercise_code$content),
          sample_code = extract_code(ex$sample_code$content),
          solution = extract_code(ex$solution$content),
          sct = extract_code(ex$sct$content)))
 }
 
-render_exercise.InteractiveExercise <- function(ex, num) {
+render_exercise.InteractiveExercise <- function(ex, num, htmlify) {
   insts <- extract_as_list(ex$instructions$content)
   hints <- extract_as_list(ex$hint$content)
   if(length(insts) != length(hints)) {
     stop("The number of instructions does not match the number of hints.")
   }
-  c(get_commons(ex, num),
+  c(get_commons(ex, num, htmlify),
     list(type = "InteractiveExercise",
          instructions = insts,
          hint = hints,
@@ -78,17 +79,17 @@ render_exercise.InteractiveExercise <- function(ex, num) {
          sct = extract_code(ex$sct$content)))
 } 
 
-render_exercise.MultipleChoiceExercise <- function(ex, num) {
-  c(get_commons(ex, num),
+render_exercise.MultipleChoiceExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
     list(type = "MultipleChoiceExercise",
          instructions = extract_as_vec(ex$instructions$content),
-         hint = extract_html(ex$hint$content),
+         hint = extract_html(ex$hint$content, htmlify),
          pre_exercise_code = extract_code(ex$pre_exercise_code$content),
          sct = extract_code(ex$sct$content)))
 }
 
-render_exercise.VideoExercise <- function(ex, num) {
-  c(get_commons(ex, num),
+render_exercise.VideoExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
     list(type = "VideoExercise",
          aspect_ratio = ex$aspect_ratio,
          video_link = extract_video_link(ex$video_link$content),
@@ -96,26 +97,26 @@ render_exercise.VideoExercise <- function(ex, num) {
          video_hls = extract_video_link(ex$video_hls$content)))
 }
 
-render_exercise.MarkdownExercise <- function(ex, num) {
-  c(get_commons(ex, num),
+render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
     list(type = "MarkdownExercise",
-         instructions = extract_html(ex$instructions$content),
-         hint = extract_html(ex$hint$content),
+         instructions = extract_html(ex$instructions$content, htmlify),
+         hint = extract_html(ex$hint$content, htmlify),
          pre_exercise_code = extract_code(ex$pre_exercise_code$content),
          sample_code = extract_markdown(ex$sample_code$content, "my_document.Rmd"),
          solution = extract_markdown(ex$solution$content, "solution.Rmd"),
          sct = extract_code(ex$sct$content)))
 }
 
-render_exercise.SwirlExercise <- function(ex, num) {
-  c(get_commons(ex, num),
+render_exercise.SwirlExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
     list(type = "SwirlExercise",
          swirl_course = extract_code(ex$swirl_course$content),
          swirl_lesson = extract_code(ex$swirl_lesson$content)))
 }
 
-render_exercise.ChallengeExercise <- function(ex, num) {
-  c(get_commons(ex, num),
+render_exercise.ChallengeExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
     list(type = "ChallengeExercise",
          challenge_steps = extract_named_list(ex$challenge_steps$content),
          challenge_goal = extract_named_list(ex$challenge_goal$content),

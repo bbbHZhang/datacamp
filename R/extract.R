@@ -20,30 +20,23 @@ extract_title <- function(x) {
 # Extract html from a chunk of text
 # If a second-level header is in the content, this is removed.
 #' @importFrom markdown markdownToHTML
-extract_html <- function(x) {
+extract_html <- function(x, htmlify) {
   if(is.null(x) || nchar(x) == 0) {
     return("")
   }
-  html <- markdownToHTML(text = x, fragment.only = TRUE)
-  # remove title, if any
-  content <- gsub("<h2>.*</h2>\n*","",html)
-  # Convert curly quotes to normal quotes
-  content <- gsub("&ldquo;", "&quot;",content)
-  content <- gsub("&rdquo;", "&quot;",content)
-  return(content)
-}
-
-# Extract html as a list of html elements
-#' @importFrom markdown markdownToHTML
-extract_html_list <- function(x) {
-  if(is.null(x) || nchar(x) == 0) {
-    return(NULL)
-  }
-  vapply()
   
+  if(htmlify) {
+    html <- markdownToHTML(text = x, fragment.only = TRUE)
+    # remove title, if any
+    content <- gsub("<h2>.*</h2>\n*","",html)
+    # Convert curly quotes to normal quotes
+    content <- gsub("&ldquo;", "&quot;",content)
+    content <- gsub("&rdquo;", "&quot;",content)  
+  } else {
+    content <- gsub("##\\s*.*?\n+","",x)
+  }
   return(content)
 }
-
 
 # Extract code chunks from raw text
 extract_code <- function(x) {
@@ -165,6 +158,7 @@ extract_lang <- function(x) {
 
 # Extract video link
 # Both with and without (preferred) code chunks is supported.
+#' @importFrom stringr str_split
 extract_video_link <- function(x) {
   if(is.null(x)) return(NULL)
   lines <- str_split(x, pattern = "\n")[[1]]

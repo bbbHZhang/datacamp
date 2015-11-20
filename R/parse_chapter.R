@@ -5,7 +5,7 @@
 #' @importFrom stringr str_split_fixed str_split
 #' @importFrom yaml yaml.load
 #' @export
-parse_chapter <- function(chapter_file) {
+parse_chapter <- function(chapter_file, htmlify = TRUE, check = TRUE) {
   # split yaml header from exercises
   splitup <- str_split_fixed(paste(readLines(chapter_file, warn = FALSE), collapse = '\n'), "\n---", 2)
   
@@ -16,6 +16,7 @@ parse_chapter <- function(chapter_file) {
                 ". Make sure to wrap your title and description in quotes if there are colons in there."))
   }
   
+  # parse exercises
   if(splitup[2] == "") stop(sprintf("Add at least one exercise to %s before you try to upload it.", chapter_file))
   raw_exercises <- str_split(splitup[2], pattern = '\n\n---')[[1]]
   
@@ -24,18 +25,13 @@ parse_chapter <- function(chapter_file) {
   for(i in 1:length(raw_exercises)) {
     
     message(sprintf("  - %s. ", i), appendLF = FALSE)
-    
-    
-    
-    exercise <- parse_exercise(raw_exercises[[i]], i)
-    
-    
-    
+    exercise <- parse_exercise(raw_exercises[[i]], i, htmlify)
     message(exercise$title)
     
     # check exercise for consistency
-    check_exercise(exercise)
-    
+    if(htmlify || check) {
+      check_exercise(exercise)  
+    }
     exercises[[i]] <- exercise
   }
 

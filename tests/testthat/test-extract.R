@@ -18,13 +18,19 @@ test_that("extract_title works as expected", {
 test_that("extract_html works as expected", {
   s1in = "Just some text"
   s1out = "<p>Just some text</p>\n"
+  s1out2 = "Just some text"
   s2in = "\n## Title\nAnd some text"
   s2out = "<p>And some text</p>\n"
+  s2out2 = "\nAnd some text"
   s3in = "\n## Title\n\n\nLonely Text\n\n\n"
   s3out = "<p>Lonely Text</p>\n"
-  expect_equal(extract_html(s1in), s1out)
-  expect_equal(extract_html(s2in), s2out)
-  expect_equal(extract_html(s3in), s3out)
+  s3out2 = "\n\n\nLonely Text\n\n\n"
+  expect_equal(extract_html(s1in, TRUE), s1out)
+  expect_equal(extract_html(s2in, TRUE), s2out)
+  expect_equal(extract_html(s3in, TRUE), s3out)
+  expect_equal(extract_html(s1in, FALSE), s1out2)
+  expect_equal(extract_html(s2in, FALSE), s2out2)
+  expect_equal(extract_html(s3in, FALSE), s3out2)
 })
 
 test_that("extract_code works as expected", {
