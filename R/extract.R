@@ -142,6 +142,9 @@ extract_skills <- function(x) {
     x <- x$content
   }
   ids <- strsplit(gsub(" ", "", x), split = ",")[[1]]
+  if(any(as.integer(ids) > 7) || any(as.integer(ids) < 1)) {
+    stop("Invalid skills ids: choose ids 1 to 7.")
+  }
   return(as.list(ids))
 }
 

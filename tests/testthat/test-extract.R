@@ -112,10 +112,22 @@ test_that("extract_skills works as expected", {
   s3out <- list("1","2")
   s4in <- list(content = "1")
   s4out <- list("1")
+  s5in <- list(content = "10,1")
+  s6in <- "10,1"
+  s7in <- list(content = "8")
+  s8in <- "8"
+  s9in <- list(content = "0")
+  s10in <- "0"
   expect_equal(extract_skills(s1in), s1out)
   expect_equal(extract_skills(s2in), s2out)
   expect_equal(extract_skills(s3in), s3out)
   expect_equal(extract_skills(s4in), s4out)
+  expect_error(extract_skills(s5in))
+  expect_error(extract_skills(s6in))
+  expect_error(extract_skills(s7in))
+  expect_error(extract_skills(s8in))
+  expect_error(extract_skills(s9in))
+  expect_error(extract_skills(s10in))
 })
 
 test_that("extract_video_link works as expected", {
