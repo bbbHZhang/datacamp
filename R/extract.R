@@ -159,7 +159,7 @@ extract_lang <- function(x) {
 # Extract video link
 # Both with and without (preferred) code chunks is supported.
 #' @importFrom stringr str_split
-extract_video_link <- function(x) {
+extract_link <- function(x) {
   if(is.null(x)) return(NULL)
   lines <- str_split(x, pattern = "\n")[[1]]
   if(any(grepl("^\\s*```+\\s*$", lines))) {

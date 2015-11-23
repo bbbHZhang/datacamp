@@ -94,9 +94,9 @@ render_exercise.VideoExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "VideoExercise",
          aspect_ratio = ex$aspect_ratio,
-         video_link = extract_video_link(ex$video_link$content),
-         video_stream = extract_video_link(ex$video_stream$content),
-         video_hls = extract_video_link(ex$video_hls$content)))
+         video_link = extract_link(ex$video_link$content),
+         video_stream = extract_link(ex$video_stream$content),
+         video_hls = extract_link(ex$video_hls$content)))
 }
 
 render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
@@ -113,8 +113,8 @@ render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
 render_exercise.SwirlExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "SwirlExercise",
-         swirl_course = extract_code(ex$swirl_course$content),
-         swirl_lesson = extract_code(ex$swirl_lesson$content)))
+         swirl_course = extract_link(ex$swirl_course$content),
+         swirl_lesson = extract_link(ex$swirl_lesson$content)))
 }
 
 render_exercise.ChallengeExercise <- function(ex, num, htmlify) {
@@ -132,9 +132,9 @@ render_exercise.CapstoneVideoExercise <- function(ex, num, htmlify) {
     list(id = ex$id, nxt = ex$nxt),
     list(type = "CapstoneVideoExercise",
          aspect_ratio = ex$aspect_ratio,
-         video_link = extract_video_link(ex$video_link$content),
-         video_stream = extract_video_link(ex$video_stream$content),
-         video_hls = extract_video_link(ex$video_hls$content)))
+         video_link = extract_link(ex$video_link$content),
+         video_stream = extract_link(ex$video_stream$content),
+         video_hls = extract_link(ex$video_hls$content)))
 }
 
 render_exercise.CapstoneMultipleChoiceExercise <- function(ex, num, htmlify) {

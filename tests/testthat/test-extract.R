@@ -118,7 +118,7 @@ test_that("extract_skills works as expected", {
   expect_equal(extract_skills(s4in), s4out)
 })
 
-test_that("extract_video_link works as expected", {
+test_that("extract_link works as expected", {
   s1in <- "//player.vimeo.com/video/144351865"
   s2in <- "\n//player.vimeo.com/video/144351865\n\n"
   s3in <- "```{r,eval=FALSE}\n//player.vimeo.com/video/144351865\n```\n"
@@ -126,10 +126,10 @@ test_that("extract_video_link works as expected", {
   s5in <- "```{python,eval=FALSE}\n//player.vimeo.com/video/144351865\n```\n"
   s6in <- "\n\n```{python,eval=FALSE}\n//player.vimeo.com/video/144351865\n```\n"
   sout <- "//player.vimeo.com/video/144351865"
-  expect_equal(extract_video_link(s1in), sout)
-  expect_equal(extract_video_link(s2in), sout)
-  expect_equal(extract_video_link(s3in), sout)
-  expect_equal(extract_video_link(s4in), sout)
-  expect_equal(extract_video_link(s5in), sout)
-  expect_equal(extract_video_link(s6in), sout)
+  expect_equal(extract_link(s1in), sout)
+  expect_equal(extract_link(s2in), sout)
+  expect_equal(extract_link(s3in), sout)
+  expect_equal(extract_link(s4in), sout)
+  expect_equal(extract_link(s5in), sout)
+  expect_equal(extract_link(s6in), sout)
 })
