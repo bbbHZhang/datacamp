@@ -4,11 +4,15 @@ parse_exercise <- function(raw_ex, index, htmlify) {
   parts <- lapply(raw_parts, parse_elements)
   if (length(parts) > 1){
     main  <- parts[[1]]
+    names(main)[which(names(main) == "content")] <- "body"
+    
     others <- parts[-1]
-    names(others) <- lapply(others, `[[`, "name")
-    exercise <- c(main, others)
+    nms <- lapply(others, `[[`, "name")
+    contents <- lapply(others, `[[`, "content")
+    names(contents) <- nms
+    exercise <- c(main, contents)
   } else {
-    stop("Something went wrong during parsing")
+    stop("Something went wrong during parsing; not enough data in exercise.")
   }
   
   class(exercise) <- c(exercise$type, class(exercise))
@@ -29,7 +33,7 @@ parse_elements <- function(raw_part) {
 parse_header <- function(meta){
   x <- strsplit(meta, ' ')[[1]]
   
-  # change =sample_code to name:sample_code
+  # change e.g. =sample_code to name:sample_code
   x <- sub('^=', 'name:', x)
   
   y <- str_split_fixed(x[grep(":", x)], ":", 2)
@@ -40,11 +44,11 @@ parse_header <- function(meta){
 
 
 get_commons <- function(ex, num, htmlify) {
-  list(title = extract_title(ex$content),
+  list(title = extract_title(ex$body),
        lang = extract_lang(ex$lang),
        xp = ex$xp,
        skills = extract_skills(ex$skills),
-       assignment = extract_html(ex$content, htmlify),
+       assignment = extract_html(ex$body, htmlify),
        number = num)
 }
 
@@ -57,17 +61,17 @@ render_exercise.default <- function(ex, num, htmlify) {
 render_exercise.NormalExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "NormalExercise",
-         instructions = extract_html(ex$instructions$content, htmlify),
-         hint = extract_html(ex$hint$content, htmlify),
-         pre_exercise_code = extract_code(ex$pre_exercise_code$content),
-         sample_code = extract_code(ex$sample_code$content),
-         solution = extract_code(ex$solution$content),
-         sct = extract_code(ex$sct$content)))
+         instructions = extract_html(ex$instructions, htmlify),
+         hint = extract_html(ex$hint, htmlify),
+         pre_exercise_code = extract_code(ex$pre_exercise_code),
+         sample_code = extract_code(ex$sample_code),
+         solution = extract_code(ex$solution),
+         sct = extract_code(ex$sct)))
 }
 
 render_exercise.InteractiveExercise <- function(ex, num, htmlify) {
-  insts <- extract_as_list(ex$instructions$content)
-  hints <- extract_as_list(ex$hint$content)
+  insts <- extract_as_list(ex$instructions)
+  hints <- extract_as_list(ex$hint)
   if(length(insts) != length(hints)) {
     stop("The number of instructions does not match the number of hints.")
   }
@@ -75,55 +79,55 @@ render_exercise.InteractiveExercise <- function(ex, num, htmlify) {
     list(type = "InteractiveExercise",
          instructions = insts,
          hint = hints,
-         pre_exercise_code = extract_code(ex$pre_exercise_code$content),
-         sample_code = extract_code(ex$sample_code$content),
-         solution = extract_code(ex$solution$content),
-         sct = extract_code(ex$sct$content)))
+         pre_exercise_code = extract_code(ex$pre_exercise_code),
+         sample_code = extract_code(ex$sample_code),
+         solution = extract_code(ex$solution),
+         sct = extract_code(ex$sct)))
 } 
 
 render_exercise.MultipleChoiceExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "MultipleChoiceExercise",
-         instructions = extract_as_vec(ex$instructions$content),
-         hint = extract_html(ex$hint$content, htmlify),
-         pre_exercise_code = extract_code(ex$pre_exercise_code$content),
-         sct = extract_code(ex$sct$content)))
+         instructions = extract_as_vec(ex$instructions),
+         hint = extract_html(ex$hint, htmlify),
+         pre_exercise_code = extract_code(ex$pre_exercise_code),
+         sct = extract_code(ex$sct)))
 }
 
 render_exercise.VideoExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "VideoExercise",
          aspect_ratio = ex$aspect_ratio,
-         video_link = extract_video_link(ex$video_link$content),
-         video_stream = extract_video_link(ex$video_stream$content),
-         video_hls = extract_video_link(ex$video_hls$content)))
+         video_link = extract_video_link(ex$video_link),
+         video_stream = extract_video_link(ex$video_stream),
+         video_hls = extract_video_link(ex$video_hls)))
 }
 
 render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "MarkdownExercise",
-         instructions = extract_html(ex$instructions$content, htmlify),
-         hint = extract_html(ex$hint$content, htmlify),
-         pre_exercise_code = extract_code(ex$pre_exercise_code$content),
-         sample_code = extract_markdown(ex$sample_code$content, "my_document.Rmd"),
-         solution = extract_markdown(ex$solution$content, "solution.Rmd"),
-         sct = extract_code(ex$sct$content)))
+         instructions = extract_html(ex$instructions, htmlify),
+         hint = extract_html(ex$hint, htmlify),
+         pre_exercise_code = extract_code(ex$pre_exercise_code),
+         sample_code = extract_markdown(ex$sample_code, "my_document.Rmd"),
+         solution = extract_markdown(ex$solution, "solution.Rmd"),
+         sct = extract_code(ex$sct)))
 }
 
 render_exercise.SwirlExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "SwirlExercise",
-         swirl_course = extract_code(ex$swirl_course$content),
-         swirl_lesson = extract_code(ex$swirl_lesson$content)))
+         swirl_course = extract_code(ex$swirl_course),
+         swirl_lesson = extract_code(ex$swirl_lesson)))
 }
 
 render_exercise.ChallengeExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "ChallengeExercise",
-         challenge_steps = extract_named_list(ex$challenge_steps$content),
-         challenge_goal = extract_named_list(ex$challenge_goal$content),
-         solution = extract_code(ex$solution$content),
-         sct = extract_code(ex$sct$content),
-         pre_exercise_code = extract_code(ex$pre_exercise_code$content)))
+         challenge_steps = extract_named_list(ex$challenge_steps),
+         challenge_goal = extract_named_list(ex$challenge_goal),
+         solution = extract_code(ex$solution),
+         sct = extract_code(ex$sct),
+         pre_exercise_code = extract_code(ex$pre_exercise_code)))
 } 
 

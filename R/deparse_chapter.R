@@ -21,7 +21,7 @@ deparse_chapter <- function(chapter_list, chapter_file) {
 }
 
 build_commons <- function(ex) {
-  sprintf("--- type:%s lang:%s skills:%s xp:%s\n## %s\n\n%s\n",
+  sprintf("--- type:%s lang:%s skills:%s xp:%s\n## %s\n%s\n",
           ex$type, ex$lang, paste(ex$skills, collapse = ","), ex$xp,
           ex$title, ex$assignment)
 }
