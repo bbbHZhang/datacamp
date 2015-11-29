@@ -15,8 +15,9 @@ timing_lut <- c(VideoExercise = 5,
                 ChallengeExercise = 4,
                 MarkdownExercise = 3,
                 SwirlExercise = 10,
-                CapstoneVideoExercise = 3,
-                CapstoneMultipleChoiceExercise = 3)
+                CapstoneVideoExercise = 1,
+                CapstoneMultipleChoiceExercise = 1,
+                CapstoneNormalExercise = 2)
 
 max_time <- 60
 min_time <- 30

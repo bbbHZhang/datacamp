@@ -55,17 +55,20 @@ parse_chapter <- function(chapter_file, htmlify = TRUE, check = TRUE) {
     lut <- numbers
     
     for(i in seq_along(exercises)) {
-      if(exercises[[i]]$type == "CapstoneVideoExercise") {
+      if(exercises[[i]]$type == "CapstoneVideoExercise" || exercises[[i]]$type == "CapstoneNormalExercise") {
         y <- lut[exercises[[i]]$nxt]
         names(y) <- NULL
-        exercises[[i]]$nxt <- y
+        exercises[[i]]$next_exercise_number <- ifelse(is.na(y), 0, y)
       } else if(exercises[[i]]$type == "CapstoneMultipleChoiceExercise") {
-        ids <- gsub(":", "", gsub("id=", "", str_extract(exercises[[i]]$instructions, "id=.*?:")))
+        ids <- lut[gsub(":", "", gsub("id=", "", str_extract(exercises[[i]]$instructions, "id=.*?:")))]
         options <- gsub("id=.*?:\\s+?", "", exercises[[i]]$instructions)
-        exercises[[i]]$instructions <- mapply(function(x, y) list(list(option = x, link = y)), options, ids, USE.NAMES = FALSE)
+        exercises[[i]]$instructions <- mapply(function(x, y) list(list(option = x, next_exercise_number = y)), options, ids, USE.NAMES = FALSE)
       } else {
         stop(sprintf("%s is not supported in a capstone chapter", exercises[[i]]$type))
       }
+      # clean up
+      exercises[[i]]$id <- NULL
+      exercises[[i]]$nxt <- NULL
     }
   }
   
@@ -73,5 +76,6 @@ parse_chapter <- function(chapter_file, htmlify = TRUE, check = TRUE) {
 
   return(c(chapter_meta, list(exercises = exercises)))
 }
+
 
 
