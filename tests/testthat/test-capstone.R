@@ -1,6 +1,6 @@
 context("capstone")
 
-test_that("parse_chapter and build graph with capstone exercises works as expected", {
+test_that("parse_chapter with capstone exercises works as expected", {
   chapter_file = "capstone.Rmd"
   write(paste0("---\ntitle_meta: Chapter 1\ntitle: Insert the chapter title here\n",
                "description: Insert the chapter description here\ncapstone : TRUE"), file = chapter_file)
