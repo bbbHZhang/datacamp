@@ -5,11 +5,11 @@
 #' @export
 show_capstone_graph <- function(chapter_file) {
   chap_list <- parse_chapter(chapter_file)
-  if(!require("igraph")) {
+  if(!require("networkD3")) {
     sure <- readline("To show the graph, you have to install the igraph package. Do this now? (Y/N) ")
     if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
-    install.packages("igraph")
-    require("igraph")
+    install.packages("networkD3")
+    require("networkD3")
   }
   
   get_edges <- function(ex) {
@@ -31,10 +31,8 @@ show_capstone_graph <- function(chapter_file) {
   lut <- sapply(chap_list$exercises, `[[`, "title")
   names(lut) <- as.numeric(sapply(chap_list$exercises, `[[`, "number"))
   
-  vertices <- data.frame(name = lut, optimal = sapply(chap_list$exercises, `[[`, "optimal"))
-  topology <- data.frame(from = lut[as.character(edgelist[,1])], to = lut[as.character(edgelist[,2])])
-  graph <- graph.data.frame(topology, vertices = vertices, directed = TRUE)
+  # nodes <- data.frame(name = lut, group = ifelse(sapply(chap_list$exercises, `[[`, "optimal"), 1, 2))
+  links <- data.frame(src = lut[as.character(edgelist[,1])], target = lut[as.character(edgelist[,2])])
   
-  V(graph)$color <- ifelse(V(graph)$optimal, "green", "orange")
-  plot(graph)
+  simpleNetwork(links)
 }
