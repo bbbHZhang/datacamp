@@ -89,13 +89,13 @@ check_instructions <- function(exercise) {
     return(NULL)
   }
   
-  if(is.null(exercise$instructions)) {
+  if(is.null(exercise$instructions) || !nzchar(gsub("\n|\\s", "", exercise$instructions))) {
     message("\t> instructions:\n\t  You have not specified instructions!")
   } else {
     if(exercise$type == "MultipleChoiceExercise") {
       num_instr <- length(exercise$instructions)
     } else {
-      num_instr <- length(vapply(xml_find_all(xml2::read_html(exercise$instructions), "./body/ul/li"), as.character, character(1)))
+      num_instr <- length(vapply(xml_find_all(xml2::read_html(exercise$instructions), "./body/ul/li"), as.character, character(1)))  
     }
     
     if(num_instr > max_number_instructions) {
