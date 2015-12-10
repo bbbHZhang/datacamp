@@ -114,8 +114,8 @@ test_that("extract_skills works as expected", {
   s4out <- list("1")
   s5in <- list(content = "10,1")
   s6in <- "10,1"
-  s7in <- list(content = "8")
-  s8in <- "8"
+  s7in <- list(content = "9")
+  s8in <- "9"
   s9in <- list(content = "0")
   s10in <- "0"
   expect_equal(extract_skills(s1in), s1out)
