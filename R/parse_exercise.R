@@ -136,6 +136,9 @@ render_exercise.CapstoneVideoExercise <- function(ex, num, htmlify) {
 
 render_exercise.CapstoneMultipleChoiceExercise <- function(ex, num, htmlify) {
   x <- c(render_exercise.MultipleChoiceExercise(ex, num, htmlify),
+         list(video_link = extract_link(ex$video_link$content),
+              video_stream = extract_link(ex$video_stream$content),
+              video_hls = extract_link(ex$video_hls$content)),
          list(id = ex$id, optimal = as.logical(ex$optimal)))
   x$type <- "CapstoneMultipleChoiceExercise"
   return(x)

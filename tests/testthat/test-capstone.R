@@ -15,6 +15,7 @@ test_that("parse_chapter with capstone exercises works as expected", {
   write(paste0("--- type:CapstoneMultipleChoiceExercise xp:50 skills:1 id:multiple optimal:FALSE\n## MCE\nAssignment\n",
                "*** =instructions\n- id=video: option1\n- id=video: option2\n\n",
                "*** =hint\njust a hint\n\n",
+               "*** =video_link\nthis_is_the_link\n\n",
                "*** =pre_exercise_code\n```{r}\nx <- 5\n```\n",
                "*** =sct\n```{r}\ntest_mc(1)\n```\n")
         , chapter_file, append = TRUE)
@@ -42,6 +43,7 @@ test_that("parse_chapter with capstone exercises works as expected", {
   expect_equal(ex2$type, "CapstoneMultipleChoiceExercise")
   expect_equal(ex2$instructions[[1]]$next_exercise_number, 3)
   expect_equal(ex2$instructions[[2]]$next_exercise_number, 3)
+  expect_equal(ex2$video_link, "this_is_the_link")
   expect_equal(ex2$optimal, FALSE)
   
   # third exercise
