@@ -98,9 +98,9 @@ render_exercise.VideoExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "VideoExercise",
          aspect_ratio = ex$aspect_ratio,
-         video_link = extract_video_link(ex$video_link),
-         video_stream = extract_video_link(ex$video_stream),
-         video_hls = extract_video_link(ex$video_hls)))
+         video_link = extract_link(ex$video_link),
+         video_stream = extract_link(ex$video_stream),
+         video_hls = extract_link(ex$video_hls)))
 }
 
 render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
@@ -117,8 +117,8 @@ render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
 render_exercise.SwirlExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "SwirlExercise",
-         swirl_course = extract_code(ex$swirl_course),
-         swirl_lesson = extract_code(ex$swirl_lesson)))
+         swirl_course = extract_link(ex$swirl_course),
+         swirl_lesson = extract_link(ex$swirl_lesson)))
 }
 
 render_exercise.ChallengeExercise <- function(ex, num, htmlify) {
@@ -131,3 +131,26 @@ render_exercise.ChallengeExercise <- function(ex, num, htmlify) {
          pre_exercise_code = extract_code(ex$pre_exercise_code)))
 } 
 
+render_exercise.CapstoneVideoExercise <- function(ex, num, htmlify) {
+  x <- c(render_exercise.VideoExercise(ex, num, htmlify),
+         list(id = ex$id, nxt = ex$nxt, optimal = as.logical(ex$optimal)))
+  x$type <- "CapstoneVideoExercise"
+  return(x)
+}
+
+render_exercise.CapstoneMultipleChoiceExercise <- function(ex, num, htmlify) {
+  x <- c(render_exercise.MultipleChoiceExercise(ex, num, htmlify),
+         list(video_link = extract_link(ex$video_link),
+              video_stream = extract_link(ex$video_stream),
+              video_hls = extract_link(ex$video_hls)),
+         list(id = ex$id, optimal = as.logical(ex$optimal)))
+  x$type <- "CapstoneMultipleChoiceExercise"
+  return(x)
+}
+
+render_exercise.CapstoneNormalExercise <- function(ex, num, htmlify) {
+  x <- c(render_exercise.NormalExercise(ex, num, htmlify),
+         list(id = ex$id, nxt = ex$nxt, optimal = as.logical(ex$optimal)))
+  x$type <- "CapstoneNormalExercise"
+  return(x)
+}

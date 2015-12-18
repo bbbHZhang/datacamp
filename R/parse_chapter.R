@@ -48,9 +48,34 @@ parse_chapter <- function(chapter_file, htmlify = TRUE, check = TRUE) {
     check_chapter(exercises)  
   }
   
+  if(!is.null(chapter_meta$capstone)) {
+    ids <- sapply(exercises, `[[`, "id")
+    numbers <- sapply(exercises, `[[`, "number")
+    names(numbers) <- ids
+    lut <- numbers
+    
+    for(i in seq_along(exercises)) {
+      if(exercises[[i]]$type == "CapstoneVideoExercise" || exercises[[i]]$type == "CapstoneNormalExercise") {
+        y <- lut[exercises[[i]]$nxt]
+        names(y) <- NULL
+        exercises[[i]]$next_exercise_number <- ifelse(is.na(y), 0, y)
+      } else if(exercises[[i]]$type == "CapstoneMultipleChoiceExercise") {
+        ids <- lut[gsub(":", "", gsub("id=", "", str_extract(exercises[[i]]$instructions, "id=.*?:")))]
+        options <- gsub("id=.*?:\\s+?", "", exercises[[i]]$instructions)
+        exercises[[i]]$instructions <- mapply(function(x, y) list(list(option = x, next_exercise_number = y)), options, ids, USE.NAMES = FALSE)
+      } else {
+        stop(sprintf("%s is not supported in a capstone chapter", exercises[[i]]$type))
+      }
+      # clean up
+      exercises[[i]]$id <- NULL
+      exercises[[i]]$nxt <- NULL
+    }
+  }
+  
   message("Rendering all exercises done.")
 
   return(c(chapter_meta, list(exercises = exercises)))
 }
+
 
 
