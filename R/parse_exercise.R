@@ -12,7 +12,7 @@ parse_exercise <- function(raw_ex, index, htmlify) {
     names(contents) <- nms
     exercise <- c(main, contents)
   } else {
-    stop("Something went wrong during parsing; not enough data in exercise.")
+    stop("Something went wrong during parsing; there's not enough content for some exercises.")
   }
   
   class(exercise) <- c(exercise$type, class(exercise))
