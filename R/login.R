@@ -29,13 +29,13 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
   
   if (subdomain == "" || subdomain == " ") {
     base_url <- "https://www.datacamp.com/api"
-    redirect_base_url = "https://teach.datacamp.com/courses"
+    redirect_base_url = "https://www.datacamp.com/legacy/teach/courses"
   } else if (subdomain == "localhost") {
     base_url <- "127.0.0.1:3000/api"
     redirect_base_url = "http://localhost:9000/courses"
   } else {
     base_url <- sprintf("https://%s.datacamp.com/api", subdomain)
-    redirect_base_url <- sprintf("https://%s.datacamp.com/teach/courses", subdomain)
+    redirect_base_url <- sprintf("https://%s.datacamp.com/legacy/teach/courses", subdomain)
   }
   
   url <- sprintf("%s/users/details.json?email=%s&password=%s", base_url, curlEscape(email), curlEscape(pw))
