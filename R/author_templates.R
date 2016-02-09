@@ -62,7 +62,6 @@ description: insert course description here
 
 chapter_yaml_template <-
 "---
-title_meta  : Chapter %s
 title       : %s
 description : %s
 "

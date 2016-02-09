@@ -40,7 +40,6 @@ test_that("parse_chapter, parse_exercise and render_exercise work as expected", 
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
   
-  expect_equal(out$title_meta, "Chapter 1")
   expect_equal(out$title, "Insert the chapter title here")
   expect_equal(out$description, "Insert the chapter description here")
   expect_equal(length(out$exercises), 5)

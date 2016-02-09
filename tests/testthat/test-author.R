@@ -31,7 +31,6 @@ test_that("author_chapter works as expected", {
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
   expect_equal(length(out$exercises), 3)
-  expect_equal(out$title_meta, "Chapter 1")
   expect_equal(out$title, "Insert the chapter title here")
   expect_equal(out$description, "Insert the chapter description here")
   
@@ -40,7 +39,6 @@ test_that("author_chapter works as expected", {
   out <- parse_chapter(chapter_file)
   unlink(chapter_file)
   expect_equal(length(out$exercises), 3)
-  expect_equal(out$title_meta, "Chapter 1")
   expect_equal(out$title, "test")
   expect_equal(out$description, "description")
 })

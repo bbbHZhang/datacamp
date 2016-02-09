@@ -64,7 +64,7 @@ author_chapter <- function(lang, title = NULL, description = NULL, internal = FA
   message(sprintf("Creating %s in current directory ... ", chapter_file), appendLF = FALSE)
   if(is.null(title)) title <- "Insert the chapter title here"
   if(is.null(description)) description <- "Insert the chapter description here"
-  yaml_header <- sprintf(chapter_yaml_template, num, title, description)
+  yaml_header <- sprintf(chapter_yaml_template, title, description)
   write(yaml_header, file = chapter_file)
   
   if(!isTRUE(internal)) {
