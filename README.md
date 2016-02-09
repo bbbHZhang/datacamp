@@ -29,7 +29,7 @@ datacamp_login()
 # Author a new course in your current working directory
 author_course(lang = "r")
 
-# Upload authored course
+# Upload your course to DataCamp
 upload_course()
 ```
 
