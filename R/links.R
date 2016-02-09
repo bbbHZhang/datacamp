@@ -97,7 +97,7 @@ add_links <- function(file_rmd,
     # Will first check for help in relevant packages (of which libraries are manually imported)
     # Second will search in autoloaded packages
     # Finally will search in all installed packages
-    help_files <- utils:::index.search(x, find.package(dir(.libPaths())))
+    help_files <- index_search(x, find.package(dir(.libPaths())))
     relevant_files <- help_files[grepl(paste0("library/",relevant_libs),help_files)]
     if (length(relevant_files) > 0) {
       return(relevant_files[1])
@@ -135,4 +135,25 @@ replace_back <- function(file_rmd,
     file.remove(file_rmd)
     file.rename(backup,file_rmd)
   }
+}
+
+index_search <- function (topic, paths, firstOnly = FALSE) {
+  res <- character()
+  for (p in paths) {
+    if (file.exists(f <- file.path(p, "help", "aliases.rds"))) 
+      al <- readRDS(f)
+    else if (file.exists(f <- file.path(p, "help", "AnIndex"))) {
+      foo <- scan(f, what = list(a = "", b = ""), sep = "\t", 
+                  quote = "", na.strings = "", quiet = TRUE)
+      al <- structure(foo$b, names = foo$a)
+    }
+    else next
+    f <- al[topic]
+    if (is.na(f)) 
+      next
+    res <- c(res, file.path(p, "help", f))
+    if (firstOnly) 
+      break
+  }
+  res
 }

@@ -20,9 +20,9 @@ show_capstone_graph <- function(chapter_file) {
       nexts <- sapply(ex$instructions, `[[`, "next_exercise_number")
       matrix(c(rep(ex$number, length(nexts)), nexts), ncol = 2)
     } else {
-      stop(sprintf("%s is not supported in a capstone chapter", exercises[[i]]$type))
+      stop(sprintf("%s is not supported in a capstone chapter", ex$type))
     }
-  } 
+  }
   
   edgesets <- sapply(chap_list$exercises, get_edges, USE.NAMES = FALSE)
   
