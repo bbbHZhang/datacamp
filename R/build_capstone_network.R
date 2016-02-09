@@ -2,15 +2,16 @@
 #' 
 #' @inheritParams parse_chapter
 #' 
+#' @importFrom networkD3 simpleNetwork
 #' @export
 show_capstone_graph <- function(chapter_file) {
   chap_list <- parse_chapter(chapter_file)
-  if(!require("networkD3")) {
-    sure <- readline("To show the graph, you have to install the igraph package. Do this now? (Y/N) ")
-    if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
-    install.packages("networkD3")
-    require("networkD3")
-  }
+#   if(!require("networkD3")) {
+#     sure <- readline("To show the graph, you have to install the igraph package. Do this now? (Y/N) ")
+#     if (!(sure %in% c("y", "Y", "yes", "Yes"))) { return(message("Aborted.")) }
+#     install.packages("networkD3")
+#     require("networkD3")
+#   }
   
   get_edges <- function(ex) {
     if(ex$type == "CapstoneVideoExercise" || ex$type == "CapstoneNormalExercise") {

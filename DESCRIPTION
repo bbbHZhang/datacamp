@@ -18,8 +18,8 @@ Imports:
     markdown,
     stringr,
     lintr,
-    magrittr,
-    xml2
-Suggests: 
-    testthat,
+    xml2,
     networkD3
+Suggests:
+    testthat
+RoxygenNote: 5.0.1
