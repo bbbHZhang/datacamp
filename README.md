@@ -31,7 +31,7 @@ author_course(lang = "r")
 
 # Upload authored course
 upload_course()
-``
+```
 
 ## Wiki Docs
 
