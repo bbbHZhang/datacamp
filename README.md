@@ -1,4 +1,4 @@
-# datacamp
+![banner](https://s3.amazonaws.com/assets.datacamp.com/img/github/content-engineering-repos/datacamp_banner.png)
 
 [![Build Status](https://api.travis-ci.org/datacamp/datacamp.svg?branch=master)](https://travis-ci.org/datacamp/datacamp)
 [![codecov.io](https://codecov.io/github/datacamp/datacamp/coverage.svg?branch=master)](https://codecov.io/github/datacamp/datacamp?branch=master)
