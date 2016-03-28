@@ -37,6 +37,7 @@ check_exercise <- function(exercise) {
   check_assignment(exercise)
   check_instructions(exercise)
   check_hint(exercise)
+  check_skills(exercise)
 }
 
 check_code_blocks <- function(exercise) {
@@ -117,5 +118,11 @@ check_hint <- function(exercise) {
   
   if(is.null(exercise$hint)) {
     message("\t> hint:\n\t  You have not specified a hint!")
+  }
+}
+
+check_skills <- function(exercise) {
+  if(is.null(exercise$skills)) {
+    message("\t> skills:\n\t  You have not specified skills in the exercise header!")
   }
 }
