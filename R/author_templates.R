@@ -51,7 +51,7 @@ test_mc(2) # if 2 is the correct option.
   
 video_body <- 
 "*** =video_link
-//player.vimeo.com/video/108225030
+//player.vimeo.com/video/154783078
 "
   
 course_yaml_template <- 
