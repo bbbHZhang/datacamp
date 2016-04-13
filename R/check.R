@@ -88,7 +88,7 @@ diagnose_code <- function(code, type) {
 }
 
 check_assignment <- function(exercise) {
-  if (exercise$type == "VideoExercise") {
+  if (exercise$type == "VideoExercise" || exercise$type == "MultipleChoiceExercise") {
     return(NULL)
   }
   
