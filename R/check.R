@@ -27,7 +27,7 @@ check_chapter <- function(exercises) {
   timings <- timing_lut[ex_types]
   total_time <- sum(timings)
   message(sprintf("  -- Estimated time to take chapter: %s minutes.", total_time))
-  if(total_time > max_time || total_time < min_time) {
+  if (total_time > max_time || total_time < min_time) {
     message(sprintf("     The ideal DataCamp chapter is between %s and %s minutes long.", min_time, max_time))
   }
 }
@@ -41,28 +41,42 @@ check_exercise <- function(exercise) {
 }
 
 check_code_blocks <- function(exercise) {
-  if(exercise$type == "MarkdownExercise" || exercise$lang == "python") {
+  if (exercise$type == "MarkdownExercise" || exercise$lang == "python") {
     return(NULL)
   }
   chunk_names <- c("sample_code", "solution")
   selection <- exercise[chunk_names]
   chunks_to_check <- selection[!sapply(selection, is.null)]
-  for(i in seq_along(chunks_to_check)) {
+  for (i in seq_along(chunks_to_check)) {
     diagnose_code(chunks_to_check[[i]], names(chunks_to_check)[i])
   }
 }
 
 #' @importFrom lintr lint
 diagnose_code <- function(code, type) {
+  
+  parsed <- try(parse(text = code), silent = TRUE)
+  if (inherits(parsed, "try-error")) {
+    if (type == "sample_code") {
+      #  message("\t> sample_code could not be parsed!") 
+      return(invisible())
+    }
+    if (type == "solution") {
+      message("\t> solution could not be parsed!") 
+      return(invisible())
+    }
+  }
+  
+  
   file <- tempfile(fileext = ".R")
   write(code, file = file)
   
   lints <- try(lintr::lint(file), silent = TRUE)
-  if(inherits(lints, "try-error")) {
+  if (inherits(lints, "try-error")) {
     message(sprintf("\t> %s\n\t  lintr package encountered an error.\n", type))
   } else {
-    for(lint in lints) {
-      if(lint$linter %in% linters_to_ignore) {
+    for (lint in lints) {
+      if (lint$linter %in% linters_to_ignore) {
         cat("")
       } else {
         message(sprintf("\t> %s\n\t  Code: %s\n\t  Line: %s\n\t  Column: %s\n\t  Message: %s\n", 
@@ -74,15 +88,15 @@ diagnose_code <- function(code, type) {
 }
 
 check_assignment <- function(exercise) {
-  if(exercise$type == "VideoExercise") {
+  if (exercise$type == "VideoExercise") {
     return(NULL)
   }
   
-  if(is.null(exercise$assignment)) {
+  if (is.null(exercise$assignment)) {
     message("\t> assignment\n\t  You have not specified the assignment!")
   } else {
     num_ass_char <- nchar(gsub("(<[^>]*>|</[^>]*>|\\\n|\\\\)", "", exercise$assignment))
-    if(num_ass_char > max_num_ass_char) {
+    if (num_ass_char > max_num_ass_char) {
       message(sprintf("\t> assignment\n\t  Counts %s characters. Try to limit yourself to %s.\n", 
                       num_ass_char, max_num_ass_char))
     }
@@ -91,20 +105,20 @@ check_assignment <- function(exercise) {
 
 check_instructions <- function(exercise) {
   ex_types_instructions_required <- c("NormalExercise", "MultipleChoiceExercise", "MarkdownExercise")
-  if(!(exercise$type %in% ex_types_instructions_required)) {
+  if (!(exercise$type %in% ex_types_instructions_required)) {
     return(NULL)
   }
   
-  if(is.null(exercise$instructions) || !nzchar(gsub("\n|\\s", "", exercise$instructions))) {
+  if (is.null(exercise$instructions) || !nzchar(gsub("\n|\\s", "", exercise$instructions))) {
     message("\t> instructions:\n\t  You have not specified instructions!")
   } else {
-    if(exercise$type == "MultipleChoiceExercise") {
+    if (exercise$type == "MultipleChoiceExercise") {
       num_instr <- length(exercise$instructions)
     } else {
       num_instr <- length(vapply(xml_find_all(xml2::read_html(exercise$instructions), "./body/ul/li"), as.character, character(1)))  
     }
     
-    if(num_instr > max_number_instructions) {
+    if (num_instr > max_number_instructions) {
       message(sprintf("\t> instructions\n\t  You have %s top-level bullets. Try to limit yourself to %s.\n", 
                       num_instr, max_number_instructions))
     }
@@ -112,17 +126,17 @@ check_instructions <- function(exercise) {
 }
 
 check_hint <- function(exercise) {
-  if(exercise$type %in% c("ChallengeExercise","VideoExercise")) {
+  if (exercise$type %in% c("ChallengeExercise","VideoExercise")) {
     return(NULL)
   }
   
-  if(is.null(exercise$hint)) {
+  if (is.null(exercise$hint)) {
     message("\t> hint:\n\t  You have not specified a hint!")
   }
 }
 
 check_skills <- function(exercise) {
-  if(is.null(exercise$skills)) {
+  if (is.null(exercise$skills)) {
     message("\t> skills:\n\t  You have not specified skills in the exercise header!")
   }
 }
