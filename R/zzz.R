@@ -6,5 +6,5 @@
                         " - add_exercise(): Add exercise templates to your chapter files.\n",
                         " - upload_course(): Upload or update your course file on DataCamp.\n",
                         " - upload_chapter(): Upload or update your chapter files on DataCamp.\n",
-                        "For more information on course creation, visit http://docs.datacamp.com/teach.\n")
+                        "For an easier way to create DataCamp courses, visit www.datacamp.com/teach\n")
 }
