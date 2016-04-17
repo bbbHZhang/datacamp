@@ -14,7 +14,6 @@ library(devtools)
 install_github("datacamp/datacamp")
 
 # Recommended
-install_github("datacamp/datacampAPI")
 install_github("datacamp/testwhat")
 ```
 
