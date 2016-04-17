@@ -82,13 +82,13 @@ extract_as_list <- function(x) {
 # default_name is the default name of r markdown code chunk
 #' @importFrom RJSONIO toJSON
 extract_markdown <- function(x, default_name) {
-  if (!is.null(x) && nchar(x)!=0) {
+  if (!is.null(x) && nchar(x) != 0) {
     code <- extract_code(x)
     
     titles_pos <- gregexpr("\\{\\{\\{(.*?)\\}\\}\\}", code)
     titles <- Map(regmatches, code, titles_pos)
     titles <- lapply(titles, function(title) {
-      if(length(title) == 0)
+      if (length(title) == 0)
         return(default_name)
       else
         title <- gsub("\\{\\{\\{|\\}\\}\\}","",title)
@@ -97,7 +97,7 @@ extract_markdown <- function(x, default_name) {
     code <- gsub("\\{\\{\\{(.*?)\\}\\}\\}\n*","",code)
     names(code) <- unlist(titles)
     
-    if(length(names(code)) != length(unique(names(code)))) {
+    if (length(names(code)) != length(unique(names(code)))) {
       stop("You need to specify unique file names in sample_code or solution_code in markdown exercises.")
     }
     
@@ -112,37 +112,18 @@ extract_markdown <- function(x, default_name) {
   }
 }
 
-# Extract challenge exercise data
-extract_named_list <- function(x) {
-  if(is.null(x) || nchar(x) == 0) {
-    return(NULL)
-  }
-  html <- markdownToHTML(text = x, fragment.only = TRUE)
-  lines <- str_split(html, "\n")[[1]]
-  pattern <- "<h2>(.*?)</h2>"
-  title_lines <- grepl(pattern, lines)
-  blocks <- cumsum(title_lines)
-  titles <- gsub("<h2>|</h2>","",str_extract(lines[title_lines], "<h2>.*</h2>"))
-  lst <- list()
-  for(i in 1:max(blocks)) {
-    lst[[i]] <- list(title = titles[i], content = paste(lines[blocks == i & !title_lines], collapse = "\n"))
-  }
-  return(lst)
-}
-
-
 # Extract skills from an exercise
 # Both in *** =skills part as well as in --- type... header (preferred) is supported
 extract_skills <- function(x) {
-  if(is.null(x)) {
+  if (is.null(x)) {
     return(NULL)
   }
   # support for old format
-  if(is.list(x)) {
+  if (is.list(x)) {
     x <- x$content
   }
   ids <- strsplit(gsub(" ", "", x), split = ",")[[1]]
-  if(any(as.integer(ids) > 8) || any(as.integer(ids) < 1)) {
+  if (any(as.integer(ids) > 8) || any(as.integer(ids) < 1)) {
     stop("Invalid skills ids: choose ids 1 to 7.")
   }
   return(as.list(ids))
@@ -150,7 +131,7 @@ extract_skills <- function(x) {
 
 # Extract language
 extract_lang <- function(x) {
-  if(isTRUE(grepl("py", tolower(x)))) {
+  if (isTRUE(grepl("py", tolower(x)))) {
     lang <- "python"
   } else {
     # the default is R
@@ -163,9 +144,9 @@ extract_lang <- function(x) {
 # Both with and without (preferred) code chunks is supported.
 #' @importFrom stringr str_split
 extract_link <- function(x) {
-  if(is.null(x)) return(NULL)
+  if (is.null(x)) return(NULL)
   lines <- str_split(x, pattern = "\n")[[1]]
-  if(any(grepl("^\\s*```+\\s*$", lines))) {
+  if (any(grepl("^\\s*```+\\s*$", lines))) {
     return(extract_code(x))
   } else {
     return(gsub("\n", "", x))

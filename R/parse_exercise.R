@@ -121,16 +121,6 @@ render_exercise.SwirlExercise <- function(ex, num, htmlify) {
          swirl_lesson = extract_link(ex$swirl_lesson)))
 }
 
-render_exercise.ChallengeExercise <- function(ex, num, htmlify) {
-  c(get_commons(ex, num, htmlify),
-    list(type = "ChallengeExercise",
-         challenge_steps = extract_named_list(ex$challenge_steps),
-         challenge_goal = extract_named_list(ex$challenge_goal),
-         solution = extract_code(ex$solution),
-         sct = extract_code(ex$sct),
-         pre_exercise_code = extract_code(ex$pre_exercise_code)))
-} 
-
 render_exercise.CapstoneVideoExercise <- function(ex, num, htmlify) {
   x <- c(render_exercise.VideoExercise(ex, num, htmlify),
          list(id = ex$id, nxt = ex$nxt, optimal = as.logical(ex$optimal)))

@@ -91,18 +91,6 @@ test_that("extract_markdown works as expected", {
   expect_equal(extract_markdown(s4in,"testname"), toJSON(c(my_doc.Rmd = "some_code_here```", my_doc_2.Rmd = "more_code_here***")))
 })
 
-test_that("extract_named_list works as expected", {
-  s1in <- "## Title 1\nText 1\n"
-  s1out <- list(list(title = "Title 1", content = "\n<p>Text 1</p>\n"))
-  expect_equal(extract_named_list(s1in), s1out)
-  s2in <- "## Title 1\nText 1\n## Title 2\nText 2\n"
-  s2out <- list(list(title = "Title 1", content = "\n<p>Text 1</p>\n"), list(title = "Title 2", content = "\n<p>Text 2</p>\n"))
-  expect_equal(extract_named_list(s2in), s2out)
-  s3in <- "## Title 1\nText 1\n\nText 1b\n## Title 2\nText 2\n"
-  s3out <- list(list(title = "Title 1", content = "\n<p>Text 1</p>\n\n<p>Text 1b</p>\n"), list(title = "Title 2", content = "\n<p>Text 2</p>\n"))
-  expect_equal(extract_named_list(s3in), s3out)
-})
-
 test_that("extract_skills works as expected", {
   s1in <- "1,2,3"
   s1out <- list("1","2","3")
