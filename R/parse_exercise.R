@@ -1,8 +1,10 @@
 parse_exercise <- function(raw_ex, index, htmlify) {
-  raw_parts <- str_split(raw_ex, "\n\\*{3}")[[1]]
+  # The \\s*= part is necessary to guard against *** (slide splits) inside MarkdownExercises
+  raw_parts <- str_split(raw_ex, "\n\\*{3}\\s*=")[[1]]
+  raw_parts <- c(raw_parts[1], paste0("=", raw_parts[-1]))
   
   parts <- lapply(raw_parts, parse_elements)
-  if (length(parts) > 1){
+  if (length(parts) > 1) {
     main  <- parts[[1]]
     names(main)[which(names(main) == "content")] <- "body"
     

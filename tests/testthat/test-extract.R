@@ -87,7 +87,7 @@ test_that("extract_markdown works as expected", {
   expect_equal(extract_markdown(s2in), toJSON(c(my_doc.Rmd = "some text here")))
   s3in <- "{{{my_doc.Rmd}}}\n\n\nsome_code_here\n\n\n{{{my_doc_2.Rmd}}}\n\n\nmore_code_here\n\n"
   expect_equal(extract_markdown(s3in), toJSON(c(my_doc.Rmd = "some_code_here", my_doc_2.Rmd = "more_code_here")))
-  s4in <- "\n{{{my_doc.Rmd}}}\nsome_code_here\n```\n\n{{{my_doc_2.Rmd}}}\nmore_code_here\n_tast_\n"
+  s4in <- "\n{{{my_doc.Rmd}}}\nsome_code_here\n```\n\n{{{my_doc_2.Rmd}}}\nmore_code_here\n***\n"
   expect_equal(extract_markdown(s4in,"testname"), toJSON(c(my_doc.Rmd = "some_code_here\n```", my_doc_2.Rmd = "more_code_here\n***")))
 })
 

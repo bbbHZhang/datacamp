@@ -96,7 +96,6 @@ extract_markdown <- function(x, default_name) {
       extract <- function(lines, s, e) {
         file <- paste(lines[s:e], collapse = "\n")
         trimmed <- gsub("(^\n*)|(\n*$)", "", file)
-        fix_specials(trimmed)
       }
       files <- mapply(extract, s = starts, e = ends, MoreArgs = list(lines = lines))
     }

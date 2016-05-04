@@ -7,13 +7,6 @@ test_that("parse_elements works as expected", {
   expect_equal(y, list(name = "pre_exercise_code", content = "```{r eval=FALSE}\n```\n"))
 })
 
-test_that("fix_specials is working as expected", {
-  s1 <- "_tast_"
-  s2 <- "nothinginhere"
-  expect_equal(fix_specials(s1), "***")
-  expect_equal(fix_specials(s2), s2)
-})
-
 test_that("datacamp object works as expected", {
   datacamp$set(test = 1)
   expect_equal(datacamp$get("test"), 1)
