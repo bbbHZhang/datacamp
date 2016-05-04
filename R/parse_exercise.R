@@ -1,8 +1,10 @@
 parse_exercise <- function(raw_ex, index, htmlify) {
-  raw_parts <- str_split(raw_ex, "\n\\*{3}")[[1]]
+  # The \\s*= part is necessary to guard against *** (slide splits) inside MarkdownExercises
+  raw_parts <- str_split(raw_ex, "\n\\*{3}\\s*=")[[1]]
+  raw_parts <- c(raw_parts[1], paste0("=", raw_parts[-1]))
   
   parts <- lapply(raw_parts, parse_elements)
-  if (length(parts) > 1){
+  if (length(parts) > 1) {
     main  <- parts[[1]]
     names(main)[which(names(main) == "content")] <- "body"
     
@@ -72,7 +74,7 @@ render_exercise.NormalExercise <- function(ex, num, htmlify) {
 render_exercise.InteractiveExercise <- function(ex, num, htmlify) {
   insts <- extract_as_list(ex$instructions)
   hints <- extract_as_list(ex$hint)
-  if(length(insts) != length(hints)) {
+  if (length(insts) != length(hints)) {
     stop("The number of instructions does not match the number of hints.")
   }
   c(get_commons(ex, num, htmlify),
@@ -109,8 +111,8 @@ render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
          instructions = extract_html(ex$instructions, htmlify),
          hint = extract_html(ex$hint, htmlify),
          pre_exercise_code = extract_code(ex$pre_exercise_code),
-         sample_code = extract_markdown(ex$sample_code, "my_document.Rmd"),
-         solution = extract_markdown(ex$solution, "solution.Rmd"),
+         sample_code = extract_markdown(ex$sample_code),
+         solution = extract_markdown(ex$solution),
          sct = extract_code(ex$sct)))
 }
 

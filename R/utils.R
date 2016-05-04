@@ -12,19 +12,11 @@ no_response <- paste("Something went wrong. We didn't get a valid response from 
 specify_lang <- "Make sure to define 'lang', the programming language of your course. Set this to \"r\" or \"python\"."
 specify_simplified <- "Make sure to define 'simplified', whether or not to generate simplified templates. Set this TRUE or FALSE."
 
-# Utility function to convert the code words _tbt_ and _tast_ to triple backticks and triple asterisks respectively
-# This is to escape from the backtick inception in R markdown files (R markdown containing R markdown...)
-fix_specials <- function(code) {
-  code <- gsub("_tbt_","```",code)
-  code <- gsub("_tast_","***",code)
-  return(code)
-}
-
 datacamp_accessors <- function() {
   dc_data <- list()
   
   get = function(name) {
-    if(missing(name)) {
+    if (missing(name)) {
       dc_data
     } else {
       dc_data[[name]]
