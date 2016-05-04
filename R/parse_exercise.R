@@ -74,7 +74,7 @@ render_exercise.NormalExercise <- function(ex, num, htmlify) {
 render_exercise.InteractiveExercise <- function(ex, num, htmlify) {
   insts <- extract_as_list(ex$instructions)
   hints <- extract_as_list(ex$hint)
-  if(length(insts) != length(hints)) {
+  if (length(insts) != length(hints)) {
     stop("The number of instructions does not match the number of hints.")
   }
   c(get_commons(ex, num, htmlify),
