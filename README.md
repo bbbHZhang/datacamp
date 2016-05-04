@@ -8,13 +8,9 @@ Everybody can teach on DataCamp with the `datacamp` R package. It helps you in g
 ## Installation
 
 ```R
-# Required
 install.packages("devtools")
 library(devtools)
 install_github("datacamp/datacamp")
-
-# Recommended
-install_github("datacamp/testwhat")
 ```
 
 ## Getting Started
