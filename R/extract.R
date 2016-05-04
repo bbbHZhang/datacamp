@@ -3,15 +3,15 @@ extract_title <- function(x) {
   lines <- str_split(x, pattern = "\n")[[1]]
   pattern <- "^##\\s+(.*?)"
   hits <- grepl(pattern, lines)
-  if(sum(hits) == 0) {
+  if (sum(hits) == 0) {
     stop("No title found.")
   }
-  if(sum(hits) > 1) {
+  if (sum(hits) > 1) {
     stop("More than one title found.")
   }
   title_line <- lines[hits]
   title <- stringr::str_trim(gsub("##","",title_line))
-  if(nchar(title) == 0) {
+  if (nchar(title) == 0) {
     stop("Make sure to specify a title.")
   }
   return(title)
@@ -21,11 +21,11 @@ extract_title <- function(x) {
 # If a second-level header is in the content, this is removed.
 #' @importFrom markdown markdownToHTML
 extract_html <- function(x, htmlify) {
-  if(is.null(x) || nchar(x) == 0) {
+  if (is.null(x) || nchar(x) == 0) {
     return("")
   }
   
-  if(htmlify) {
+  if (htmlify) {
     html <- markdownToHTML(text = x, fragment.only = TRUE)
     # remove title, if any
     content <- gsub("<h2>.*</h2>\n*","",html)
@@ -40,35 +40,34 @@ extract_html <- function(x, htmlify) {
 
 # Extract code chunks from raw text
 extract_code <- function(x) {
-  if(is.null(x)) return("")
+  if (is.null(x)) return("")
   lines <- str_split(x, "\n")[[1]]
   lang_part <- "r|py"
   chunk_begin <- sprintf("^\\s*```+\\s*\\{[.]?%s(.*)\\}\\s*$", lang_part)
   chunk_end <- "^\\s*```+\\s*$"
-  begin <- grepl(chunk_begin, lines)
-  end <- grepl(chunk_end, lines)
-  if(!any(begin) || !any(end)) {
-    stop(sprintf("No code chunk found! Make sure you specify the correct language."))
+  begin <- grep(chunk_begin, lines)
+  end <- grep(chunk_end, lines)
+  if (length(begin) != 1 || length(end) != 1 || begin > end) {
+    stop("No code chunk, too many code chunks, or no valid code chunk found. Make sure you specify the correct language.")
   }
-  begin_lines <- which(begin)
-  end_lines <- which(end)
-  if(any(begin_lines > end_lines)) {
-    stop("Something wrong with the code chunks.")
+  
+  if (end - begin == 1) {
+    return("")
+  } else {
+    return(paste(lines[(begin + 1):(end - 1)], collapse = "\n"))
   }
-  code <- mapply(function(b,e) if(e-b == 1) "" else paste(lines[(b+1):(e-1)], collapse = "\n"), begin_lines, end_lines)
-  return(code)
 }
 
 #' @importFrom markdown markdownToHTML
 #' @importFrom xml2 read_html xml_find_all
 extract_as_vec <- function(x) {
-  if(is.null(x) || nchar(x) == 0) {
+  if (is.null(x) || nchar(x) == 0) {
     return(c("empty"))
   }
   html <- markdownToHTML(text = x, fragment.only = TRUE)
   vec <- vapply(xml_find_all(xml2::read_html(html), "./body/ul/li"), as.character, character(1))
   instructions <- gsub("^\\s*<li>(.*)</li>\\s*$", "\\1", vec)
-  if(length(instructions) == 0) {
+  if (length(instructions) == 0) {
     stop("No instructions could be extracted. Make sure to use a markdown list under \"*** =instructions.\"")
   }
   return(instructions)
@@ -83,33 +82,31 @@ extract_as_list <- function(x) {
 #' @importFrom RJSONIO toJSON
 extract_markdown <- function(x, default_name) {
   if (!is.null(x) && nchar(x) != 0) {
-    code <- extract_code(x)
-    
-    titles_pos <- gregexpr("\\{\\{\\{(.*?)\\}\\}\\}", code)
-    titles <- Map(regmatches, code, titles_pos)
-    titles <- lapply(titles, function(title) {
-      if (length(title) == 0)
-        return(default_name)
-      else
-        title <- gsub("\\{\\{\\{|\\}\\}\\}","",title)
-      return(title)
-    })
-    code <- gsub("\\{\\{\\{(.*?)\\}\\}\\}\n*","",code)
-    names(code) <- unlist(titles)
-    
-    if (length(names(code)) != length(unique(names(code)))) {
-      stop("You need to specify unique file names in sample_code or solution_code in markdown exercises.")
+    lines <- strsplit(x, split = "\n")[[1]]
+    titles_pos <- grep("\\{\\{\\{(.*?)\\}\\}\\}", lines)
+    if (length(titles_pos) == 0) {
+      titles <- default_name 
+      files <- fix_specials(gsub("(^\n*)|(\n*$)", "", x))
+    } else {
+      titles <- gsub("\\{\\{\\{|\\}\\}\\}","", lines[titles_pos])
+      if (length(titles) != length(unique(titles))) {
+        stop("You need to specify unique file names in sample_code or solution_code of markdown exercises.")  
+      }
+      starts <- titles_pos + 1
+      ends <- c(titles_pos[-1] - 1, length(lines))
+      extract <- function(lines, s, e) {
+        file <- paste(lines[s:e], collapse = "\n")
+        trimmed <- gsub("(^\n*)|(\n*$)", "", file)
+        fix_specials(trimmed)
+      }
+      files <- mapply(extract, s = starts, e = ends, MoreArgs = list(lines = lines))
     }
-    
-    # fix triple backticks and asterisks
-    code <- sapply(code, fix_specials)
-    
-    return(RJSONIO::toJSON(code))
   } else {
-    code <- ""
-    names(code) <- default_name
-    return(RJSONIO::toJSON(code))
+    files <- ""
+    titles <- default_name
   }
+  names(files) <- titles
+  return(RJSONIO::toJSON(files))
 }
 
 # Extract skills from an exercise

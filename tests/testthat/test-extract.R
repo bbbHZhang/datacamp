@@ -1,12 +1,12 @@
 context("extract")
 
 test_that("extract_title works as expected", {
-  s1in = "## My Title\n"
-  s1out = "My Title"
-  s2in = "\n## My Title\n"
-  s2out = "My Title"
-  s3in = "\n## My Title\nSomeMoreText"
-  s3out = "My Title"
+  s1in <- "## My Title\n"
+  s1out <- "My Title"
+  s2in <- "\n## My Title\n"
+  s2out <- "My Title"
+  s3in <- "\n## My Title\nSomeMoreText"
+  s3out <- "My Title"
   expect_equal(extract_title(s1in), s1out)
   expect_equal(extract_title(s2in), s2out)
   expect_equal(extract_title(s3in), s3out)
@@ -16,15 +16,15 @@ test_that("extract_title works as expected", {
 })
 
 test_that("extract_html works as expected", {
-  s1in = "Just some text"
-  s1out = "<p>Just some text</p>\n"
-  s1out2 = "Just some text"
-  s2in = "\n## Title\nAnd some text"
-  s2out = "<p>And some text</p>\n"
-  s2out2 = "\nAnd some text"
-  s3in = "\n## Title\n\n\nLonely Text\n\n\n"
-  s3out = "<p>Lonely Text</p>\n"
-  s3out2 = "\n\n\nLonely Text\n\n\n"
+  s1in <- "Just some text"
+  s1out <- "<p>Just some text</p>\n"
+  s1out2 <- "Just some text"
+  s2in <- "\n## Title\nAnd some text"
+  s2out <- "<p>And some text</p>\n"
+  s2out2 <- "\nAnd some text"
+  s3in <- "\n## Title\n\n\nLonely Text\n\n\n"
+  s3out <- "<p>Lonely Text</p>\n"
+  s3out2 <- "\n\n\nLonely Text\n\n\n"
   expect_equal(extract_html(s1in, TRUE), s1out)
   expect_equal(extract_html(s2in, TRUE), s2out)
   expect_equal(extract_html(s3in, TRUE), s3out)
@@ -34,17 +34,16 @@ test_that("extract_html works as expected", {
 })
 
 test_that("extract_code works as expected", {
-  s1in = "```{r}\nsome_code_here\n```\n"
-  s1out = "some_code_here"
-  s2in = "```{r}\n```\n"
-  s2out = ""
-  s3in = "```{r}\nsome_code_here\n```\n\n```{r}\nmore_code_here\n```\n"
-  s3out = c("some_code_here","more_code_here")
+  s1in <- "```{r}\nsome_code_here\n```\n"
+  s1out <- "some_code_here"
+  s2in <- "```{r}\n```\n"
+  s2out <- ""
+  s3in <- "```{r}\nsome_code_here\n```\n\n```{r}\nmore_code_here\n```\n"
   s4in <- "```{r}\nsome_string<-\"abc\"\n```\n"
   s4out <- "some_string<-\"abc\""
   expect_equal(extract_code(s1in), s1out)
   expect_equal(extract_code(s2in), s2out)
-  expect_equal(extract_code(s3in), s3out)
+  expect_error(extract_code(s3in))
   expect_equal(extract_code(s4in), s4out)
   
   s1in <- "```{python}\nsome_code_here\n```\n"
@@ -52,12 +51,11 @@ test_that("extract_code works as expected", {
   s2in <- "```{py}\n```\n"
   s2out <- ""
   s3in <- "```{python}\nsome_code_here\n```\n\n```{python}\nmore_code_here\n```\n"
-  s3out <- c("some_code_here","more_code_here")
   s4in <- "```{python}\nsome_string<-\"abc\"\n```\n"
   s4out <- "some_string<-\"abc\""
   expect_equal(extract_code(s1in), s1out)
   expect_equal(extract_code(s2in), s2out)
-  expect_equal(extract_code(s3in), s3out)
+  expect_error(extract_code(s3in))
   expect_equal(extract_code(s4in), s4out)
   
 })
@@ -81,14 +79,14 @@ test_that("extract_as_* works as expected", {
 })
 
 test_that("extract_markdown works as expected", {
-  s1in <- "```{r}\nsome_code_here\n```\n"
-  expect_equal(extract_markdown(s1in,"testname"), toJSON(c(testname = "some_code_here")))
-  s2in <- "```{r}\n{{{my_doc.Rmd}}}\nsome_code_here\n```\n"
-  expect_equal(extract_markdown(s2in,"testname"), toJSON(c(my_doc.Rmd = "some_code_here")))
-  s3in <- "```{r}\n{{{my_doc.Rmd}}}\nsome_code_here\n```\n\n```{r}\n{{{my_doc_2.Rmd}}}\nmore_code_here\n```\n"
+  s1in <- "\n\nsome text here\n\n\n"
+  expect_equal(extract_markdown(s1in,"testname"), toJSON(c(testname = "some text here")))
+  s2in <- "{{{my_doc.Rmd}}}\nsome text here\n"
+  expect_equal(extract_markdown(s2in,"testname"), toJSON(c(my_doc.Rmd = "some text here")))
+  s3in <- "{{{my_doc.Rmd}}}\n\n\nsome_code_here\n\n\n{{{my_doc_2.Rmd}}}\n\n\nmore_code_here\n\n"
   expect_equal(extract_markdown(s3in,"testname"), toJSON(c(my_doc.Rmd = "some_code_here", my_doc_2.Rmd = "more_code_here")))
-  s4in <- "```{r}\n{{{my_doc.Rmd}}}\nsome_code_here_tbt_\n```\n\n```{r}\n{{{my_doc_2.Rmd}}}\nmore_code_here_tast_\n```\n"
-  expect_equal(extract_markdown(s4in,"testname"), toJSON(c(my_doc.Rmd = "some_code_here```", my_doc_2.Rmd = "more_code_here***")))
+  s4in <- "\n{{{my_doc.Rmd}}}\nsome_code_here\n```\n\n{{{my_doc_2.Rmd}}}\nmore_code_here\n_tast_\n"
+  expect_equal(extract_markdown(s4in,"testname"), toJSON(c(my_doc.Rmd = "some_code_here\n```", my_doc_2.Rmd = "more_code_here\n***")))
 })
 
 test_that("extract_skills works as expected", {

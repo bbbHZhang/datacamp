@@ -15,7 +15,6 @@ specify_simplified <- "Make sure to define 'simplified', whether or not to gener
 # Utility function to convert the code words _tbt_ and _tast_ to triple backticks and triple asterisks respectively
 # This is to escape from the backtick inception in R markdown files (R markdown containing R markdown...)
 fix_specials <- function(code) {
-  code <- gsub("_tbt_","```",code)
   code <- gsub("_tast_","***",code)
   return(code)
 }

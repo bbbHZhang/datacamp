@@ -8,14 +8,10 @@ test_that("parse_elements works as expected", {
 })
 
 test_that("fix_specials is working as expected", {
-  s1 <- "_tbt_"
-  s2 <- "_tast_"
-  s3 <- "_tbt_\n_tast_"
-  s4 <- "nothinginhere"
-  expect_equal(fix_specials(s1), "```")
-  expect_equal(fix_specials(s2), "***")
-  expect_equal(fix_specials(s3), "```\n***")
-  expect_equal(fix_specials(s4), s4)
+  s1 <- "_tast_"
+  s2 <- "nothinginhere"
+  expect_equal(fix_specials(s1), "***")
+  expect_equal(fix_specials(s2), s2)
 })
 
 test_that("datacamp object works as expected", {

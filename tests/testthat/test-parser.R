@@ -24,8 +24,8 @@ test_that("parse_chapter, parse_exercise and render_exercise work as expected", 
                "*** =instructions\n- instruction 1\n- instruction 2\n\n",
                "*** =hint\njust a hint\n\n",
                "*** =pre_exercise_code\n```{r}\nx <- 5\n```\n",
-               "*** =sample_code\n```{r}\n{{{my_doc.Rmd}}}\nsome_code_here\n```\n",
-               "*** =solution\n```{r}\nsome_code_here\n```\n",
+               "*** =sample_code\n{{{my_doc.Rmd}}}\nsome_code_here\n",
+               "*** =solution\nsome_code_here\n",
                "*** =sct\n```{r}\nsuccess_msg(\"OK\")\n```\n")
         , chapter_file, append = TRUE)
   
