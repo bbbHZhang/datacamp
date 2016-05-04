@@ -48,6 +48,26 @@ hint
 test_mc(2) # if 2 is the correct option.
 ```
 "
+
+rstudio_mce_body <- 
+  "
+*** =instructions
+- option 1
+- option 2
+- option 3
+
+*** =hint
+hint
+
+*** =attachments
+first_file: www.example.com/firstfile
+second_file: www.example.com/secondfile
+
+*** =sct
+```{%1$s}
+test_mc(2) # if 2 is the correct option.
+```
+"
   
 video_body <- 
 "*** =video_link

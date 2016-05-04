@@ -112,24 +112,26 @@ add_exercise <- function(chapter_file,
                          lang,
                          type = c("NormalExercise", 
                                   "MultipleChoiceExercise", 
-                                  "VideoExercise"),
+                                  "VideoExercise",
+                                  "RStudioMultipleChoiceExercise"),
                          title = NULL,
                          content = NULL) {
-  if(missing(lang)) stop(specify_lang)
+  if (missing(lang)) stop(specify_lang)
   type <- match.arg(type)
   stopifnot(file.exists(chapter_file))
   
-  xp <- switch(type, NormalExercise = 100, MultipleChoiceExercise = 50, VideoExercise = 50)
+  xp <- switch(type, NormalExercise = 100, MultipleChoiceExercise = 50, VideoExercise = 50, RStudioMultipleChoiceExercise = 50)
   skills_id <- switch(lang, r = 1, python = 2, 0)
   ex_header <- sprintf("--- type:%s lang:%s xp:%s skills:%s", type, lang, xp, skills_id)
-  if(is.null(title)) title <- paste("My", type)
+  if (is.null(title)) title <- paste("My", type)
   ex_title <- paste0("## ", title, "\n")
-  if(is.null(content) && type != "VideoExercise") content <- "Assignment comes here. Use Markdown for text formatting."
+  if (is.null(content) && type != "VideoExercise") content <- "Assignment comes here. Use Markdown for text formatting."
 
   body <- switch(type, 
                  NormalExercise = sprintf(normal_body, lang),
                  MultipleChoiceExercise = sprintf(mce_body, lang),
-                 VideoExercise = sprintf(video_body))
+                 VideoExercise = sprintf(video_body),
+                 RStudioMultipleChoiceExercise = sprintf(rstudio_mce_body, lang))
   
   template <- paste(ex_header, ex_title, content, body, sep = "\n")
   write(template, file = chapter_file, append = TRUE)
