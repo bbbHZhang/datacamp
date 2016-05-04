@@ -85,8 +85,7 @@ extract_markdown <- function(x, default_name) {
     lines <- strsplit(x, split = "\n")[[1]]
     titles_pos <- grep("\\{\\{\\{(.*?)\\}\\}\\}", lines)
     if (length(titles_pos) == 0) {
-      titles <- default_name 
-      files <- fix_specials(gsub("(^\n*)|(\n*$)", "", x))
+      stop("Make sure to use {{{my_title.ext}}} to specify the file name.")
     } else {
       titles <- gsub("\\{\\{\\{|\\}\\}\\}","", lines[titles_pos])
       if (length(titles) != length(unique(titles))) {
@@ -102,8 +101,7 @@ extract_markdown <- function(x, default_name) {
       files <- mapply(extract, s = starts, e = ends, MoreArgs = list(lines = lines))
     }
   } else {
-    files <- ""
-    titles <- default_name
+    stop("Make sure to specify sample_code and solution_code for markdown exercises.")
   }
   names(files) <- titles
   return(RJSONIO::toJSON(files))

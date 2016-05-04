@@ -109,8 +109,8 @@ render_exercise.MarkdownExercise <- function(ex, num, htmlify) {
          instructions = extract_html(ex$instructions, htmlify),
          hint = extract_html(ex$hint, htmlify),
          pre_exercise_code = extract_code(ex$pre_exercise_code),
-         sample_code = extract_markdown(ex$sample_code, "my_document.Rmd"),
-         solution = extract_markdown(ex$solution, "solution.Rmd"),
+         sample_code = extract_markdown(ex$sample_code),
+         solution = extract_markdown(ex$solution),
          sct = extract_code(ex$sct)))
 }
 
