@@ -15,16 +15,16 @@
 #' @importFrom RJSONIO fromJSON
 #' @export
 datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
-  if(is.null(email))
+  if (is.null(email))
     email <- readline("Email: ")
-  if(is.null(pw)) {
+  if (is.null(pw)) {
     if (exists(".rs.askForPassword")) {
       pw <- do.call(".rs.askForPassword", list(prompt = "Password: "))
     } else {
       pw <- readline("Password: ")
     }  
   }
-  if(is.null(subdomain))
+  if (is.null(subdomain))
     subdomain = readline("Subdomain (leave empty for default): ")
   
   if (subdomain == "" || subdomain == " ") {
@@ -32,7 +32,7 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
     redirect_base_url = "https://www.datacamp.com/legacy/teach/courses"
   } else if (subdomain == "localhost") {
     base_url <- "127.0.0.1:3000/api"
-    redirect_base_url = "http://localhost:9000/courses"
+    redirect_base_url = "http://localhost:9000/legacy/teach/courses"
   } else {
     base_url <- sprintf("https://%s.datacamp.com/api", subdomain)
     redirect_base_url <- sprintf("https://%s.datacamp.com/legacy/teach/courses", subdomain)
@@ -40,9 +40,9 @@ datacamp_login = function(email = NULL, pw = NULL, subdomain = NULL) {
   
   url <- sprintf("%s/users/details.json?email=%s&password=%s", base_url, curlEscape(email), curlEscape(pw))
   message("Logging in...")
-  if (url.exists(url, ssl.verifypeer=FALSE)) {
+  if (url.exists(url, ssl.verifypeer = FALSE)) {
     getURL(url, ssl.verifypeer = FALSE)
-    content <- getURLContent(url, ssl.verifypeer=FALSE)
+    content <- getURLContent(url, ssl.verifypeer = FALSE)
     auth_token <- fromJSON(content)$authentication_token
     datacamp$set(auth_token = auth_token)
     datacamp$set(email = email)
