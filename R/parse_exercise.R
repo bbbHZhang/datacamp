@@ -121,6 +121,12 @@ render_exercise.SwirlExercise <- function(ex, num, htmlify) {
          swirl_lesson = extract_link(ex$swirl_lesson)))
 }
 
+render_exercise.RStudioMultipleChoiceExercise <- function(ex, num, htmlify) {
+  c(get_commons(ex, num, htmlify),
+    list(type = "RStudioMultipleChoiceExercise",
+         attachments = extract_attachments(ex$attachments)))
+}
+
 render_exercise.CapstoneVideoExercise <- function(ex, num, htmlify) {
   x <- c(render_exercise.VideoExercise(ex, num, htmlify),
          list(id = ex$id, nxt = ex$nxt, optimal = as.logical(ex$optimal)))

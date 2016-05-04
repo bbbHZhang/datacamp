@@ -15,6 +15,7 @@ timing_lut <- c(VideoExercise = 3.5,
                 ChallengeExercise = 4,
                 MarkdownExercise = 3,
                 SwirlExercise = 10,
+                RStudioMultipleChoiceExercise = 5,
                 CapstoneVideoExercise = 1,
                 CapstoneMultipleChoiceExercise = 1,
                 CapstoneNormalExercise = 2)
