@@ -127,7 +127,7 @@ render_exercise.RStudioMultipleChoiceExercise <- function(ex, num, htmlify) {
   c(get_commons(ex, num, htmlify),
     list(type = "RStudioMultipleChoiceExercise",
          attachments = extract_attachments(ex$attachments),
-         instructions = extract_html(ex$instructions, htmlify),
+         instructions = extract_as_vec(ex$instructions),
          hint = extract_html(ex$hint, htmlify),
          sct = extract_code(ex$sct)))
 }
