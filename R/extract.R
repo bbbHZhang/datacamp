@@ -149,6 +149,7 @@ extract_link <- function(x) {
 
 #' @importFrom yaml yaml.load_file
 extract_attachments <- function(x) {
+  if (is.null(x)) return(NULL)
   tryCatch(attachments <- yaml.load(x), error = function(e) {
     stop(paste("The YAML specifying the attachents not valid:\n", x, 
                "This was the error:", e$message, sep = "\n"))
