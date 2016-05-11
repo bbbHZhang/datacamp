@@ -1,5 +1,5 @@
 normal_body <- 
-"
+'
 *** =instructions
 - instruction 1
 - instruction 2
@@ -24,9 +24,9 @@ hint comes here
 
 *** =sct
 ```{%1$s}
-# sct code
+success_msg("Great work!")
 ```
-"
+'
 
 mce_body <- 
 "
