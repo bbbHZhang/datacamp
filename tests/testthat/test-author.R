@@ -98,12 +98,12 @@ test_that("add_exercise works as expected", {
   expect_equal(out$exercises[[1]]$title, "Test")
   expect_equal(out$exercises[[1]]$type, "VideoExercise")
   expect_equal(out$exercises[[1]]$lang, "r")
-  expect_equal(out$exercises[[1]]$video_link, "//player.vimeo.com/video/108225030")
+  expect_equal(out$exercises[[1]]$video_link, "//player.vimeo.com/video/154783078")
   
   expect_equal(out$exercises[[2]]$title, "Test 2")
   expect_equal(out$exercises[[2]]$type, "VideoExercise")
   expect_equal(out$exercises[[2]]$lang, "python")
-  expect_equal(out$exercises[[2]]$video_link, "//player.vimeo.com/video/108225030")
+  expect_equal(out$exercises[[2]]$video_link, "//player.vimeo.com/video/154783078")
 })
 
 test_that("build_scaffold works as expected", {
