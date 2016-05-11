@@ -171,5 +171,5 @@ build_scaffold <- function(index_file = index_yaml, lang) {
                    type = ex$type, title = ex$title, content = ex$content)
     }
   }
-  message("To upload this entire course and all chapters, run 'upload_course(upload_chapters = TRUE)'")
+  return(invisible())
 }

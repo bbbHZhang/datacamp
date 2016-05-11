@@ -50,7 +50,7 @@ test_mc(2) # if 2 is the correct option.
 "
 
 rstudio_mce_body <- 
-  "
+"
 *** =instructions
 - option 1
 - option 2
@@ -70,7 +70,8 @@ test_mc(2) # if 2 is the correct option.
 "
   
 video_body <- 
-"*** =video_link
+"
+*** =video_link
 //player.vimeo.com/video/154783078
 "
   
