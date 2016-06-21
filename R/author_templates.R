@@ -73,6 +73,9 @@ video_body <-
 "
 *** =video_link
 //player.vimeo.com/video/154783078
+
+*** =video_hls
+//videos.datacamp.com/transcoded/000_placeholders/v1/hls-temp.master.m3u8
 "
   
 course_yaml_template <- 
