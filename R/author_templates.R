@@ -1,4 +1,4 @@
-normal_body <- 
+normal_body <-
 '
 *** =instructions
 - instruction 1
@@ -28,7 +28,7 @@ success_msg("Great work!")
 ```
 '
 
-mce_body <- 
+mce_body <-
 "
 *** =instructions
 - option 1
@@ -42,14 +42,21 @@ hint
 ```{%1$s}
 # pec
 ```
-
-*** =sct
-```{%1$s}
-test_mc(2) # if 2 is the correct option.
-```
 "
 
-rstudio_mce_body <- 
+sct_mce_body <- list(r = "
+*** =sct
+```{r}
+test_mc(2, feedback_msgs = c('wrong', 'right', 'wrong')) # if 2 is the correct option.
+```
+", python = "
+*** =sct
+```{python}
+test_mc(2, msgs = ['wrong', 'right', 'wrong']) # if 2 is the correct option.
+```
+")
+
+rstudio_mce_body <-
 "
 *** =instructions
 - option 1
@@ -68,8 +75,8 @@ second_file: www.example.com/secondfile
 test_mc(2) # if 2 is the correct option.
 ```
 "
-  
-video_body <- 
+
+video_body <-
 "
 *** =video_link
 //player.vimeo.com/video/154783078
@@ -77,8 +84,8 @@ video_body <-
 *** =video_hls
 //videos.datacamp.com/transcoded/000_placeholders/v1/hls-temp.master.m3u8
 "
-  
-course_yaml_template <- 
+
+course_yaml_template <-
 "title: insert course title here
 author_field: insert author name here
 description: insert course description here
