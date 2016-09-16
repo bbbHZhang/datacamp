@@ -85,6 +85,36 @@ video_body <-
 //videos.datacamp.com/transcoded/000_placeholders/v1/hls-temp.master.m3u8
 "
 
+shiny_body <-
+'
+*** =instructions
+- instruction 1
+- instruction 2
+
+*** =hint
+hint comes here
+
+*** =pre_exercise_code
+```{%1$s}
+# pec
+```
+
+*** =sample_code
+```{%1$s app.R}
+# sample code
+```
+
+*** =solution
+```{%1$s app.R}
+# solution code
+```
+
+*** =sct
+```{%1$s}
+success_msg("Great work!")
+```
+'
+
 course_yaml_template <-
 "title: insert course title here
 author_field: insert author name here
