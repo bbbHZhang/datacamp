@@ -2,6 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/datacamp/datacamp.svg?branch=master)](https://travis-ci.org/datacamp/datacamp)
 [![codecov.io](https://codecov.io/github/datacamp/datacamp/coverage.svg?branch=master)](https://codecov.io/github/datacamp/datacamp?branch=master)
+[![Rdoc](http://www.rdocumentation.org/badges/version/datacamp)](http://www.rdocumentation.org/packages/datacamp)
 
 Everybody can teach on DataCamp with the `datacamp` R package. It helps you in geting started on creating DataCamp course files, which are simple Markdown files. Next, you can upload these course files to DataCamp's servers with easy-to-use functions, making the course available for everybody on DataCamp.
 
