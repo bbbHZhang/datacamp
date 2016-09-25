@@ -19,11 +19,11 @@ author_chapter(lang, title = NULL, description = NULL, internal = FALSE)
 Generate a chapter file with 3 exercise templates so you can start right away.
 }
 \examples{
-\dontrun{ 
+\dontrun{
 author_chapter(lang = "python")
 author_chapter(lang = "r")
-author_chapter(lang = "r", 
-               title = "My Chapter", 
+author_chapter(lang = "r",
+               title = "My Chapter",
                description = "This is my chapter!")
 }
 

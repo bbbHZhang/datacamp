@@ -17,7 +17,7 @@ The \code{author_course} function will:
 }
 }
 \examples{
-\dontrun{ 
+\dontrun{
 author_course(lang = "python")
 author_course(lang = "r")
 }

@@ -5,8 +5,8 @@
 \title{Add exercise to chapter file}
 \usage{
 add_exercise(chapter_file, lang, type = c("NormalExercise",
-  "MultipleChoiceExercise", "VideoExercise", "RStudioMultipleChoiceExercise"),
-  title = NULL, content = NULL)
+  "MultipleChoiceExercise", "VideoExercise", "RStudioMultipleChoiceExercise",
+  "ShinyNormalExercise"), title = NULL, content = NULL)
 }
 \arguments{
 \item{chapter_file}{path to the chapter you want to append a template to}
@@ -23,11 +23,11 @@ add_exercise(chapter_file, lang, type = c("NormalExercise",
 Add exercise to chapter file
 }
 \examples{
-\dontrun{ 
+\dontrun{
 add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise")
 add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
 add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise")
-add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise", 
+add_exercise("chapter1.Rmd", lang = "r", type = "NormalExercise",
              title = "My Normal Exercise", content = "This is a normal exercise.")
 add_exercise("chapter1.Rmd", lang = "r", type = "MultipleChoiceExercise")
              title = "My Multiple Choice Exercise", content = "This is an MCE.")
@@ -37,7 +37,7 @@ add_exercise("chapter1.Rmd", lang = "r", type = "VideoExercise",
 add_exercise("chapter1.md", lang = "python", type = "NormalExercise")
 add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
 add_exercise("chapter1.md", lang = "python", type = "VideoExercise")
-add_exercise("chapter1.md", lang = "python", type = "NormalExercise", 
+add_exercise("chapter1.md", lang = "python", type = "NormalExercise",
              title = "My Normal Exercise", content = "This is a normal exercise.")
 add_exercise("chapter1.md", lang = "python", type = "MultipleChoiceExercise")
              title = "My Multiple Choice Exercise", content = "This is an MCE.")

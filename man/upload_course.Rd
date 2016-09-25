@@ -17,7 +17,7 @@ upload_course(course_folder = ".", open = TRUE, force = FALSE,
 \item{upload_chapters, }{boolean, FALSE by default, that specifies whether to also upload the chapters}
 }
 \description{
-Uploads the \code{course.yml} file to datacamp.com. 
+Uploads the \code{course.yml} file to datacamp.com.
 Use this function to change the course title, description, etc. and to update the chapters' ordering.
 }
 \details{
