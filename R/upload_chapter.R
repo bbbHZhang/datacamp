@@ -85,13 +85,8 @@ upload_chapter_json = function(chapter_json, chapter_file, open = TRUE) {
       if ("course" %in% names(content(x)) ) {
         course = content(x)$course
         chapter = content(x)$chapter
-        new = content(x)$created
         message(sprintf("Updated course \"%s\" (id: %i)", course$title, course$id))
-        if (new == TRUE) {
-          message(sprintf("Created chapter \"%s\" (id: %i)", chapter$title, chapter$id))
-        } else {
-          message(sprintf("Updated chapter \"%s\" (id: %i)", chapter$title, chapter$id))
-        }
+        message(sprintf("Created/Updated chapter \"%s\" (id: %i)", chapter$title, chapter$id))
         add_chapter_to_course_file(chapter_file, as.integer(chapter$id))
         if (open) {
           browseURL(paste0(datacamp$get("redirect_base_url"), "/", course$id))

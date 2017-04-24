@@ -81,12 +81,7 @@ upload_course_json = function(course_json, open) {
     if (is.list(content(x)) ) {
       if ("course" %in% names(content(x))) {
         course = content(x)$course
-        new = content(x)$created
-        if (new == TRUE) {
-          message(sprintf("Created course \"%s\" with id %i.", course$title, course$id))
-        } else {
-          message(sprintf("Updated course \"%s\" (id: %i)", course$title, course$id))
-        }
+        message(sprintf("Created/updated course \"%s\" with id %i.", course$title, course$id))
         add_id_to_course_file(course$id) # write id to course.yml file if it's not already there
         if (open) {
           browseURL(paste0(datacamp$get("redirect_base_url"), "/", course$id))
