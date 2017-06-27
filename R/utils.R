@@ -14,7 +14,7 @@ specify_simplified <- "Make sure to define 'simplified', whether or not to gener
 
 datacamp_accessors <- function() {
   dc_data <- list()
-  
+
   get = function(name) {
     if (missing(name)) {
       dc_data
@@ -22,20 +22,20 @@ datacamp_accessors <- function() {
       dc_data[[name]]
     }
   }
-  
+
   set = function(...) {
     dots = list(...)
     dc_data <<- merge(dots)
     invisible(NULL)
   }
-  
+
   clear = function() {
     dc_data <<- list()
     invisible(NULL)
   }
-  
+
   merge = function(values) merge_list(dc_data, values)
-  
+
   list(get = get, set = set, clear = clear)
 }
 
@@ -46,3 +46,7 @@ merge_list = function(x, y) {
 
 datacamp <- datacamp_accessors()
 
+disable <- function() {
+  message("You can no longer use the datacamp R package to upload content to DataCamp's servers.\nCheck out www.datacamp.com/teach for an alternative.")
+  return(invisible())
+}

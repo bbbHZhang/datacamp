@@ -16,7 +16,7 @@
 #'
 #' @export
 upload_chapter = function(chapter_file, force = FALSE, open = TRUE, ask = TRUE) {
-
+  return(disable())
   old_wd <- getwd()
   setwd(dirname(chapter_file))
   chapter_file <- basename(chapter_file)

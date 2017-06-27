@@ -121,7 +121,7 @@ add_exercise <- function(chapter_file,
   type <- match.arg(type)
   stopifnot(file.exists(chapter_file))
 
-  xp <- switch(type, NormalExercise = 100, MultipleChoiceExercise = 50, 
+  xp <- switch(type, NormalExercise = 100, MultipleChoiceExercise = 50,
                VideoExercise = 50, RStudioMultipleChoiceExercise = 50,
                ShinyNormalExercise = 100)
   skills_id <- switch(lang, r = 1, python = 2, 0)

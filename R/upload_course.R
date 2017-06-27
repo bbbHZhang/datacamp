@@ -16,7 +16,7 @@
 #' }
 #' @export
 upload_course = function(course_folder = ".", open = TRUE, force = FALSE, upload_chapters = FALSE) {
-
+  return(disable())
   if (!datacamp_logged_in()) { datacamp_login() }
 
   # Move to folder containing course and chapter files
